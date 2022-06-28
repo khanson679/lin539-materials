@@ -65,7 +65,7 @@ BUILDDIR = Path("build")
 IMGDIR = BUILDDIR / "images"
 TEXDIR = BUILDDIR / "latex"
 PDFDIR = BUILDDIR / "pdf"
-HTMLDIR = BUILDDIR / "html"
+HTMLDIR = Path("web/docs")
 MODCMDS = BUILDDIR / "mathcommands-preproc.md"
 
 MD_BOOK = SRCDIR / "full-book.md"
@@ -96,9 +96,18 @@ LATEX_OPTS = (
 )
 
 HTML_OPTS = (
-    f"--shift-heading-level-by=1 -c {WEBCSS}"
+    f"--shift-heading-level-by=1"
+    f" -c {WEBCSS}"
     f" --mathjax -Vmath='' -H {MATHJAXCALL}"  # see task def for details
     f" {MODCMDS}"
+)
+
+MKDOCS_OPTS = (
+    # f"--shift-heading-level-by=1"
+    # f" -c {WEBCSS}"
+    f" --mathjax -Vmath=''"
+    # f" -H {MATHJAXCALL}"  # see task def for details
+    # f" {MODCMDS}"
 )
 
 
@@ -312,9 +321,9 @@ def task_pdf_sections():
 # HTML build path
 #
 
-def task_html_chaps():
+def task_html_pages():
     """
-    Build HTML chapters using Pandoc.
+    Build HTML content pages using Pandoc.
 
     MODCMDS is inserted in the HTML body so that Pandoc will correctly add
     MathJax delimiters (it will not change included headers).
@@ -326,24 +335,55 @@ def task_html_chaps():
     use -Vmath='' to manually clear the internal variable where Pandoc records
     whether math was detected, and insert the script ourselves.
     """
-    for ch in ALL_CHAPS:
-        infiles = sorted(str(f)
-                         for f in Path(f"{SRCDIR}/{ch}").glob("*.md"))
+    for infile in SRC_MD:
+        outfile = HTMLDIR / infile.relative_to(SRCDIR).with_suffix(".md")
         incl_images = sorted(HTMLDIR / img.relative_to(SRCDIR).with_suffix(".svg")
                              for img in SRC_TIKZ)
-        outfile = Path(f"{HTMLDIR}/{ch}/index.html")
         cmd = (
-            f"pandoc -t html {PANDOC_OPTS} {HTML_OPTS}"
-            f" --metadata title={ch}"
-            f" {' '.join(infiles)} -o {outfile}"
+            f"pandoc -t html {PANDOC_OPTS} {MKDOCS_OPTS}"
+            f" {infile} -o {outfile}"
         )
         yield {
             "name": outfile,
             "targets": [outfile],
-            "file_dep": [*infiles, *incl_images, *HTML_DEPS],
+            "file_dep": [infile, *incl_images, *HTML_DEPS],
             "actions": [f"mkdir -p $(dirname {outfile})",
                         cmd],
             "clean": True}
+
+
+# def task_html_chaps():
+#     """
+#     Build HTML chapters using Pandoc.
+
+#     MODCMDS is inserted in the HTML body so that Pandoc will correctly add
+#     MathJax delimiters (it will not change included headers).
+
+#     Problem: the --mathjax command performs preprocessing, then inserts the
+#     MathJax script *only if* LaTeX math is detected. This means that in a file
+#     with no math, the custom commands that we insert will appear as raw text.
+#     The author of Pandoc has refused to change this. As a workaround, we
+#     use -Vmath='' to manually clear the internal variable where Pandoc records
+#     whether math was detected, and insert the script ourselves.
+#     """
+#     for ch in ALL_CHAPS:
+#         infiles = sorted(str(f)
+#                          for f in Path(f"{SRCDIR}/{ch}").glob("*.md"))
+#         incl_images = sorted(HTMLDIR / img.relative_to(SRCDIR).with_suffix(".svg")
+#                              for img in SRC_TIKZ)
+#         outfile = Path(f"{HTMLDIR}/{ch}/index.html")
+#         cmd = (
+#             f"pandoc -t html {PANDOC_OPTS} {HTML_OPTS}"
+#             f" --metadata title={ch}"
+#             f" {' '.join(infiles)} -o {outfile}"
+#         )
+#         yield {
+#             "name": outfile,
+#             "targets": [outfile],
+#             "file_dep": [*infiles, *incl_images, *HTML_DEPS],
+#             "actions": [f"mkdir -p $(dirname {outfile})",
+#                         cmd],
+#             "clean": True}
 
 
 def task_html_images():

@@ -42,4 +42,6 @@
 !templates/**/
 !test/
 !test/**/
+!web/
+!web/*
 **/.ipynb_checkpoints/

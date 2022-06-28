@@ -1,0 +1,11 @@
+site_name: My Docs
+site_url: https://example.com/
+# nav:
+#     - Home: index.md
+#     - About: about.md
+#     - Subsection: 
+#         - Page in subsection: section/page-in-subsec.md
+theme:
+  name: mkdocs
+  # navigation_depth: 2
+  # collapse_navigation: true
