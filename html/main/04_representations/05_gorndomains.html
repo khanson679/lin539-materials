@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="gorn-domains">Gorn domains</h1>
+<div class="prereqs">
+<ul>
+<li>strings (prefix/suffix)</li>
+</ul>
+</div>
+<p>Trees in the graph-theoretic sense do not usually have a linear order. It can be added, but it is cumbersome. If one wants ordered trees, it is easier to completely change the perspective. Ordered trees may be complicated from the perspective of graphs, but intuitively they are still very simple objects. This simplicity is preserved if one treats them as labeled Gorn domains.</p>
+<h2 id="defining-trees-as-labeled-gorn-tree-domains">Defining trees as labeled Gorn tree domains</h2>
+<p>At the very beginning of this chapter, we saw several examples of how one and the same thing can be represented in different ways. One example we could have included there is the definition of tuples and strings in terms of functions. Just like sets can be viewed in terms of their characteristic functions, so can be strings and tuples. The idea is that the function maps each position of the tuple/string to the symbol that occurs in this position.</p>
+<div class="example">
+<p>The string <em>aaba</em> can be regarded as a function <span class="math inline">\(f\)</span> with <span class="math inline">\(0 \mapsto a\)</span>, <span class="math inline">\(1 \mapsto a\)</span>, <span class="math inline">\(2 \mapsto b\)</span>, <span class="math inline">\(3 \mapsto a\)</span>.</p>
+</div>
+<p>Each string/tuple can be regarded as function whose domain is an initial subset of the natural numbers (a set that starts with 0 and doesn’t skip any numbers). The co-domain of the function depends on the chosen alphabet.</p>
+<div class="exercise">
+<p>Define the corresponding functions (with suitable domains and co-domains) for the following strings:</p>
+<ul>
+<li>abcdef</li>
+<li>z</li>
+<li><span class="math inline">\(\varepsilon\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Assume that <span class="math inline">\(g\)</span> is a function with domain <span class="math inline">\(\left \{ 0, 1, 2, \ldots, 7 \right \}\)</span> such that <span class="math inline">\(g\)</span> maps <span class="math inline">\(x\)</span> to <span class="math inline">\(a\)</span> if <span class="math inline">\(x\)</span> is odd and at least 5. In all other cases, <span class="math inline">\(x\)</span> is mapped to <span class="math inline">\(b\)</span>. What is the string defined by <span class="math inline">\(g\)</span>?</p>
+</div>
+<p>Here’s another way of saying what we just said: each string is a pair <span class="math inline">\(\left \langle D, \ell \right \rangle\)</span> where <span class="math inline">\(D\)</span> is a <strong>downward-closed</strong> set of natural numbers and <span class="math inline">\(\ell\)</span> is a <em>labeling function</em> from <span class="math inline">\(D\)</span> to <span class="math inline">\(\Sigma\)</span>. By downward-closed we mean that for all <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that <span class="math inline">\(x &lt; y\)</span> and <span class="math inline">\(y \in D\)</span>, it must also be the case that <span class="math inline">\(x \in D\)</span>. So <span class="math inline">\(4 \in D\)</span> implies <span class="math inline">\(3 \in D\)</span>, <span class="math inline">\(2 \in D\)</span>, <span class="math inline">\(1 \in D\)</span>, and <span class="math inline">\(0 \in D\)</span>.</p>
+<div class="example">
+<p>The set <span class="math inline">\(S \mathrel{\mathop:}=\left \{ 0,1,2,4,5 \right \}\)</span> is not downward closed because <span class="math inline">\(4 \in S\)</span> and <span class="math inline">\(3 &lt; 4\)</span>, yet <span class="math inline">\(3 \notin S\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Which of the following sets are downward-closed sets of natural numbers?</p>
+<ul>
+<li><span class="math inline">\(\left \{ 1,2,3,4 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ -2,-1,0,1 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0 \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset\)</span></li>
+</ul>
+</div>
+<p>This definition of strings as a pair <span class="math inline">\(\left \langle D, \ell \right \rangle\)</span> is fully equivalent to our previous notion, but it clearly separates the relevant properties of a string:</p>
+<ol type="1">
+<li>There is a set of nodes that is linearly ordered by some relation <span class="math inline">\(&lt;\)</span>.</li>
+<li>Each one of those nodes must have a label, drawn from alphabet <span class="math inline">\(\Sigma\)</span>.</li>
+</ol>
+<p>Now think about how a tree differs from a string. We still have a set of nodes, just like with strings, and we still have to give every node a label. The only thing that is more complicated about trees is the ordering of the nodes. The order is no longer a simple line but can contain forks at any given point. This is the only complexity that trees add over strings, and it amounts to the generalization step from a linear order to a partial order.</p>
+<p>But not any partial order will do, just like not any weakly connected graph is a tree. We still have to account for the special shape of trees. For strings, this was easy. We can look at node <span class="math inline">\(2\)</span> and know immediately that it occurs to the right of <span class="math inline">\(1\)</span> and <span class="math inline">\(0\)</span>, based purely on the fact that it is node <span class="math inline">\(2\)</span>. What we would like for trees is a similar system of numbering nodes that immediately allows us to infer which nodes are above the one we picked, and which are to its left.</p>
+<p>The answer to that are <strong>Gorn addresses</strong>, named after <a href="https://en.wikipedia.org/wiki/Saul_Gorn">Saul Gorn</a>. This is a simple system that assigns each node in a tree a unique identifier that is not a number, but a string of numbers.</p>
+<div class="example">
+<p>Let’s look once more at the very frist tree we encountered in the previous unit.</p>
+<p><img src="tree_psg.svg" alt="tree_psg.svg" /></p>
+<p>If instead of the labels we write down the Gorn addresses of each node, the tree looks as follows.</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+</div>
+<p>A Gorn address of node <span class="math inline">\(n\)</span> is the result of concatenating two components:</p>
+<ol type="1">
+<li>The Gorn address of the node <span class="math inline">\(m\)</span> immediately above <span class="math inline">\(n\)</span>.</li>
+<li>The number of nodes that are to the left of <span class="math inline">\(n\)</span> that also have <span class="math inline">\(m\)</span> immediately above them.</li>
+</ol>
+<div class="example">
+<p>Here is how this system is applied in the previous example:</p>
+<p>The root node always has the address <span class="math inline">\(\varepsilon\)</span> by convention. The nodes below the root receive the addresses <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. The reasoning is as follows: Since the address of the node above them is <span class="math inline">\(\varepsilon\)</span>, that is their first component. The first node has no other nodes to its left, so its second component is 0, and <span class="math inline">\(\varepsilon\cdot 0 = 0\)</span>. The second node has one node to its left, so we have <span class="math inline">\(\varepsilon\cdot 1 = 1\)</span>. Below <span class="math inline">\(1\)</span> we find two nodes, whose addresses are <span class="math inline">\(10\)</span> and <span class="math inline">\(11\)</span>. Careful here: those aren’t the natural numbers ten and eleven, those are the strings <span class="math inline">\(1 \cdot 0 = 10\)</span> and <span class="math inline">\(1 \cdot 1 = 11\)</span>. So they should be read “one-zero” and “one-one”. Similarly, <span class="math inline">\(1110\)</span> is not “one thousand one hundred ten”, or “one hundred eleven - zero”, it is “one-one-one-zero”.</p>
+</div>
+<div class="exercise">
+<p>The way we write Gorn addresses, <span class="math inline">\(11\)</span> is ambiguous as it could be “one-one” (the second daughter of the second daughter of the root) or “eleven” (the twelfth daughter of the root). However, this is actually just a problem with our notation for natural numbers, not the actual definition of Gorn addresses. Explain why!</p>
+<p><em>Hint</em>: Suppose that we wrote numbers in hexadecimal instead, where <span class="math inline">\(11\)</span> is <span class="math inline">\(A\)</span>. Would the Gorn address <span class="math inline">\(11\)</span> still be ambiguous?</p>
+</div>
+<p>Since Gorn addresses follow a very specific pattern, the set of Gorn addresses for any given tree obeys two closure properties:</p>
+<ol type="1">
+<li><strong>Prefix closure:</strong> if string <span class="math inline">\(a\)</span> is an address for a node in the tree, then so is every prefix of <span class="math inline">\(a\)</span></li>
+<li><strong>Downward closure:</strong> if string <span class="math inline">\(a\)</span> is an address for a node in the tree, then so is every string that can be obtained from <span class="math inline">\(a\)</span> by replacing the last symbol by a smaller natural number.</li>
+</ol>
+<div class="example">
+<p>Consider once more our example tree, repeated here for your convenience:</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+<p>You can pick any arbitrary node, say, <span class="math inline">\(111\)</span>. The prefixes of <span class="math inline">\(111\)</span> are, in decreasing length: <span class="math inline">\(111\)</span>, <span class="math inline">\(11\)</span>, <span class="math inline">\(1\)</span>, and <span class="math inline">\(\varepsilon\)</span>. Every one of those addresses is part of the tree — they’re the addresses of the nodes that are higher than <span class="math inline">\(111\)</span>. And we can also take <span class="math inline">\(111\)</span> and replace its last component by the smaller number <span class="math inline">\(0\)</span> to get <span class="math inline">\(110\)</span>. That’s the address to the left of <span class="math inline">\(111\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Annotate each node in the tree below with its Gorn address.</p>
+<p><img src="tree_exercise.svg" alt="tree_exercise.svg" /></p>
+</div>
+<p>With Gorn addresses, is it very easy to define trees.</p>
+<div class="definition">
+<p>A <strong><span class="math inline">\(\Sigma\)</span>-labeled Gorn tree domain</strong> (or simply <strong><span class="math inline">\(\Sigma\)</span>-tree</strong>) is a pair <span class="math inline">\(\left \langle D, \ell \right \rangle\)</span>, where <span class="math inline">\(D \subseteq \mathbb{N}^*\)</span> is the set of nodes in the tree and <span class="math inline">\(\ell: D \rightarrow \Sigma\)</span> is a (total) labeling function. We require that <span class="math inline">\(D\)</span> satisfies the following closure properties:</p>
+<ul>
+<li><strong>Prefix closure:</strong> If <span class="math inline">\(u \in D\)</span>, then <span class="math inline">\(v \in D\)</span> for every <span class="math inline">\(v\)</span> such that <span class="math inline">\(u = v \cdot v&#39;\)</span> (<span class="math inline">\(v, v&#39; \in \mathbb{N}^*\)</span>).</li>
+<li><strong>Downard closure:</strong> If <span class="math inline">\(u \in D\)</span> and <span class="math inline">\(u = v \cdot i\)</span> for some <span class="math inline">\(v \in \mathbb{N}^*\)</span> and <span class="math inline">\(i \in \mathbb{N}\)</span>, then <span class="math inline">\(v \cdot j \in D\)</span> for every <span class="math inline">\(j &lt; i\)</span>.</li>
+</ul>
+</div>
+<p>Note that the definition of <span class="math inline">\(\Sigma\)</span>-tree is very similar to the factorized definition of strings we used above. The main difference is the choice of <span class="math inline">\(D\)</span>. For strings, <span class="math inline">\(D\)</span> is a set of natural numbers, whereas for trees <span class="math inline">\(D\)</span> is a set of strings over natural numbers. In fact, we can view strings as just a special case of Gorn tree domains. Suppose that instead of <span class="math inline">\(0, 1, 2, 3, \ldots\)</span> we write <span class="math inline">\(\varepsilon, 0, 00, 000, \ldots\)</span>. So the natural numbers are just a shorthand for indicating the length of a string in <span class="math inline">\(\left \{ 0 \right \}^*\)</span>. Then every string has a domain <span class="math inline">\(D \subseteq \left \{ 0 \right \}^*\)</span> that is both prefix-closed and downward-closed. In other words, every string satisfies the conditions for being a Gorn tree domain, and thus it is also a tree (intuitively, a string is a unary branching tree that has been rotated counterclockwise by 90 degrees).</p>
+<p>Gorn tree domains have several advantages. First, they make it very easy to implement trees on a computer as they are a fairly simple generalization of strings. But perhaps more importantly, they also greatly simplify the task of defining common linguistic notions such as dominance and precedence.</p>
+<h2 id="tree-relations-as-relations-over-gorn-domains">Tree relations as relations over Gorn domains</h2>
+<p>The most basic relation in linguistic trees is <strong>mother-of</strong>, or to use a more gender-agnostic terms, <strong>parent-of</strong>. Visually, a node <span class="math inline">\(x\)</span> is the mother of <span class="math inline">\(y\)</span> iff <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are connected by a single line and <span class="math inline">\(x\)</span> is higher than <span class="math inline">\(y\)</span>. In the other direction, we say that <span class="math inline">\(y\)</span> is a <strong>daughter</strong> or <strong>child</strong> of <span class="math inline">\(x\)</span>. So the daughter-of relation is the inverse of the mother-of relation.</p>
+<div class="example">
+<p>Here is the by now familiar example tree:</p>
+<p><img src="tree_psg.svg" alt="tree_psg.svg" /></p>
+<p>And here is its counterpart with Gorn addresses:</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+<p>The node at address <span class="math inline">\(10\)</span> labeled VP is the parent of V and NP at address <span class="math inline">\(100\)</span> and <span class="math inline">\(101\)</span>, respectively. This VP node is the daughter of the node at address <span class="math inline">\(1\)</span>, which is also labeled VP.</p>
+</div>
+<p>The “node above you” analogy is not a formal definition of course, it’s just a convention for how we draw those trees. If we were to rotate every tree by 90 degrees in counterclockwise fashion, then the parent would instead be to the left. In order to make the parent-of relation more precise, we once again view trees as specific sets of Gorn addresses. As mentioned before, whenever a node <span class="math inline">\(y\)</span> is the daughter of a node <span class="math inline">\(x\)</span>, the Gorn address of <span class="math inline">\(y\)</span> is obtained by taking the Gorn address of <span class="math inline">\(x\)</span> and adding a natural number at the end. In other words, <span class="math inline">\(x\)</span> is the mother of <span class="math inline">\(y\)</span> iff <span class="math inline">\(x\)</span> is the longest proper prefix of <span class="math inline">\(y\)</span>.</p>
+<div class="definition">
+<p>Let <span class="math inline">\(D\)</span> be a Gorn tree domain. Then the <strong>parent-of</strong> relation <span class="math inline">\(P \subsetneq D \times D\)</span> contains <span class="math inline">\(\left \langle x,y \right \rangle\)</span> iff there exists some <span class="math inline">\(u \in \mathbb{N}\)</span> such that <span class="math inline">\(y = x \cdot u\)</span>. We call <span class="math inline">\(P^{-1}\)</span> the <strong>child-of</strong> relation.</p>
+</div>
+<div class="example">
+<p>In the previous example, we saw that <span class="math inline">\(10\)</span> is the mother of <span class="math inline">\(100\)</span> and <span class="math inline">\(101\)</span>. That fits the definition because <span class="math inline">\(10\)</span> is indeed the longest proper prefix of each one of those strings. The definition works even for <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>, the daughters of the root node: the root has address <span class="math inline">\(\varepsilon\)</span>, and <span class="math inline">\(0 = \varepsilon\cdot 0\)</span> and <span class="math inline">\(1 = \varepsilon\cdot 1\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Indicate for each one of the following pairs of nodes whether the first node is a parent of the second. You may assume that each digit is a component of the Gorn address (so 10 means “one zero”, not “ten”).</p>
+<ul>
+<li><span class="math inline">\(00010\)</span> and <span class="math inline">\(000109\)</span></li>
+<li><span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(00\)</span></li>
+<li><span class="math inline">\(0010\)</span> and <span class="math inline">\(0110\)</span></li>
+<li><span class="math inline">\(10\)</span> and <span class="math inline">\(11\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(102\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(101\)</span></li>
+</ul>
+</div>
+<p>With the parent-of relation, it is also very easy to identify which nodes are parents and which are children. Note that most nodes are both. Only the root node is not a child, and only the nodes at the very bottom of a tree are not parents. These nodes are also called <em>leaves</em>.</p>
+<div class="definition">
+<p>For any Gorn tree domain <span class="math inline">\(D\)</span>, we call</p>
+<ul>
+<li><span class="math inline">\(D_P \mathrel{\mathop:}=\left \{  x \mid \text{there is a $y$ s.t.} \left \langle x,y \right \rangle \in P \right \}\)</span> the set of <strong>parents</strong>,</li>
+<li><span class="math inline">\(D_C \mathrel{\mathop:}=\left \{  y \mid \text{there is an $x$ s.t.} \left \langle x,y \right \rangle \in P \right \}\)</span> the set of <strong>children</strong>,</li>
+<li><span class="math inline">\(D_L \mathrel{\mathop:}=D - D_P\)</span> the set of <strong>leaves</strong></li>
+</ul>
+</div>
+<div class="example">
+<p>In our example tree, the leaves are <span class="math inline">\(000\)</span>, <span class="math inline">\(010\)</span>, <span class="math inline">\(020\)</span>, <span class="math inline">\(1000\)</span>, <span class="math inline">\(10100\)</span>, <span class="math inline">\(10110\)</span>, <span class="math inline">\(1100\)</span>, <span class="math inline">\(11100\)</span>, and <span class="math inline">\(11110\)</span>.</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+</div>
+<p>Linguists are often interested in nodes that are closely related. The parent-of relation is arguably the closest possible relation, but the <strong>sibling</strong> or <strong>sister</strong> relation is also important. Two nodes are siblings iff they have the same parent.</p>
+<div class="definition">
+<p>Given a Gorn tree domain <span class="math inline">\(D\)</span>, the <strong>sibling relation</strong> is <span class="math inline">\(S \mathrel{\mathop:}=\left \{  \left \langle x,y \right \rangle \mid \text{$x \neq y$ and there exists a $z$ s.t. $\left \langle z,x \right \rangle \in P$ and $\left \langle z,y \right \rangle \in P$} \right \}\)</span></p>
+</div>
+<div class="example">
+<p>In our example tree, <span class="math inline">\(00\)</span>, <span class="math inline">\(01\)</span>, and <span class="math inline">\(02\)</span> are all siblings of each other because they share the parent <span class="math inline">\(0\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Indicate for each one of the following pairs of nodes whether they are siblings. You may assume that each digit is a component of the Gorn address (so 10 means “one zero”, not “ten”).</p>
+<ul>
+<li><span class="math inline">\(00010\)</span> and <span class="math inline">\(000109\)</span></li>
+<li><span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(00\)</span></li>
+<li><span class="math inline">\(0010\)</span> and <span class="math inline">\(0110\)</span></li>
+<li><span class="math inline">\(10\)</span> and <span class="math inline">\(11\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(102\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(101\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Define the sibling relation in terms of Gorn addresses rather than the parent-of relation.</p>
+</div>
+<p>Arguably the most important relation, however, is <em>dominance</em>. Dominance can be regarded as the tree analogue of ancestry: <span class="math inline">\(x\)</span> dominates <span class="math inline">\(y\)</span> iff <span class="math inline">\(x\)</span> is the parent of <span class="math inline">\(y\)</span>, or <span class="math inline">\(x\)</span> is the parent of the parent of <span class="math inline">\(y\)</span>, or <span class="math inline">\(x\)</span> is the parent of the parent of the parent of <span class="math inline">\(y\)</span>, and so on. Like the parent relation, we can describe this in terms of string prefixes of Gorn addresses. Whereas <span class="math inline">\(x\)</span> is the parent of <span class="math inline">\(y\)</span> iff it is the <strong>longest</strong> proper prefix of <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span> dominates <span class="math inline">\(y\)</span> iff it is <strong>some</strong> proper prefix of <span class="math inline">\(y\)</span>.</p>
+<div class="example">
+<p>In our example tree, <span class="math inline">\(0\)</span> properly dominates <span class="math inline">\(00\)</span>, <span class="math inline">\(01\)</span>, <span class="math inline">\(02\)</span>, <span class="math inline">\(000\)</span>, <span class="math inline">\(010\)</span>, and <span class="math inline">\(020\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Indicate for each one of the following pairs of nodes whether the first dominates the second. You may assume that each digit is a component of the Gorn address (so 10 means “one zero”, not “ten”).</p>
+<ul>
+<li><span class="math inline">\(00010\)</span> and <span class="math inline">\(000109\)</span></li>
+<li><span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(00\)</span></li>
+<li><span class="math inline">\(0010\)</span> and <span class="math inline">\(0110\)</span></li>
+<li><span class="math inline">\(10\)</span> and <span class="math inline">\(11\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(102\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(101\)</span></li>
+</ul>
+</div>
+<p>The way the term <em>dominance</em> is used in the linguistic literature is actually somewhat sloppy. Sometimes a node is taken to dominate itself, and sometimes it is not. That’s because there are two distinct notions of dominance, <strong>proper dominance</strong> and <strong>reflexive dominance</strong>, and linguists like to drop the first part of the name because the intended meaning is often clear from context. But “often” does not mean “always”, unfortunately, and adding insult to injury is that the <em>parent-of</em> relation is sometimes called <strong>immediate dominance</strong>. As you can see, there’s a lot of potential for confusion here, so let us make the three terms crystal clear with our formal terminology.</p>
+<div class="definition">
+<p>Let <span class="math inline">\(D\)</span> be a Gorn domain and <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> nodes of <span class="math inline">\(D\)</span>. Then</p>
+<ul>
+<li><span class="math inline">\(x\)</span> immediately dominates <span class="math inline">\(y\)</span> (<span class="math inline">\(x \triangleleft y\)</span>) iff <span class="math inline">\(x\)</span> is the parent of <span class="math inline">\(y\)</span>,</li>
+<li><span class="math inline">\(x\)</span> properly dominates <span class="math inline">\(y\)</span> (<span class="math inline">\(x \triangleleft^+y\)</span>) iff <span class="math inline">\(x\)</span> is a proper prefix of <span class="math inline">\(y\)</span>,</li>
+<li><span class="math inline">\(x\)</span> reflexively dominates <span class="math inline">\(y\)</span> (<span class="math inline">\(x \triangleleft^*y\)</span>) iff <span class="math inline">\(x\)</span> is a prefix of <span class="math inline">\(y\)</span>.</li>
+</ul>
+</div>
+<div class="example">
+<p>We already know that <span class="math inline">\(0\)</span> immediately dominates <span class="math inline">\(00\)</span>, <span class="math inline">\(01\)</span>, <span class="math inline">\(02\)</span>, which implies that it properly dominates them. In addition, it properly dominates <span class="math inline">\(000\)</span>, <span class="math inline">\(010\)</span>, and <span class="math inline">\(020\)</span>. Reflexive dominance only adds <span class="math inline">\(0\)</span> itself (remember that every string is a prefix of itself).</p>
+</div>
+<h2 id="linear-order-in-trees">Linear order in trees</h2>
+<p>The whole shift from graphs to Gorn domains was motivated by the desire to distinguish trees that are identical with respect to dominance but nonetheless define different sentences. Yet we haven’t said anything about linear order yet. Let’s change that.</p>
+<p>As for dominance, we have to distinguish multiple types of linear order. First, we can have a linear order between siblings. Let us call this the <em>left-of</em> relation. This relation only holds between siblings.</p>
+<div class="example">
+<p>We return once more to our example tree.</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+<p>Here <span class="math inline">\(00\)</span> is left-of <span class="math inline">\(01\)</span> and <span class="math inline">\(02\)</span>, and <span class="math inline">\(01\)</span> is left-of <span class="math inline">\(02\)</span>. Even though the nodes appear to the left of many other nodes, e.g. <span class="math inline">\(10\)</span> and <span class="math inline">\(11\)</span>, they do not stand in the left-of relation to them.</p>
+</div>
+<p>We may also use a <strong>successor</strong> relation, which holds between two adjacent siblings. Intuitively, “successor” is just a shorter name for the inverse of “immediately left-of”.</p>
+<div class="example">
+<p><span class="math inline">\(00\)</span> is immediately left-of <span class="math inline">\(01\)</span>, so <span class="math inline">\(01\)</span> is the successor of <span class="math inline">\(00\)</span>. Similarly, <span class="math inline">\(02\)</span> is the successor of <span class="math inline">\(01\)</span>. Again we are restricted to siblings, so <span class="math inline">\(02\)</span> has no successor.</p>
+<p>Note that successor in a tree is not the same as successor in the string. For instance, <em>met</em> is the successor of <em>man</em> in <em>The old man met this girl at a party</em>. But in the corresponding tree, <em>met</em> is <span class="math inline">\(1000\)</span> whereas <em>man</em> is <span class="math inline">\(020\)</span>. These nodes do not stand in a successor relation.</p>
+</div>
+<p>To talk about the linear order of nodes that are not siblings, we use the <em>precedence</em> relation. Intuitively, a node <span class="math inline">\(a\)</span> precedes a node <span class="math inline">\(b\)</span> iff we can go up from <span class="math inline">\(a\)</span>, take a right branch, and keep going down until we hit <span class="math inline">\(b\)</span>.</p>
+<div class="example">
+<p>Even though <span class="math inline">\(02\)</span> is not left-of any node, there are many nodes it precedes. Going up from <span class="math inline">\(02\)</span>, we can reach <span class="math inline">\(0\)</span> — taking a right branch there would only take us back to <span class="math inline">\(02\)</span>, so we instead go up one more step. Now we are at the root node. From here we can reach <span class="math inline">\(1\)</span>, <span class="math inline">\(10\)</span>, <span class="math inline">\(11\)</span>, and all nodes below them. All these nodes are preceded by <span class="math inline">\(02\)</span>.</p>
+<p>The same procedure shows that <span class="math inline">\(01\)</span> precedes <span class="math inline">\(020\)</span>, <span class="math inline">\(02\)</span>, and everything that node precedes.</p>
+</div>
+<p>Precedence is the natural tree counterpart to string precedence: if we restrict it to leaf nodes, we obtain the order of words in the sentence that the tree represents.</p>
+<div class="definition">
+<p>Let <span class="math inline">\(D\)</span> be an arbitrary Gorn tree domain. Then for all <span class="math inline">\(ui,vj \in D\)</span> with <span class="math inline">\(u,v \in \mathbb{N}^*\)</span> and <span class="math inline">\(i,j \in \mathbb{N}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(ui\)</span> is <strong>left-of</strong> <span class="math inline">\(vj\)</span> iff <span class="math inline">\(u=v\)</span> and <span class="math inline">\(i &lt; j\)</span>,</li>
+<li><span class="math inline">\(ui\)</span> is <strong>immediately left-of</strong> <span class="math inline">\(vj\)</span> iff <span class="math inline">\(u=v\)</span> and <span class="math inline">\(j = i + 1\)</span>,</li>
+<li><span class="math inline">\(ui\)</span> is the <strong>successor</strong> of <span class="math inline">\(vj\)</span> iff <span class="math inline">\(vj\)</span> is immediately left-of <span class="math inline">\(ui\)</span>,</li>
+<li><span class="math inline">\(ui\)</span> <strong>precedes</strong> <span class="math inline">\(vj\)</span> (<span class="math inline">\(ui \prec vj\)</span>) iff there are <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> such that <span class="math inline">\(a\)</span> reflexively dominates <span class="math inline">\(ui\)</span>, <span class="math inline">\(b\)</span> reflexively dominates <span class="math inline">\(vj\)</span>, and <span class="math inline">\(a\)</span> is left-of <span class="math inline">\(b\)</span>.</li>
+</ul>
+</div>
+<div class="exercise">
+<p>Indicate for each one of the following pairs of nodes whether the first precedes the second. You may assume that each digit is a component of the Gorn address (so 10 means “one zero”, not “ten”).</p>
+<ul>
+<li><span class="math inline">\(00010\)</span> and <span class="math inline">\(000109\)</span></li>
+<li><span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(00\)</span></li>
+<li><span class="math inline">\(0010\)</span> and <span class="math inline">\(0110\)</span></li>
+<li><span class="math inline">\(10\)</span> and <span class="math inline">\(11\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(102\)</span></li>
+<li><span class="math inline">\(101\)</span> and <span class="math inline">\(101\)</span></li>
+</ul>
+</div>
+<p>Some syntacticians do not like the idea of ordered trees and say that the linear order of words in a sentence is computed in a more indirect fashion from an unordered tree structure. They support this with the claim that unordered trees are simpler than ordered trees. After all, the latter has fewer relations than the former. This supposition is on very shaky grounds. It is patently false from a computational perspective, where ordered trees are much better behaved than unordered trees. Ordered trees are also easier to study from a mathematical perspective. Finally, the definition of Gorn domains shows that there is already an intrinsic ordering in trees due to how the addresses are chosen. Adding the precedence relation on top of this only makes this fully explicit.</p>
+<p>Just to be clear, there is nothing wrong with syntacticians claiming that precedence plays no role in how languages actually work. That is an empirical issue and may well be true. But the leap from this empirical claim to the dogma that syntactic trees must not be ordered is not justified. A data structure can have internal order without that order being exploitable for any meaningful purpose. For example, suppose that we require that if some tree is well-formed, then so are all the trees we can build from it by switching the order of siblings. Or if you prefer mathematical jargon, we require the set of well-formed trees to be closed under sibling permutation. Then linear order of trees is useless: Suppose that tree <span class="math inline">\(t\)</span> is ill-formed because it violates some precedence requirement <span class="math inline">\(P\)</span>. Then some permutation <span class="math inline">\(u\)</span> of <span class="math inline">\(t\)</span> must satisfy <span class="math inline">\(P\)</span>, which means that <span class="math inline">\(u\)</span> is well-formed. But by assumption this implies that every permutation of <span class="math inline">\(u\)</span> is also well-formed, including our original <span class="math inline">\(t\)</span>. This contradicts the initial claim that <span class="math inline">\(t\)</span> is ill-formed, which shows that there can be no such precedence requirement <span class="math inline">\(P\)</span>.</p>
+<p>So if you allow all possible orders, you can still have ordered trees without being able to discriminate between trees based on their precedence relations. This makes it possible for linguists to have their cake and eat it too: we get a computationally and mathematically better behaved data structure without running into the question why precedence does not seem to matter much in syntax (according to at least some syntacticians, that is).</p>
+<h2 id="c-command">C-Command</h2>
+<p>C-command has been the most important relation in syntax for many decades. It’s importance has decreased somewhat in recent years, but it is still noteworthy for being a genuinely linguistic notion. Whereas the relations we discussed so far are also useful in computer science, c-command is a purely linguistic notion. Intuitively, a node c-commands everything its sisters reflexively dominate. If a node has no sisters, then it c-commands whatever its mother c-commands.</p>
+<div class="example">
+<p>You know the deal, let’s look at the example tree for the gazillionth time:</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+<p>Here <span class="math inline">\(01\)</span> c-commands everything its siblings <span class="math inline">\(00\)</span> and <span class="math inline">\(02\)</span> reflexively dominate. That’s <span class="math inline">\(00\)</span>, <span class="math inline">\(000\)</span>, <span class="math inline">\(02\)</span>, and <span class="math inline">\(020\)</span>. The node <span class="math inline">\(010\)</span> has no siblings, so it c-commands whatever its parent c-commands. The parent of <span class="math inline">\(010\)</span> is <span class="math inline">\(01\)</span>, for which we have already computed the c-commandees.</p>
+</div>
+<p>Many definitions of c-command can be found in the literature, and unfortunately many of them are stated in a sloppy manner. Here is a common version: <em>X c-commands Y iff X does not dominate Y and the first branching node dominating X dominates Y</em>. Can you find all the things that are wrong with this definition? Think about it for a minute before you read on.</p>
+<p>Alright, here’s the problems:</p>
+<ol type="1">
+<li><p>What kind of dominance are we talking about? Proper dominance, reflexive dominance, or possibly even immediate dominance? The answer is: sometimes proper dominance, sometimes reflexive dominance.</p></li>
+<li><p>What is “the first branching node dominating X”? The lowest branching node or the highest branching node? Or something completely different?</p></li>
+<li><p>What are X and Y? Presumably nodes, but we can only infer that because dominance is only defined for nodes, not parts of trees or sets of nodes.</p></li>
+</ol>
+<p>A more exact version of the definition above reads as follows: <em>Node X c-commands node Y iff X does not reflexively dominate Y and the lowest branching node properly dominating X also properly dominates Y.</em> This is still not perfect because the meaning of “lowest” has to be intuited, but it’s good enough to be workable.</p>
+<p>In the special case where a tree contains no unary branching nodes, i.e. nodes that have only one child, c-command can be stated in a simpler fashion as the <em>composition</em> of the sibling relation <span class="math inline">\(S\)</span> with reflexive dominance: <span class="math inline">\(C \mathrel{\mathop:}=S \circ \triangleleft^*\)</span>. This just means that if we can reach <span class="math inline">\(z\)</span> from <span class="math inline">\(x\)</span> by first moving from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> with the sibling relation and then from <span class="math inline">\(y\)</span> to <span class="math inline">\(z\)</span> via reflexive dominance, then <span class="math inline">\(x\)</span> c-commands <span class="math inline">\(z\)</span>.</p>
+<div class="definition">
+<p>The <strong>composition</strong> of two relations <span class="math inline">\(R\)</span> and <span class="math inline">\(S\)</span> is <span class="math inline">\(R \circ S \mathrel{\mathop:}=\{ \left \langle x,z \right \rangle \mid \text{there is a $y$ s.t.} \left \langle x,y \right \rangle \in R \text{ and } \left \langle y,z \right \rangle \in S \}\)</span>.</p>
+</div>
+<div class="example">
+<p>Guess what, it’s your favorite tree:</p>
+<p><img src="tree_psg_gorn.svg" alt="tree_psg_gorn.svg" /></p>
+<p>In this tree, 01 c-commands 000 and 020. We can see this by computing the composition of <span class="math inline">\(S\)</span> and <span class="math inline">\(\triangleleft^*\)</span>. First, <span class="math inline">\(S\)</span> contains <span class="math inline">\(\left \langle 01, 00 \right \rangle\)</span> and <span class="math inline">\(\left \langle 01, 02 \right \rangle\)</span>. We also know that <span class="math inline">\(\triangleleft^*\)</span> contains <span class="math inline">\(\left \langle 00, 000 \right \rangle\)</span>, and <span class="math inline">\(\left \langle 02, 020 \right \rangle\)</span>. We combine <span class="math inline">\(\left \langle 01, 00 \right \rangle\)</span> and <span class="math inline">\(\left \langle 00, 000 \right \rangle\)</span> to obtain <span class="math inline">\(\left \langle 01, 000 \right \rangle\)</span>. The same way we also get <span class="math inline">\(\left \langle 01, 020 \right \rangle\)</span> from <span class="math inline">\(\left \langle 01, 02 \right \rangle\)</span> and <span class="math inline">\(\left \langle 02, 020 \right \rangle\)</span>. So <span class="math inline">\(S \circ \triangleleft^*\)</span> must contain those two pairs, wherefore 01 c-commands 000 and 020 as stated earlier.</p>
+</div>
+<div class="exercise">
+<p>Suppose you are given two relations <span class="math inline">\(X \mathrel{\mathop:}=\left \{ \left \langle n,n+1 \right \rangle \mid n \geq 0 \right \}\)</span> and <span class="math inline">\(Y \mathrel{\mathop:}=\left \{ \left \langle n,n-1 \right \rangle \mid n &gt; 0 \right \}\)</span>. What is <span class="math inline">\(X \circ Y\)</span>?</p>
+</div>
+<div class="definition">
+<p>Given a Gorn tree domain <span class="math inline">\(D\)</span> and <span class="math inline">\(x, y \in D\)</span>, <span class="math inline">\(x\)</span> <strong>c-commands</strong> <span class="math inline">\(y\)</span> iff <span class="math inline">\(\left \langle x,y \right \rangle \in S \circ \triangleleft^*\)</span>.</p>
+</div>
+<p>If we want to extend this definition to trees with unary branches, the sibling relation has to be replaced by a relation that instead chooses the siblings of an appropriate node at a structurally higher position.</p>
+<div class="exercise">
+<p>Define c-command in terms of Gorn addresses (assuming our definition of c-command as the composition of the sibling relation and reflexive dominance).</p>
+</div>
+<div class="exercise">
+<p>Give a function that takes as input a Gorn tree domain <span class="math inline">\(D\)</span> and a Gorn address <span class="math inline">\(a\)</span> and returns the set of all <span class="math inline">\(d \in D\)</span> that c-command <span class="math inline">\(a\)</span> (assuming again our definition of c-command as the composition of the sibling relation and reflexive dominance). Looking at this function, would you say it is particularly complex or difficult to compute?</p>
+</div>
+</body>
+</html>

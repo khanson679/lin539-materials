@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Thomas Graf" />
+  <title>background/sets</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">background/sets</h1>
+<p class="subtitle">Course Notes for LIN 539</p>
+<p class="author">Thomas Graf</p>
+<p class="date">Fall 2022</p>
+</header>
+<h2 id="sets-the-basics">Sets: The basics</h2>
+<p>Sets are the fundamental building block of modern mathematics. Intuitively, a set is a collection of objects, but with two important twists:</p>
+<ol type="1">
+<li>Sets are unordered.</li>
+<li>Sets contain no duplicates.</li>
+</ol>
+<div class="example">
+<p>Suppose you want to keep a record of which words occur in a text. You aren’t interested in how often a given word occurred, just whether it occurs at all. Nor do you care in which order the words occurred in the text. So you are actually interested in the <em>set</em> of words that occur in the text.</p>
+</div>
+<div class="jupyterpython">
+<h2 id="converting-a-text-to-the-set-of-words">Converting a text to the set of words</h2>
+<p>import re</p>
+<p>def text_to_set(text): return set(re.findall(r“+”, text.lower()))</p>
+<h2 id="change-the-string-below-as-you-see-fit">change the string below as you see fit</h2>
+<p>text = “If police police police, then police police police.” print(“The original text is:”) print(text) print(“The set of words is:”) print(text_to_set(text))</p>
+</div>
+<p>Each property is explained in detail below, but let’s first put some helpful notation in place.</p>
+<h3 id="list-notation">List notation</h3>
+<p>Sets are often written as lists with curly braces around them. So <span class="math inline">\(\left \{ a, b, c, d \right \}\)</span> denotes the set containing <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, <span class="math inline">\(d\)</span>. Here <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, <span class="math inline">\(d\)</span> are some arbitrary objects. This is known as <strong>list notation</strong>. More complex sets are defined with <a href="./fixme"><strong>set-builder notation</strong>, which will be covered in a later unit</a>.</p>
+<div class="example">
+<p>Consider the string <em>If John slept, then Mary left</em>. Its set of words (ignoring sentence-initial capitalization) is <span class="math inline">\(\left \{  \text{if}, \text{John}, \text{left}, \text{Mary}, \text{slept}, \text{then}  \right \}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Write the following as a set:</p>
+<ul>
+<li>the first names of your three favorite actors/actresses,</li>
+<li>the colors of the rainbow,</li>
+<li>all prime numbers between 1 and 10 (remember, 1 is not a prime number!)</li>
+</ul>
+</div>
+<h3 id="elements-and-set-membership">Elements and set membership</h3>
+<p>The objects contained in a set are called its <strong>elements</strong> or <strong>members</strong>. One writes <span class="math inline">\(e \in S\)</span> to indicate that <span class="math inline">\(e\)</span> is an element of <span class="math inline">\(S\)</span>. The opposite is denoted <span class="math inline">\(e \notin S\)</span>: <span class="math inline">\(e\)</span> is not an element of <span class="math inline">\(S\)</span>. The symbol <span class="math inline">\(\in\)</span> thus indicates <strong>set membership</strong>.</p>
+<div class="example">
+<p>Let <span class="math inline">\(W\)</span> be the set of words in the string <em>If John slept, then Mary left</em>. Then it holds that <span class="math inline">\(\emph{left} \in W\)</span> and <span class="math inline">\(\emph{right} \notin W\)</span>. But it is not the case that <span class="math inline">\(\emph{then} \notin W\)</span> or <span class="math inline">\(\emph{awake} \in W\)</span>.</p>
+</div>
+<p>Sometimes <span class="math inline">\(\ni\)</span> is used as the mirror image of <span class="math inline">\(\in\)</span>. For example, <span class="math inline">\(a \in S\)</span> could also be written as <span class="math inline">\(S \ni a\)</span>.</p>
+<div class="example">
+<p>Continuing the previous example, it is true that <span class="math inline">\(\emph{left} \in W \ni \emph{then}\)</span>. That is to say, both <span class="math inline">\(\emph{left} \in W\)</span> and <span class="math inline">\(\emph{then} \in W\)</span> are true.</p>
+</div>
+<div class="exercise">
+<p>Put <span class="math inline">\(\in\)</span>, <span class="math inline">\(\ni\)</span>, <span class="math inline">\(\notin\)</span>, <span class="math inline">\(\not\ni\)</span> in the gaps below as appropriate:</p>
+<ul>
+<li><span class="math inline">\(5 \_ \left \{ 1,2,4,5,8 \right \}\)</span></li>
+<li><span class="math inline">\(6 \_ \left \{ 1,2,4,5,8 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 5 \right \} \_ \left \{ 1,2,4,5,8 \right \}\)</span></li>
+<li><span class="math inline">\(5 \_ \left \{ 1,2,4,5,8 \right \} \_ 6\)</span></li>
+</ul>
+</div>
+<h3 id="lack-of-order">Lack of order</h3>
+<p>Even though we may write sets in a linear fashion as lists, they have no internal order. The set <span class="math inline">\(\left \{ a,b \right \}\)</span> could also be written as <span class="math inline">\(\left \{ b,a \right \}\)</span>. So we have <span class="math inline">\(\left \{ a,b \right \} = \left \{ b,a \right \}\)</span>, and <span class="math inline">\(\left \{ a,b,c \right \} =  \left \{ a,c,b \right \} =  \left \{ b,a,c \right \} =  \left \{ b,c,a \right \} =  \left \{ c,a,b \right \} =  \left \{ c,b,a \right \}\)</span>.</p>
+<div class="example">
+<p>Consider the strings <em>If John slept, then Mary left</em> and <em>If Mary left, then John slept</em>. While they are clearly distinct sentences, their sets of words are identical.</p>
+</div>
+<div class="jupyterpython">
+<p>import re</p>
+<p>def text_to_set(text): return set(re.findall(r“+”, text.lower()))</p>
+<p>text1 = “If John slept, then Mary left.” text2 = “If Mary left, then John slept.”</p>
+<p>set1, set2 = text_to_set(text1), text_to_set(text2) print(“Are the sets identical?”) print(“Yes”) if set1 == set2 else print(“No”)</p>
+</div>
+<div class="exercise">
+<p>For each one of the following, fill the gap with <span class="math inline">\(=\)</span> or <span class="math inline">\(\neq\)</span> as appropriate:</p>
+<ul>
+<li><span class="math inline">\(\left \{ a,b \right \} \_ \left \{ a,b \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ b,a \right \} \_ \left \{ a,b \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ b,a,c,d \right \} \_ \left \{ e,a,b,d \right \}\)</span></li>
+</ul>
+</div>
+<h3 id="lack-of-duplicatesidempotency">Lack of duplicates/Idempotency</h3>
+<p>Sets are <strong>idempotent</strong>, which means that duplicates are ignored. So <span class="math inline">\(\left \{ a,b \right \} = \left \{ a,a,b \right \} = \left \{ a,b,b,a,b,a,b,a,a \right \}\)</span>. It also holds that <span class="math inline">\(\left \{ a \right \} = \left \{ a,a \right \} = \left \{ a,a,a \right \}\)</span>, and so on.</p>
+<div class="jupyterpython">
+<p>import re</p>
+<p>def text_to_set(text): return set(re.findall(r“+”, text.lower()))</p>
+<p>text1 = “If John slept, then Mary left.” text2 = “If Mary left, then John slept.”</p>
+<p>set1, set2 = text_to_set(text1), text_to_set(text2) print(“Are the sets identical?”) print(set1 == set2)</p>
+</div>
+<div class="example">
+<p>Linguists distinguish between <strong>word types</strong> and <strong>word tokens</strong>. The sentence <em>dogs love dogs</em> contain two tokens of the type <em>dogs</em>, and one token of the type <em>love</em>. The sentences <em>dogs love</em> and <em>dogs love dogs</em> are different with respect to word tokens, but identical with respect to word types. So if you care about word types rather than word tokens, you’re dealing with a set because the only thing that matters is which words the text contains, not how many tokens of each word.</p>
+</div>
+<div class="example">
+<p>Consider the sentence <em>If police police police, then police police police</em>. Its set of words (ignoring capitalization) is <span class="math inline">\(\left \{  \text{if}, \text{police}, \text{then}  \right \}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>For each one of the following, fill the gap with <span class="math inline">\(=\)</span> or <span class="math inline">\(\neq\)</span> as appropriate:</p>
+<ul>
+<li><span class="math inline">\(\left \{ a,b \right \} \_ \left \{ a,a,b,b \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ b,a \right \} \_ \left \{ a,b,a \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ c,b,a,a,d,c \right \} \_ \left \{ a,a,b,d,c,c,c \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ a \right \} \_ \left \{ a,a,a,a,a,a,c,a,a,a,a,a,a \right \}\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>The sentence <em>If police police police, then police police police</em> actually uses two different word types. It just just so happens that both are pronounced and spelled <em>police</em>. But one is the noun <em>police</em>, the other one the verb <em>police</em>. So we might want to annotate the string as follows: <em>If police[N] police[V] police[N], then police[N] police[V] police[N]</em>. Assume that words are annotated with their part of speech in this fashion. Then what would be the corresponding set of words?</p>
+</div>
+<h3 id="recap">Recap</h3>
+<ul>
+<li>Sets are collections of arbitrary objects.</li>
+<li>Sets are unordered and idempotent (= duplicates are ignored).</li>
+<li>Sets can be defined with list notation, e.g. <span class="math inline">\(\left \{ a, b \right \}\)</span>.</li>
+<li>The objects contained in a set are called its <em>elements</em> or <em>members</em>.</li>
+<li>The symbols <span class="math inline">\(\in\)</span> and <span class="math inline">\(\notin\)</span> are used to indicate membership and non-membership, respectively.</li>
+<li>Occasionally, <span class="math inline">\(\ni\)</span> is used as the mirror image of <span class="math inline">\(\in\)</span>.</li>
+</ul>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>sets (basic notation)</li>
+</ul>
+<h2 id="sets-additional-notation">Sets: Additional notation</h2>
+<h3 id="the-empty-set">The empty set</h3>
+<p>While the intuition of sets as collections is fairly intuitive, intuition only goes so far. Many sets are rather strange and do not gel with the metaphor of sets as containers. One example of that is the <em>empty set</em>, written <span class="math inline">\(\left \{  \right \}\)</span> or more commonly <span class="math inline">\(\emptyset\)</span>.</p>
+<p>The empty set contains nothing. So there is no <span class="math inline">\(a\)</span> such that <span class="math inline">\(a \in \emptyset\)</span>. At the same time, the empty set is not simply nothing because it is still a set. A set is not nothing. This might make more sense if you think of sets as boxes or bags: an empty bag is still a bag, it just happens to contain nothing.</p>
+<p>The empty set may seem rather useless to you at this point, but it actually has a very important role to play. You will see it quite a bit in definitions, but also in the construction of abstract mathematical objects such as <a href="fixme">monoids</a>.</p>
+<div class="exercise">
+<p>For each one of the statements below, say whether it is true or false.</p>
+<ul>
+<li><span class="math inline">\(\emptyset = \left \{  \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset \in \left \{ a \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ a,b \right \} \neq \emptyset\)</span></li>
+</ul>
+</div>
+<h3 id="set-builder-notation">Set-builder notation</h3>
+<h4 id="motivation">Motivation</h4>
+<p>Defining a set by listing all its elements is only feasible for small sets. But many sets are very large, for example the set of atoms in the universe (10<sup>82</sup>), or the set of bad horror movies produced after <em>Scream</em> (not quite as big, but too big to write down). Some sets can even be infinite, like the set of natural numbers or just the even natural numbers. If one cannot write down a list of all the elements, just how does on specify such a list?</p>
+<p>One could approximate these sets, e.g. by writing <span class="math inline">\(\left \{ 2, 4, \ldots \right \}\)</span> for the set of natural numbers that are even and greater than <span class="math inline">\(0\)</span>. But this is imprecise because there are many other sets that contain these numbers, for example the set of powers of 2: <span class="math inline">\(\left \{ 1, 2, 4, 8, 16, \ldots \right \}\)</span>. You might object that <span class="math inline">\(1\)</span> is implicitly excluded because we the set started with <span class="math inline">\(2\)</span>, but that’s just your intuition, not a firm rule. Remember, sets have no order, so a set does not start with anything. And even if we take such human intuitions into account, it’s still too imprecise for more complex cases. Rather than rely on human intuition about what would be a natural interpretation of the ellipsis dots, we can use <em>set-builder notation</em> to succinctly describe large/infinite sets.</p>
+<h4 id="format">Format</h4>
+<p>Set-builder notation uses the general template</p>
+<p><span class="math display">\[
+\left \{  \text{expression using variable} \mid \text{definition of variable}  \right \}
+\]</span></p>
+<div class="example">
+<p>Instead of <span class="math inline">\(\left \{ 2, 4, 6, \ldots \right \}\)</span> for the set of natural numbers that are both positive and even, one can write the following: <span class="math display">\[
+\left \{  2n \mid \text{$n$ a natural number and $n \geq 1$} \right \}
+\]</span> This means that for every <span class="math inline">\(n\)</span> that is a natural number and is at least <span class="math inline">\(1\)</span>, the set contains <span class="math inline">\(2n\)</span>.</p>
+<p>The table below illustrates this for a few values.</p>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(n\)</span></th>
+<th style="text-align: center;">Satisfies definition?</th>
+<th style="text-align: right;"><span class="math inline">\(2n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.3</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1.7</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+<section id="set-builder-notation-even-exists-in-some-programming-languages-like-python" class="jupyterpython">
+<h2>set-builder notation even exists in some programming languages like Python</h2>
+<p>built_set = set(2*n for n in [0, 1, 2, 3, 4, 5]) print(built_set)</p>
+</section>
+<p>There is no limit on the complexity of set-builder notation. For example, one could nest multiple set definitions, as in <span class="math inline">\(\left \{  \left \{  i \mid 0 \leq i \leq n  \right \} \mid n \text{ a natural number}  \right \}\)</span>. This is a set that contains all initial intervals of the natural numbers: <span class="math inline">\(\left \{  \left \{ 0 \right \}, \left \{ 0,1 \right \}, \left \{ 0,1,2 \right \}, \left \{ 0,1,2,3 \right \}, \ldots  \right \}\)</span> (yes, sets can contain other sets, more on that in a later unit). However, such nested definitions are often cumbersome to read, so try to avoid this. Quite generally, definitions should not intimidate or dazzle the reader.</p>
+<div class="advice">
+<p>A good definition is as complex as necessary and as simple as possible.</p>
+</div>
+<div class="example">
+<p>The following definition is more complex because it uses multiple variables and uses the expression to define two values at the same time. But it is still fairly simple and could be used in a definition: <span class="math display">\[
+\left \{  x^y, y^{10} | 1 \leq x \leq 3, y \in \left \{ 2,7 \right \}, \text{ and } x + y \geq 5 \right \}
+\]</span></p>
+<p>The table below shows all the values for the variables and the resulting elements of the set.</p>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(x\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(y\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(x + y \geq 5\)</span>?</th>
+<th style="text-align: left;">added <span class="math inline">\(x^y\)</span></th>
+<th style="text-align: left;">added <span class="math inline">\(y^{10}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">282,475,249</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">282,475,249</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">1024</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">2187</td>
+<td style="text-align: left;">282,475,249</td>
+</tr>
+</tbody>
+</table>
+<div class="exercise">
+<p>For each one of the following, put <span class="math inline">\(=\)</span> or <span class="math inline">\(\neq\)</span> in the gap as appropriate:</p>
+<ul>
+<li><span class="math inline">\(\left \{ 0,1,2,3,4,5 \right \} \_ \left \{  10 - x \mid x \in \left \{ 5,6,7,8,9,10 \right \}  \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset \_ \left \{  x \mid x \text{ is both a square and circle} \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 2,3,5,7 \right \} \_ \left \{ n + 1 \mid n \text{ is a prime number between 0 and 10} \right \}\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Express the following in terms of set-builder notation:</p>
+<ul>
+<li><span class="math inline">\(\left \{ \text{George Washington}, \text{John Adams}, \text{Thomas Jefferson} \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ \text{a}, \text{e}, \text{i}, \text{o}, \text{u} \right \}\)</span></li>
+</ul>
+</div>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>The empty set, denoted <span class="math inline">\(\emptyset\)</span>, contains no elements at all.</li>
+<li>Set-builder notation uses the format <span class="math inline">\(\left \{  \text{expression using variable(s)} \mid \text{definition of variable(s)}  \right \}\)</span>.</li>
+</ul>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>sets (notation)</li>
+</ul>
+<h2 id="union-intersection-and-complement-of-sets">Union, intersection, and complement of sets</h2>
+<p>Sets can be combined with each other in various ways. Sometimes this is used as yet another way to define sets, and sometimes it is an actual construction process where multiple sets serve as the input to some mechanism that returns a single set as the output. You’ll see many examples of both usages throughout the course.</p>
+<h3 id="union">Union</h3>
+<p>Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, their <strong>union</strong> <span class="math inline">\(A \cup B\)</span> is the set that contains</p>
+<ul>
+<li>all elements of <span class="math inline">\(A\)</span>, and</li>
+<li>all elements of <span class="math inline">\(B\)</span>, and</li>
+<li>nothing else.</li>
+</ul>
+<p>This means that the union of two sets is the result of taking everything that belongs to at least one set. So union builds bigger sets from smaller sets. This makes it something like the set counterpart of addition over numbers.</p>
+<div class="example">
+<p>The union of <span class="math inline">\(\left \{ 1 \right \}\)</span> and <span class="math inline">\(\left \{ 2,3,4 \right \}\)</span> is <span class="math inline">\(\left \{ 1,2,3,4 \right \}\)</span>. The union of <span class="math inline">\(\left \{ 1,2 \right \}\)</span> and <span class="math inline">\(\left \{ 3,4 \right \}\)</span> is also <span class="math inline">\(\left \{ 1,2,3,4 \right \}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Compute the union of the following:</p>
+<ul>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cup \left \{ 2,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cup \left \{ 1,2,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cup \left \{ 0,1 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cup \emptyset\)</span></li>
+<li><span class="math inline">\(\left \{ 1,2,3 \right \} \cup \left \{ 0,1 \right \}\)</span></li>
+</ul>
+</div>
+<p>Union is <strong>associative</strong>, which means that <span class="math inline">\((A \cup B) \cup C = A \cup (B \cup C)\)</span>. This is just like <span class="math inline">\((5 + 4) + 3 = 5 + (4 + 3)\)</span>. It is also <strong>commutative</strong>. That is to say, the order of arguments does not matter: <span class="math inline">\(A \cup B = B \cup A\)</span>. This again mirrors addition, where <span class="math inline">\(5 + 3 = 3 + 5\)</span>. Also note that <span class="math inline">\(A \cup \emptyset = \emptyset\)</span> for any set <span class="math inline">\(A\)</span>, just like <span class="math inline">\(n + 0 = n\)</span> for any number <span class="math inline">\(n\)</span>.</p>
+<div class="exercise">
+<p>Compute the union of the following in a step-wise fashion:</p>
+<ul>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cup \left \{ 2,3 \right \} \cup \emptyset\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cup \emptyset \cup \left \{ 2,3 \right \}\)</span></li>
+</ul>
+</div>
+<h3 id="intersection">Intersection</h3>
+<p>Intersection is the opposite of union in that it builds smaller sets rather than bigger ones. Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, their <strong>intersection</strong> <span class="math inline">\(A \cap B\)</span> is the set that contains only those elements that belong to <span class="math inline">\(A\)</span> as well as <span class="math inline">\(B\)</span>.</p>
+<div class="example">
+<p>The intersection of <span class="math inline">\(\left \{ 1 \right \}\)</span> and <span class="math inline">\(\left \{ 2,3,4 \right \}\)</span> is <span class="math inline">\(\emptyset\)</span>, and so is the intersection of <span class="math inline">\(\left \{ 1,2 \right \}\)</span> and <span class="math inline">\(\left \{ 3,4 \right \}\)</span>. But the intersection of <span class="math inline">\(\left \{ 1,2 \right \}\)</span> and <span class="math inline">\(\left \{ 2,3,4 \right \}\)</span> is <span class="math inline">\(\left \{ 2 \right \}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Compute the intersection of the following:</p>
+<ul>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cap \left \{ 2,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cap \left \{ 1,2,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cap \left \{ 0,1 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,1 \right \} \cap \emptyset\)</span></li>
+<li><span class="math inline">\(\left \{ 1,2,3 \right \} \cap \left \{ 0,1 \right \}\)</span></li>
+</ul>
+</div>
+<p>Note that <span class="math inline">\(A \cap \emptyset = \emptyset\)</span> no matter what the set <span class="math inline">\(A\)</span> looks like. This is similar to how <span class="math inline">\(n \cdot 0 = 0\)</span> irrespective of the value of <span class="math inline">\(n\)</span>. So intersection is akin to multiplication for sets. Like multiplication, intersection is associative, so that <span class="math inline">\((A \cap B) \cap C = A \cap (B \cap C)\)</span>. This mirrors the fact that <span class="math inline">\((5 \cdot 4) \cdot 2 = 5 \cdot (4 \cdot 2)\)</span>. Intersection is also commutative, again just like multiplication: <span class="math inline">\(A \cap B = B \cap A\)</span>, and <span class="math inline">\(m \cdot n = n \cdot m\)</span>.</p>
+<p>The one difference between intersection and multiplication seems to be that the former produces something smaller and the latter something bigger. But as we will learn much later in the semester, this isn’t really all that important, and the two operations are indeed very close counterparts in an abstract sense.</p>
+<h3 id="relative-complement">Relative complement</h3>
+<p>Given the set-counterparts for <span class="math inline">\(+\)</span> and <span class="math inline">\(\cdot\)</span>, you probably expect one for subtraction, too. It exists, indeed, and is called <strong>relative complement</strong>. Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, their relative complement is written <span class="math inline">\(A - B\)</span> (sometimes <span class="math inline">\(A \setminus B\)</span>). It contains all members of <span class="math inline">\(A\)</span> that are not members of <span class="math inline">\(B\)</span>.</p>
+<div class="example">
+<p>The complement of <span class="math inline">\(\left \{ 2 \right \}\)</span> relative to <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> is <span class="math inline">\(\left \{ 1,2,3 \right \} - \left \{ 2 \right \} = \left \{ 1,3 \right \}\)</span>. The complement of <span class="math inline">\(\left \{ 3,4,5 \right \}\)</span> relative to <span class="math inline">\(\left \{ 2,3 \right \}\)</span> is <span class="math inline">\(\left \{ 2,3 \right \} - \left \{ 3,4,5 \right \} = \left \{ 2 \right \}\)</span>.</p>
+</div>
+<p>Relative complement is <strong>not</strong> associative in the general case. For example, <span class="math inline">\((\left \{ 0,1 \right \} - \left \{ 0 \right \}) - \left \{ 1 \right \} = \emptyset\)</span>, whereas <span class="math inline">\(\left \{ 0,1 \right \} - (\left \{ 0 \right \} - \left \{ 1 \right \}) = \left \{ 1 \right \}\)</span>. Since associativity requires that the order of evaluation may never matter, this one example where it does matter is sufficient to show that associativity does not hold. That doesn’t mean that there are never cases where one can’t change the order of evaluation at all. For instance, <span class="math inline">\((\left \{ 0,1 \right \} - \left \{ 0 \right \}) - \left \{ 2 \right \} = \left \{ 1 \right \} = \left \{ 0,1 \right \} - (\left \{ 0 \right \} - \left \{ 2 \right \})\)</span> — but that is merely a coincidence. That relative complement is not associative mirrors subtraction for numbers, where <span class="math inline">\((5 - 2) - 3 = 0 \neq 6 = 5 - (2 -3)\)</span>. Commutativity does not hold for relative complement either, as is shown by <span class="math inline">\(\left \{ 5 \right \} - \left \{ 5,4 \right \} = \emptyset \neq \left \{ 4 \right \} = \left \{ 5,4 \right \} - \left \{ 4 \right \}\)</span>.</p>
+<div class="exercise">
+<p>Give a concrete example where <span class="math inline">\(A - B = B - A\)</span>. Then make a single change to <span class="math inline">\(A\)</span> such that <span class="math inline">\(A - B \neq B - A\)</span>.</p>
+</div>
+<h3 id="summary-1">Summary</h3>
+<div class="definition">
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be arbitrary sets.</p>
+<ul>
+<li>The <strong>union</strong> of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is <span class="math inline">\(A \cup B \mathrel{\mathop:}=\left \{  x \mid x \in A \text{ or } x \in B \right \}\)</span>.</li>
+<li>The <strong>intersection</strong> of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is <span class="math inline">\(A \cap B \mathrel{\mathop:}=\left \{  x \mid x \in A \text{ and } x \in B \right \}\)</span>.</li>
+<li>The <strong>relative complement</strong> of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is <span class="math inline">\(A - B \mathrel{\mathop:}=\left \{  x \mid x \in A \text{ and } x \notin B \right \}\)</span>.</li>
+<li>If <span class="math inline">\(A\)</span> is clear from context, we just write <span class="math inline">\(\overline{B}\)</span> for <span class="math inline">\(A - B\)</span> and call it the <strong>complement</strong> of <span class="math inline">\(B\)</span>.</li>
+</ul>
+</div>
+<ul>
+<li>Union and intersection are associative (order of evaluation doesn’t matter) and commutative (order of arguments doesn’t matter).</li>
+<li>Relative complement is neither associative nor commutative.</li>
+</ul>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>sets (notation, operations)</li>
+<li>functions (basic notation, domain terminology)</li>
+</ul>
+<h2 id="cardinality">Cardinality</h2>
+<p>Sets can be compared based on how many elements they contain.</p>
+<div class="example">
+<p>The set <span class="math inline">\(A \mathrel{\mathop:}=\left \{ a,b,c \right \}\)</span> contains exactly as many elements as the set <span class="math inline">\(X \mathrel{\mathop:}=\left \{ x,y,z \right \}\)</span>, namely <span class="math inline">\(3\)</span>. Each set has fewer members than <span class="math inline">\(A \cup X\)</span>, which contains <span class="math inline">\(6\)</span> elements, whereas <span class="math inline">\(A \cap X\)</span> has <span class="math inline">\(0\)</span> members.</p>
+</div>
+<p>This is commonly called the <strong>size</strong> of a set, but the more accurate term is <strong>cardinality</strong>. The cardinality of a set <span class="math inline">\(A\)</span> is denoted <span class="math inline">\(\left | A \right |\)</span>. We say that <span class="math inline">\(\left | A \right | \leq B\)</span> iff there is a function <span class="math inline">\(f\)</span> such that every element of <span class="math inline">\(A\)</span> is mapped to some element of <span class="math inline">\(B\)</span> and every element of <span class="math inline">\(B\)</span> has at most one element of <span class="math inline">\(A\)</span> mapped to it.</p>
+<div class="example">
+<p>Suppose that <span class="math inline">\(A \mathrel{\mathop:}=\left \{ a,b,c \right \}\)</span> and <span class="math inline">\(D \mathrel{\mathop:}=\left \{ d,e,f,g \right \}\)</span>. Then <span class="math inline">\(\left | A \right | \leq \left | D \right |\)</span>, as every element of <span class="math inline">\(A\)</span> can be mapped to some distinct element of <span class="math inline">\(D\)</span>. For instance, we could have a function with <span class="math inline">\(a \mapsto f\)</span>, <span class="math inline">\(b \mapsto d\)</span>, <span class="math inline">\(c \mapsto g\)</span>.</p>
+<p>In the other direction, <span class="math inline">\(\left | D \right | \not\leq \left | A \right |\)</span>. No matter how one maps the elements of <span class="math inline">\(D\)</span> to members of <span class="math inline">\(A\)</span>, at least two members of <span class="math inline">\(D\)</span> will have to be mapped to the same element in <span class="math inline">\(A\)</span>.</p>
+</div>
+<p>Clearly <span class="math inline">\(\left | A \right | = \left | B \right |\)</span> iff <span class="math inline">\(\left | A \right | \leq \left | B \right |\)</span> and <span class="math inline">\(\left | B \right | \leq \left | A \right |\)</span> are both true. But there is a more direct definition: <span class="math inline">\(\left | A \right | = \left | B \right |\)</span> iff there is a function <span class="math inline">\(f\)</span> such that <span class="math inline">\(f\)</span> maps every element of <span class="math inline">\(A\)</span> to some element of <span class="math inline">\(B\)</span> and every element of <span class="math inline">\(B\)</span> has exactly one element of <span class="math inline">\(A\)</span> mapped to it. We also say that there is a <strong>bijection</strong> between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, which is a technical term for a 1-to-1 correspondence between the elements of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
+<div class="example">
+<p>We already saw that <span class="math inline">\(\left | A \right | = \left | X \right |\)</span> in the previous example. A possible choice of <span class="math inline">\(f\)</span> would be <span class="math inline">\(a \mapsto x\)</span>, <span class="math inline">\(b \mapsto y\)</span>, <span class="math inline">\(c \mapsto z\)</span>.</p>
+</div>
+<div class="example">
+<p>The sets <span class="math inline">\(A \mathrel{\mathop:}=\left \{ 0,1,2 \right \}\)</span> and <span class="math inline">\(B \mathrel{\mathop:}=\left \{ 2,3 \right \}\)</span> obviously have distinct cardinality. The set <span class="math inline">\(A\)</span> contains 3 elements, the set <span class="math inline">\(B\)</span> only 2. But let us see how we get the same result via our mathematical definition.</p>
+<p>Suppose we have some arbitrary function <span class="math inline">\(f: A \rightarrow B\)</span>. If <span class="math inline">\(f\)</span> is a bijection, then it must map every element of <span class="math inline">\(A\)</span> to some element of <span class="math inline">\(B\)</span>. But since there are three elements in <span class="math inline">\(A\)</span> and only two in <span class="math inline">\(B\)</span>, some element of <span class="math inline">\(B\)</span> must be the output for at least two elements of <span class="math inline">\(A\)</span>. But then <span class="math inline">\(f\)</span> is not a bijection.</p>
+<p>In the other direction, consider some arbitrary function <span class="math inline">\(g: B \rightarrow A\)</span>. Since a function maps each input to at most one output, the two elements of <span class="math inline">\(B\)</span> are mapped to at most two elements of <span class="math inline">\(A\)</span>. But <span class="math inline">\(A\)</span> has three elements, so one element of <span class="math inline">\(A\)</span> cannot be an output for any element of <span class="math inline">\(B\)</span>. Again we find that <span class="math inline">\(g\)</span> cannot be bijection.</p>
+<p>This exhausts all cases we need to consider, and we may conclude that no function from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span>, or the other way round, can be a bijection. Hence <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> must have distinct cardinality.</p>
+</div>
+<div class="exercise">
+<p>Show that <span class="math inline">\(\left | \left \{  0 \leq n &lt; 10 \mid n \text{ is odd} \right \} = \left | \left \{  0 \leq n &lt; 10 \mid n \text{ is even} \right \} \right | \right |\)</span>.</p>
+</div>
+<p>For finite sets, our intuitive notion of size closely matches the technical term of cardinality. However, size and cardinality diverge once we look at infinite sets.</p>
+<div class="example">
+<p>Consider the set <span class="math inline">\(\mathbb{N} \mathrel{\mathop:}=\left \{ 0,1,2,\ldots \right \}\)</span> of all natural numbers and the set <span class="math inline">\(\mathbb{N}_+ \mathrel{\mathop:}=\left \{ 1,2,\ldots \right \}\)</span> of all positive natural numbers. Intuitively, <span class="math inline">\(\mathbb{N}\)</span> is larger than <span class="math inline">\(\mathbb{N}_+\)</span> because it contains all members of <span class="math inline">\(\mathbb{N}_+\)</span> as well as 0, which is not in <span class="math inline">\(\mathbb{N}_+\)</span>. But the function <span class="math inline">\(f: \mathbb{N} \rightarrow \mathbb{N}_+\)</span> with <span class="math inline">\(n \mapsto n+1\)</span> is a bijection. Hence <span class="math inline">\(\left | \mathbb{N} \right | = \left | \mathbb{N}_+ \right |\)</span> even though intuitively the two sets have distinct size.</p>
+</div>
+<div class="exercise">
+<p>Show that the set of natural numbers has the same cardinality as the set of all even natural numbers.</p>
+</div>
+<p>In a later unit, we will see that our definition of cardinality entails that there are different “sizes” of infinity, and that we want one specific infinity size to talk about language.</p>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>sets (notation, operations, cardinality)</li>
+</ul>
+<h2 id="comparing-sets">Comparing sets</h2>
+<p>Two sets can stand in several distinct relations to each other:</p>
+<ol type="1">
+<li>subset</li>
+<li>superset</li>
+<li>identity</li>
+<li>proper subset</li>
+<li>proper superset</li>
+<li>disjoint</li>
+<li>incomparable</li>
+</ol>
+<h3 id="subset-and-superset">Subset and superset</h3>
+<p>Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(A\)</span> is a <strong>subset</strong> of <span class="math inline">\(B\)</span> iff every element of <span class="math inline">\(A\)</span> is also an element of <span class="math inline">\(B\)</span>. In this case, one writes <span class="math inline">\(A \subseteq B\)</span>. For example, <span class="math inline">\(\left \{ a,b \right \} \subseteq \left \{ a,b,c,d \right \}\)</span>. Alternatively, one also says in this case that <span class="math inline">\(B\)</span> is a <strong>superset</strong> of <span class="math inline">\(A\)</span> (written <span class="math inline">\(B \supseteq A\)</span>).</p>
+<div class="example">
+<p>A transitive verb is a verb that occurs with a subject and an object: <em>devour</em>, <em>contradict</em>, <em>wager</em>, <em>flummox</em>, and many more. Not all verbs are transitive, e.g. <em>sleep</em> or <em>give</em>. Suppose <span class="math inline">\(T\)</span> is the set of all English transitive verbs, whereas <span class="math inline">\(V\)</span> is the set of all English verbs. Since every transitive verb is a verb, but no the other way round, we have <span class="math inline">\(T \subseteq V\)</span>.</p>
+</div>
+<p>By the definition of subset, every set <span class="math inline">\(S\)</span> is a subset of itself. The reasoning is simple. If <span class="math inline">\(S \subseteq S\)</span>, then every member of <span class="math inline">\(S\)</span> must be a member of <span class="math inline">\(S\)</span>, which is obviously true (how could it be otherwise?).</p>
+<p>In addition, the empty set is a subset of every set, including itself. This is because the empty set contains no elements at all, so it trivially holds that every member of the empty set is a member of every set.</p>
+<div class="exercise">
+<p>Complete the table below.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">A</th>
+<th style="text-align: left;">B</th>
+<th style="text-align: left;"><span class="math inline">\(A \subseteq B\)</span>?</th>
+<th style="text-align: left;"><span class="math inline">\(A \supseteq B\)</span>?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,b \right \}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,a,b,c \right \}\)</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\left \{ a \right \}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ b \right \}\)</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\left \{  \right \}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ a \right \}\)</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,b \right \}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,a,b,b \right \}\)</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="jupyterpython">
+<p>def set_print(some_set): return ‘{’ + ‘,’.join(sorted(list(some_set))) + ‘}’</p>
+<h2 id="adapt-the-sets-as-necessary">adapt the sets as necessary</h2>
+<p>set1 = set([‘a’, ‘b’]) set2 = set([‘a’, ‘a’, ‘b’, ‘c’])</p>
+<p>if set1.issubset(set2): print(set_print(set1), “is a subset of”, set_print(set2)) else: print(set_print(set1), “is not a subset of”, set_print(set2))</p>
+</div>
+<div class="exercise">
+<p>Say whether the following statement is true or false and justify your answer: for any two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(A \subseteq B\)</span> iff <span class="math inline">\(A \cap B = A\)</span>.</p>
+</div>
+<h3 id="identity">Identity</h3>
+<p>Two sets are <em>identical</em> iff each one is a subset of the other. In formal terms, <span class="math inline">\(A = B\)</span> iff both <span class="math inline">\(A \subseteq B\)</span> and <span class="math inline">\(B \subseteq A\)</span> hold. The reason for this is again simple:</p>
+<ol type="1">
+<li><p>If two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are identical, then they must contain exactly the same elements. But then every member of <span class="math inline">\(A\)</span> is a member of <span class="math inline">\(B\)</span>, which implies <span class="math inline">\(A \subseteq B\)</span>. And it’s also the case that every member of <span class="math inline">\(B\)</span> is a member of <span class="math inline">\(A\)</span>, so that we have <span class="math inline">\(B \subseteq A\)</span>, too.</p></li>
+<li><p>In the other direction, if <span class="math inline">\(A \subseteq B\)</span> and <span class="math inline">\(B \subseteq A\)</span>, then every member of <span class="math inline">\(A\)</span> is a member of <span class="math inline">\(B\)</span>, and every member of <span class="math inline">\(B\)</span> is a member of <span class="math inline">\(A\)</span>. But that can only happen if the sets are identical.</p></li>
+</ol>
+<h3 id="proper-subset-and-superset">Proper subset and superset</h3>
+<p>We call <span class="math inline">\(A\)</span> a <strong>proper subset</strong> of <span class="math inline">\(B\)</span> (<span class="math inline">\(A \subsetneq B\)</span>) iff <span class="math inline">\(A\)</span> is a subset of <span class="math inline">\(B\)</span> but <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are not identical. In other words, every element of <span class="math inline">\(A\)</span> is a member of <span class="math inline">\(B\)</span>, but not every element of <span class="math inline">\(B\)</span> is a member of <span class="math inline">\(A\)</span>. We also say that <span class="math inline">\(B\)</span> is a <strong>proper superset</strong> of <span class="math inline">\(A\)</span> (<span class="math inline">\(B \supsetneq A\)</span>).</p>
+<div class="example">
+<p>Given our previous discussion, the set <span class="math inline">\(T\)</span> of transitive verbs is proper subset of the set <span class="math inline">\(V\)</span> of verbs because it is a subset but not every verb is a transitive verb. In other words, <span class="math inline">\(T \subseteq V\)</span> yet <span class="math inline">\(T \neq V\)</span>. Hence <span class="math inline">\(T \subsetneq V\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Fill in <span class="math inline">\(=\)</span>, <span class="math inline">\(\subsetneq\)</span>, or <span class="math inline">\(\supsetneq\)</span> as appropriate.</p>
+<ul>
+<li><span class="math inline">\(\left \{ a,b \right \} \_ \left \{ a \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ a,a,b,c \right \} \_ \left \{ b,b,a,c \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 1,2,3 \right \} \_ \left \{ n + 5 \mid n \in \left \{ -4, -3 \right \} \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset \_ \left \{ a \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset \_ \left \{ \emptyset \right \}\)</span></li>
+</ul>
+</div>
+<h3 id="disjoint-and-incomparable-sets">Disjoint and incomparable sets</h3>
+<p>If there are two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that neither <span class="math inline">\(A \subseteq B\)</span> nor <span class="math inline">\(B \subseteq A\)</span>, then there can be only two scenarios. One option is that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>disjoint</strong>, which means that there is no <span class="math inline">\(x\)</span> such that both <span class="math inline">\(x \in A\)</span> and <span class="math inline">\(x \in B\)</span> — the two sets have absolutely no overlap. In mathematical terms, <span class="math inline">\(A \cap B = \emptyset\)</span>. Alternatively, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> might be <strong>incomparable</strong>. In this case the two sets have a limited overlap such that there is at least one <span class="math inline">\(x\)</span> with both <span class="math inline">\(x \in A\)</span> and <span class="math inline">\(x \in B\)</span>, but there are also <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span> such that <span class="math inline">\(a \notin B\)</span> and <span class="math inline">\(b \notin A\)</span>.</p>
+<div class="example">
+<p>The set of English prepositions (<em>on</em>, <em>to</em>, <em>at</em>, …) and the set of English determiners (<em>a</em>, <em>the</em>, <em>this</em>, …) have not a single word in common and thus are disjoint. The set of English verbs and the set of English nouns, on the other hand, are incomparable. Many words like <em>water</em>, <em>cut</em>, <em>fall</em>, <em>love</em>, <em>try</em>, <em>judge</em>, <em>beat</em>, or <em>cross</em> can be used as nouns or verbs, but many other words are used only as nouns (<em>tree</em>, <em>waterfall</em>, <em>idea</em>, <em>Ferrari</em>) or only as verbs (<em>write</em>, <em>convince</em>, <em>admonish</em>).</p>
+</div>
+<p>Remember that it is possible for both <span class="math inline">\(A \subseteq B\)</span> and <span class="math inline">\(B \subseteq A\)</span> to be true — in this case, <span class="math inline">\(A = B\)</span>. But there can be no <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that <span class="math inline">\(A \subsetneq B\)</span> and <span class="math inline">\(B \subsetneq A\)</span>.</p>
+<div class="exercise">
+<p>For each line in the table, say whether the sets are disjoint, incomparable, identical, or stand in a proper subset/superset relation.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">A</th>
+<th style="text-align: left;">B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\left \{ 2,5,8 \right \}\)</span></td>
+<td style="text-align: left;">the set of all odd numbers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,b,c \right \}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,b \right \} \cup (\left \{ a,c \right \} - \left \{ b,d \right \})\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\emptyset\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,b \right \} \cap (\left \{ a,c \right \} - \left \{ b,d \right \})\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\emptyset\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left \{ a,b \right \} \cap (\left \{ a,c \right \} \cap \left \{ b,d \right \})\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="remarks-on-notation">Remarks on notation</h3>
+<h4 id="similarity-to-leq-and-geq">Similarity to <span class="math inline">\(\leq\)</span> and <span class="math inline">\(\geq\)</span></h4>
+<p>Students sometimes confuse the symbols <span class="math inline">\(\subseteq\)</span> and <span class="math inline">\(\supseteq\)</span>. To avoid that, just keep in mind that these symbols are modeled after <span class="math inline">\(\leq\)</span> and <span class="math inline">\(\geq\)</span> for numbers. Just like <span class="math inline">\(x \leq y\)</span> means that <span class="math inline">\(x\)</span> is at most as large as <span class="math inline">\(y\)</span>, <span class="math inline">\(x \subseteq y\)</span> tells us that <span class="math inline">\(x\)</span> contains at most all the elements of <span class="math inline">\(y\)</span>, and nothing else.</p>
+<h4 id="a-note-on-subset">A note on <span class="math inline">\(\subset\)</span></h4>
+<p>You may occasionally come across the symbol <span class="math inline">\(\subset\)</span> in other math texts. Some authors use <span class="math inline">\(\subset\)</span> instead of <span class="math inline">\(\subseteq\)</span>, while others use it for <span class="math inline">\(\subsetneq\)</span>. As you might imagine, this can be very confusing for the reader, so it’s best to avoid <span class="math inline">\(\subset\)</span> and use <span class="math inline">\(\subseteq\)</span> and <span class="math inline">\(\subsetneq\)</span> instead.</p>
+<h4 id="and-then-theres-notsubseteq">And then there’s <span class="math inline">\(\not\subseteq\)</span></h4>
+<p>Sometimes we might just want to say that <span class="math inline">\(A\)</span> is not a subset of <span class="math inline">\(B\)</span>. We could paraphrase this, as in “it is not the case that <span class="math inline">\(A \subseteq B\)</span>”. But mathematicians like to use symbols for common phrases, so there’s a dedicated symbol for this: <span class="math inline">\(\not\subseteq\)</span>. Careful, do not confuse <span class="math inline">\(\not\subseteq\)</span> with <span class="math inline">\(\subsetneq\)</span>.</p>
+<p>Here’s an overview of all the relevant notation:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Formula</strong></th>
+<th style="text-align: left;"><strong>means…</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A \subseteq B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> is a subset of <span class="math inline">\(B\)</span> (holds even if <span class="math inline">\(A = B\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A \subsetneq B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> is a proper subset of <span class="math inline">\(B\)</span> (<span class="math inline">\(A \subseteq B\)</span> and <span class="math inline">\(A \neq B\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A \not\subseteq B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> is not a subset of <span class="math inline">\(B\)</span> (<span class="math inline">\(A \ni a \notin B\)</span> for some <span class="math inline">\(a\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<p>As you might have expected, there’s corresponding counterparts for superset: <span class="math inline">\(\supseteq\)</span>, <span class="math inline">\(\supsetneq\)</span>, <span class="math inline">\(\not\supseteq\)</span>. But there is no standardized symbol for sets being incomparable, although some authors like to use <span class="math inline">\(\sim\)</span> for this purpose.</p>
+<h3 id="recap-1">Recap</h3>
+<div class="definition">
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be arbitrary sets. Then <span class="math inline">\(A\)</span> is a <strong>subset</strong> of <span class="math inline">\(B\)</span> (<span class="math inline">\(A \subseteq B\)</span>) iff every member of <span class="math inline">\(A\)</span> is a member of <span class="math inline">\(B\)</span>. In this case, <span class="math inline">\(B\)</span> is a <strong>superset</strong> of <span class="math inline">\(A\)</span> (<span class="math inline">\(B \supseteq A\)</span>).</p>
+</div>
+<div class="definition">
+<p>For <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> arbitrary sets, <span class="math inline">\(A\)</span> is a <strong>proper subset</strong> of <span class="math inline">\(B\)</span> (<span class="math inline">\(A \subsetneq B\)</span>) iff <span class="math inline">\(A \subseteq B\)</span> and there is a <span class="math inline">\(b \in B\)</span> such that <span class="math inline">\(b \notin A\)</span>. Similarly, <span class="math inline">\(B\)</span> is a <strong>proper superset</strong> of <span class="math inline">\(A\)</span> (<span class="math inline">\(B \supsetneq A\)</span>).</p>
+</div>
+<div class="definition">
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be arbitrary sets. Then <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are:</p>
+<ul>
+<li><strong>identical</strong> iff <span class="math inline">\(A \subseteq B\)</span> and <span class="math inline">\(B \subseteq A\)</span> both hold,</li>
+<li><strong>disjoint</strong> iff <span class="math inline">\(A \cap B = \emptyset\)</span>,</li>
+<li><strong>incomparable</strong> iff <span class="math inline">\(A \not\subseteq B\)</span> and <span class="math inline">\(B \not\subseteq A\)</span> and <span class="math inline">\(A \cap B \neq \emptyset\)</span>.</li>
+</ul>
+</div>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>sets (notation, operations, cardinality)</li>
+</ul>
+<h2 id="the-powerset">The Powerset</h2>
+<p>Sometimes it is useful to take a set and consider all sets one could build from its elements. For example, each one of the following sets can be built from the elements of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>:</p>
+<ol type="1">
+<li><span class="math inline">\(\emptyset\)</span></li>
+<li><span class="math inline">\(\left \{ 1 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 2 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 1,2 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 1,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 2,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 1,2,3 \right \}\)</span></li>
+</ol>
+<p>Note that each one of the sets in this list is a subset of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>, and every subset of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> is on this list. So the above is the list of all subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>. The set of all these sets is called the <strong>powerset</strong> of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>.</p>
+<div class="definition">
+<p>For <span class="math inline">\(A\)</span> a set, the <strong>powerset</strong> of <span class="math inline">\(A\)</span> is <span class="math inline">\(\wp(A) \mathrel{\mathop:}=\left \{  S \mid S \subseteq A  \right \}\)</span>.</p>
+</div>
+<div class="example">
+<p>Suppose we have the set <span class="math inline">\(\left \{ a \right \}\)</span> and want to compute <span class="math inline">\(\wp(\left \{ a \right \})\)</span>. This can be done in many ways, but here is one that’s easy for beginners.</p>
+<ol type="1">
+<li>First, we write down the set itself: <span class="math inline">\(\left \{ a \right \}\)</span></li>
+<li>Next, we write down all proper subsets of the set. In this case, there’s only one: <span class="math inline">\(\emptyset\)</span></li>
+<li>Finally, we put set brackets around the list of sets we wrote down: <span class="math inline">\(\wp(\left \{ a \right \}, \emptyset)\)</span>.</li>
+</ol>
+<p>And that’s it. As long as the set in question isn’t too large, you can always follow this mechanical procedure when you aren’t sure how to compute the set’s powerset.</p>
+</div>
+<div class="exercise">
+<p>For each one of the following sets, compute its powerset.</p>
+<ol type="1">
+<li><span class="math inline">\(\left \{ a,b \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ a,b,c,d \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ \left \{ a \right \} \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset\)</span></li>
+<li><span class="math inline">\(\left \{ \emptyset \right \}\)</span></li>
+<li><span class="math inline">\(\wp(\left \{ \left \{ a \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\wp(\wp(\emptyset))\)</span></li>
+</ol>
+</div>
+<h3 id="powerset-notation">Powerset notation</h3>
+<p>There are many alternative notations for the powerset. A particularly common one is <span class="math inline">\(2^A\)</span> as it highlights two interesting aspects of the powerset. Remember that the cardinality of a set <span class="math inline">\(A\)</span> measures the number elements it contains, and we denote it by <span class="math inline">\(\left | A \right |\)</span>. For example, <span class="math inline">\(\left | \left \{ 1,2,3 \right \} \right | = 3\)</span>. Now we can state a universal truth for the cardinality of powersets.</p>
+<div class="theorem">
+<p>For every set <span class="math inline">\(A\)</span> with <span class="math inline">\(\left | A \right | = n\)</span>, it holds that <span class="math inline">\(\left | \wp(A) \right | = \left | 2^A \right | = 2^{\left | A \right |} = 2^n\)</span>.</p>
+</div>
+<p>This is witnessed by our example set <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>, the powerset of which has <span class="math inline">\(8\)</span> members (see the list at the beginning of this unit).</p>
+<div class="exercise">
+<p>For each set <span class="math inline">\(A\)</span> in the previous exercise, verify that <span class="math inline">\(\left | \wp(A) \right | = 2^{\left | A \right |}\)</span>.</p>
+</div>
+<!-- But the $2^A$ notation for powersets has a deeper meaning that goes beyond mere numbers. -->
+<!-- The notation $B^A$ is sometimes used to represent the set of all functions from $A$ to $B$. -->
+<!-- And $2$ can be construed not just as the number $2$, but as any set with cardinality $2$, including $\setof{\top, \bot}$. -->
+<!-- So $2^A$ can be taken to denote the set of all functions from $A$ to $\setof{\top, \bot}$. -->
+<!-- But since functions are sets, this is exactly the class of all subsets of $A$. -->
+<!-- In sum, the $2^A$ notation for powersets is very pleasing on a theoretical level. -->
+<!-- But humans are a practical bunch, and since superscripts are slightly strenuous to read, $\wp(A)$ is the preferred notation for powersets. -->
+<h3 id="recap-2">Recap</h3>
+<ul>
+<li>The powerset of a set <span class="math inline">\(A\)</span> is the set of all subsets of <span class="math inline">\(A\)</span>, including <span class="math inline">\(A\)</span> itself.</li>
+<li>For every finite set <span class="math inline">\(A\)</span>, it holds that <span class="math inline">\(\left | \wp(A) \right | = 2^{\left | A \right |}\)</span>.</li>
+</ul>
+</body>
+</html>

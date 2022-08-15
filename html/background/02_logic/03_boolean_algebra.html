@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="boolean-lattices">Boolean lattices</h1>
+<p>The fact that De Morgan’s law holds for sets as well as propositional logic is no accident. The two are close siblings from an algebraic perspective.</p>
+<p>Let <span class="math inline">\(S\)</span> be some fixed set. We may order <span class="math inline">\(\wp(S)\)</span> by the subset relation to obtain the familiar powerset lattice, with join corresponding to union and meet to intersection. In fact, this lattice satisfies two additional properties that make it a <strong>Boolean lattice</strong> (or <strong>Boolean algebra</strong>).</p>
+<div class="definition">
+<p>A lattice <span class="math inline">\(\left \langle L, \leq \right \rangle\)</span> is</p>
+<ul>
+<li><strong>distributive</strong> iff join distributes over meet, and the other way round,</li>
+<li><strong>bounded</strong> iff there is a least element 0 and and a greatest element 1 such that for all <span class="math inline">\(l \in L\)</span>, <span class="math inline">\(0 \leq l \leq 1\)</span>,</li>
+<li><strong>complemented</strong> iff every eleement <span class="math inline">\(a\)</span> has a complement <span class="math inline">\(\neg a\)</span> such that <span class="math inline">\(a \wedge \neg a = 0\)</span> and <span class="math inline">\(a \vee \neg a = 1\)</span>.</li>
+</ul>
+<p>A lattice is <strong>Boolean</strong> iff it satisfies all three of the criteria.</p>
+</div>
+<div class="exercise">
+<p>Show that <span class="math inline">\(\left \langle \wp(S), \subseteq \right \rangle\)</span> is a Boolean lattice. More specifically:</p>
+<ul>
+<li>Show that distributivity holds: <span class="math inline">\(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\)</span> and <span class="math inline">\(A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\)</span></li>
+<li>What are the least and greatest elements of <span class="math inline">\(\wp(S)\)</span>?</li>
+<li>For any arbitrary <span class="math inline">\(A \in \wp(S)\)</span>, what is its complement <span class="math inline">\(\neg A\)</span>?</li>
+</ul>
+</div>
+<p>As you might already expect, propositional logic also has the structure of a Boolean lattice. All we have to do is figure out the carrier set, and the rest will follow immediately. First, let <span class="math inline">\(L\)</span> be the set of all propositional formulas. We define an ordering <span class="math inline">\(\leq\)</span> such that <span class="math inline">\(\phi \leq \psi\)</span> (<span class="math inline">\(\phi, \psi \in L\)</span>) iff <span class="math inline">\(\phi\)</span> always entails <span class="math inline">\(\psi\)</span>. In other words, <span class="math inline">\(\phi \leq \psi\)</span> iff <span class="math inline">\(\phi \rightarrow \psi\)</span> is a tautology.</p>
+<p>We’re almost done, but not quite. Note that <span class="math inline">\(\left \langle L, \leq \right \rangle\)</span> is not a poset because antisymmetry is violated.</p>
+<div class="example">
+<p>Consider the formulas <span class="math inline">\(a\)</span> and <span class="math inline">\(\neg \neg a\)</span>. Clearly <span class="math inline">\(a \rightarrow \neg \neg a\)</span> and <span class="math inline">\(\neg \neg a \rightarrow a\)</span>. So we ahve <span class="math inline">\(a \leq \neg \neg a\)</span> and <span class="math inline">\(\neg \neg a \leq a\)</span>, yet <span class="math inline">\(a\)</span> and <span class="math inline">\(\neg \neg a\)</span> are distinct memebers of <span class="math inline">\(L\)</span>. This contradicts antisymmetry.</p>
+</div>
+<p>In order to fix this, we instead look at the quotient structure <span class="math inline">\(\left \langle L_\sim, \leq \right \rangle\)</span>, where <span class="math inline">\(\phi \sim \psi\)</span> iff <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\psi\)</span> entail each other. So <span class="math inline">\(L_\sim\)</span> consists of equivalence classes of propositional formulas whose truth values never differ from each other. Strictly speaking, we have to define <span class="math inline">\(\leq\)</span> for this new set <span class="math inline">\(L_\sim\)</span>, but the idea is simple: <span class="math inline">\([\phi] \leq [\psi]\)</span> iff <span class="math inline">\(\phi\)</span> entails <span class="math inline">\(\psi\)</span>. That is to say, we can order any two equivalence classes by looking at the entailment between their respective members. This makes <span class="math inline">\(\left \langle L_\sim, \leq \right \rangle\)</span> a poset.</p>
+<p>Note that there is a unique least element, the equivalence class <span class="math inline">\([a \wedge \neg a]\)</span>, or simply <span class="math inline">\([\bot]\)</span>. And there is a unique greatest element <span class="math inline">\([a \vee \neg a]\)</span>, or simply <span class="math inline">\([\top]\)</span>. Any two elements <span class="math inline">\([\phi]\)</span> and <span class="math inline">\([\psi]\)</span> have a unique join <span class="math inline">\([\phi \vee \psi]\)</span>, and a unique meet <span class="math inline">\([\phi \wedge \psi]\)</span>. So the lattice operations of join (<span class="math inline">\(\vee\)</span>) and meet (<span class="math inline">\(\wedge\)</span>) correspond exactly to logical or (<span class="math inline">\(\vee\)</span>) and logical and (<span class="math inline">\(\wedge\)</span>). We already know that the latter are distributive, and it is also easy to see that for every <span class="math inline">\([\phi] \in L\)</span> there is some complement <span class="math inline">\(\neg [\phi] \in L\)</span> such that <span class="math inline">\([\phi] \wedge \neg [\phi] = [\bot]\)</span> and <span class="math inline">\([\phi] \vee \neg [\phi] = [\top]\)</span>. In fact, this complement <span class="math inline">\(\neg [\phi]\)</span> is simply <span class="math inline">\([\neg \phi]\)</span>, showing the close connection between logical negation and complement in this structure. Overall, then, <span class="math inline">\(\left \langle L_\sim, \leq \right \rangle\)</span> is a poset where any two elements have a unique join and meet, where join and meet distribute over each, with unique least and greatest bounds, and a complement for every element of the <span class="math inline">\(L_\sim\)</span>. That’s just a very roundabout way of saying that <span class="math inline">\(\left \langle L_\sim, \leq \right \rangle\)</span> is a Boolean lattice, just like <span class="math inline">\(\left \langle \wp(S), \subseteq \right \rangle\)</span>, and that’s why De Morgan’s Law holds for both sets and propositional logic.</p>
+<div class="exercise">
+<p>Instead of the propositional formulas themselves, we could also look at their truth values. Show that <span class="math inline">\(\left \langle  \left \{ F, T \right \}, \leq  \right \rangle\)</span> with <span class="math inline">\(F \leq T\)</span> is also a Boolean lattice.</p>
+</div>
+</body>
+</html>

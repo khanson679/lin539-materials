@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="quotient-structures-for-hierarchies">Quotient structures for hierarchies</h1>
+<div class="prereqs">
+<ul>
+<li>relations (advanced orders)</li>
+</ul>
+</div>
+<p>The graph-theoretic insights about condensations from the previous unit can also be expressed in order-theoretic terms. This part is somewhat technical, so you might have to read it multiple times to make sure you understand what is going on. The central idea is that of a <strong>quotient structure</strong>. Intuitively, the quotient structure of some structure <span class="math inline">\(S\)</span> conflates all points of <span class="math inline">\(S\)</span> that are equivalent in some relevant way. This can reveal deep structural properties of <span class="math inline">\(S\)</span> that would be missed otherwise, or it can allow for more efficient algorithms, storage, and so on. We will come across several mechanism in later units that that can be regarded as instances of quotient structures.</p>
+<div class="example">
+<p>Consider the set of all natural numbers. We can put them into three distinct equivalence classes based on their remainder when divided by <span class="math inline">\(3\)</span> (also called <strong>modulo</strong> counting).</p>
+<ul>
+<li><span class="math inline">\([0] \mathrel{\mathop:}=\left \{ 0, 3, 6, 9, \ldots \right \}\)</span></li>
+<li><span class="math inline">\([1] \mathrel{\mathop:}=\left \{ 1, 4, 7, 10, \ldots \right \}\)</span></li>
+<li><span class="math inline">\([2] \mathrel{\mathop:}=\left \{ 2, 5, 8, 11, \ldots \right \}\)</span></li>
+</ul>
+<p>We then stipulate that <span class="math inline">\([x] \prec [y]\)</span> iff there is some <span class="math inline">\(z \in [x]\)</span> such that <span class="math inline">\(z + 1 \in [y]\)</span>. For instance, <span class="math inline">\([2] \prec [0]\)</span> because <span class="math inline">\(5 \in [2]\)</span> and <span class="math inline">\(5 + 1 = 6 \in [0]\)</span>. We hence have <span class="math inline">\([0] \prec [1]\)</span>, <span class="math inline">\([1] \prec [2]\)</span>, and <span class="math inline">\([2] \prec [0]\)</span>. The quotient structure <span class="math inline">\(\left \langle  \left \{  [0], [1], [2]  \right \}, \prec  \right \rangle\)</span> thus is shaped like a ring of finite size, even though it was constructed from the infinite line of natural numbers.</p>
+<p><img src="modulo_ring.svg" alt="modulo_ring.svg" /></p>
+</div>
+<p>For any given graph, its condensation is a particular kind of quotient structure. Instead of covering this general case, we will just consider the relevant quotient structure for noun stem allomorphy. The hierarchy for that is repeated below</p>
+<p><img src="stem_allomorphy.svg" alt="stem_allomorphy.svg" /></p>
+<p>First, we define an equivalence relation <span class="math inline">\(\sim\)</span> such that <span class="math inline">\(x \sim y\)</span> iff both <span class="math inline">\(x \leq y\)</span> and <span class="math inline">\(y \leq x\)</span> hold. In most of our linguistic hierarchies, there are no cases where <span class="math inline">\(x \sim y\)</span> unless <span class="math inline">\(x = y\)</span>, but in the noun stem allomorphy hierarchy we have <span class="math inline">\(\text{Acc} \sim \text{Gen} \sim \text{Dat} \sim \text{Others}\)</span>.</p>
+<div class="exercise">
+<p>Write down the relation <span class="math inline">\(\sim\)</span> over the noun stem hierarchy as a set of pairs. That is to say, this set contains <span class="math inline">\(\left \langle x,y \right \rangle\)</span> iff <span class="math inline">\(x \sim y\)</span>.</p>
+</div>
+<p>Let <span class="math inline">\(C\)</span> be the set of all cases in this hierarchy, i.e. <span class="math inline">\(C \mathrel{\mathop:}=\{ \text{Nom}, \text{Acc}, \text{Gen}, \text{Dat}, \text{Others} \}\)</span>. We use <span class="math inline">\(C/\mathop{\sim}\)</span> to denote the corresponding quotient set under the equivalence relation <span class="math inline">\(\sim\)</span>. The quotient set consists of two equivalence classes, one containing only nominative and one containing all other cases. We define a special order <span class="math inline">\(\sqsubseteq\)</span> on this structure such that <span class="math inline">\([x] \sqsubseteq [y]\)</span> iff <span class="math inline">\(x \leq y\)</span> in the original hierarchy. So now we have a quotient structure that looks exactly like the lattice <strong>2</strong>, except that one element represents nominative and the other all other cases. While the original hierarchy is not even a semilattice or a weak partial order, its quotient structure is a lattice.</p>
+<p><img src="stem_allomorphy_lattice.svg" alt="stem_allomorphy_lattice.svg" /></p>
+<p>Just as with the graph-theoretic approach in the previous unit, we have taken one particular hierarchy that is not a semilattice and have shown that it still forms a semilattice at a higher level of abstraction. The only difference to our previous strategy is that this level of abstraction is now defined in terms of quotient structures rather than graph condensations.</p>
+<p>We can construct such quotient structures for all other hierarchies, but in these cases the two look exactly the same because there is a one-to-one relation between elements in the hierarchy and equivalence classes in the quotient structure.</p>
+<div class="exercise">
+<p>Construct the quotient structure for the standard case hierarchy <span class="math inline">\(H\)</span> (in which accusative and genitive are unordered with respect to each other). Verify for yourself that the quotient structure <span class="math inline">\(H/\mathop{\sim}\)</span> has exactly the same shape as this hierarchy.</p>
+</div>
+<p>In sum, then, we can formulate the following restriction on linguistic hierarchies: given <span class="math inline">\(\sim\)</span> as defined above, every linguistic hierarchy must have a quotient structure under <span class="math inline">\(\sim\)</span> that forms a semilattice.</p>
+<div class="exercise">
+<p>Once again, explain whether this also handles the problematic case of the PCC hierarchy.</p>
+</div>
+<div class="exercise">
+<p>The first attempt at a person-person hierarchy for the PCC had the shape below.</p>
+<p><img src="pcc_hierarchy_wrong_reduced.svg" alt="pcc_hierarchy_wrong_reduced.svg" /></p>
+<p>Would this have been a superior choice given our new understanding of linguistic hierarchies, or would we still run into problems with the PCC? Justify your answer.</p>
+</div>
+</body>
+</html>

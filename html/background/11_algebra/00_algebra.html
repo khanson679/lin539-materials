@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="algebras">Algebras</h1>
+<h2 id="definition">Definition</h2>
+<p>You’re all familiar with the subfield of <strong>algebra</strong>, which is covered extensively in middle school and high school. But <strong>algebra</strong> isn’t just the name of a field, it is also the name of a specific kind of mathematical object.</p>
+<div class="definition">
+<p>An <strong>algebra</strong> (or <strong>algebraic structure</strong>) <span class="math inline">\(\mathcal{A} \mathrel{\mathop:}=\left \langle C, \oplus \right \rangle\)</span> consists of a set <span class="math inline">\(C\)</span> (the <strong>carrier</strong>) and a finitary operation <span class="math inline">\(\oplus\)</span>.</p>
+</div>
+<p>An operation is finitary iff it only takes a fixed number of arguments.</p>
+<div class="example">
+<p>Addition is finitary, as it takes two arguments. This makes it a binary operation.</p>
+</div>
+<div class="example">
+<p>The infinite sum operation takes infinitely many values and returns their sum. For example, one might feed this function the values <span class="math inline">\(1\)</span>, <span class="math inline">\(0.1\)</span>, <span class="math inline">\(0.01\)</span>, <span class="math inline">\(0.001\)</span>, <span class="math inline">\(\ldots\)</span>, and obtain the sum <span class="math inline">\(1.111\cdots\)</span>. This operation is not finitary.</p>
+</div>
+<p>All operations we will consider are finitary. In fact, we will focus exclusively on binary operations, as little else is every needed for linguistics.</p>
+<p>Even with this simplification, though, algebras are very abstract objects. It’s not surprising that the subfield of mathematics that studies algebras is called <strong>abstract algebra</strong>. The abstractness of algebras, while initially disorienting, is incredibly useful because it reveals similarities between mathematical objects that look very different. For example, <span class="math inline">\(\mathbb{N}\)</span> with addition and <span class="math inline">\(\Sigma^*\)</span> with string concatenation are very similar algebraically. Do not worry too much about abstractness, we will quickly home in on specific subtypes of algebras that are of interest for linguistics.</p>
+<h2 id="total-and-partial-algebras">Total and partial algebras</h2>
+<p>The definition above does not tell us much about <span class="math inline">\(\oplus\)</span>. One of the most basic requirements is that <span class="math inline">\(\oplus\)</span> should be defined for all elements of the carrier. That is to say, there are no inputs for which <span class="math inline">\(\oplus\)</span> does not have a defined output. In this case, the algebra is <strong>total</strong>, otherwise it is <strong>partial</strong>.</p>
+<div class="definition">
+<p>An algebra <span class="math inline">\(\mathcal{A} \mathrel{\mathop:}=\left \langle C, \oplus \right \rangle\)</span> is <strong>total</strong> iff <span class="math inline">\(a \oplus b\)</span> is defined for all <span class="math inline">\(a, b \in C\)</span>. Otherwise <span class="math inline">\(\mathcal{A}\)</span> is <strong>partial</strong>.</p>
+</div>
+<div class="example">
+<p>Consider <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span>, the algebra of natural numbers with addition. There are no two natural numbers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> such that <span class="math inline">\(a + b\)</span> is undefined. Hence <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span> is a total algebra.</p>
+</div>
+<div class="example">
+<p>Consider <span class="math inline">\(\left \langle \mathbb{N}, / \right \rangle\)</span>, the natural numbers with division. This algebra is partial because <span class="math inline">\(\frac{a}{b}\)</span> is undefined if <span class="math inline">\(b = 0\)</span>.</p>
+</div>
+<p>Careful: the term <strong>total</strong> for algebras is intuitively similar to a relation being total as both convey that the operation or relation does not miss any elements. But do not put too much stock into this, the two are still distinct properties and should not be confused. A total algebra and a total relation are not the same thing.</p>
+<p>We will only consider total algebras, which are much better behaved than partial algebras.</p>
+<h2 id="magma-closure-under-oplus">Magma: Closure under <span class="math inline">\(\oplus\)</span></h2>
+<p>Another standard assumption for algebras is that they are closed under their operation. Such an algebra is called a <strong>magma</strong>.</p>
+<div class="definition">
+<p>An algebra <span class="math inline">\(\left \langle C, \oplus \right \rangle\)</span> is a <strong>magma</strong> iff <span class="math inline">\(a \oplus b \in C\)</span> for all <span class="math inline">\(a, b \in C\)</span>.</p>
+</div>
+<div class="example">
+<p>Consider once more the algebra <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span>. Clearly, <span class="math inline">\(x + y\)</span> is a natural number as long as <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are natural numbers. So the set of natural numbers is closed under addition, making <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span> a magma.</p>
+</div>
+<div class="example">
+<p>The partial algebra <span class="math inline">\(\left \langle \mathbb{N}, / \right \rangle\)</span> is not a magma. This is witnessed by <span class="math inline">\(\frac{3}{2} = 1.5\)</span>. Even though <span class="math inline">\(3\)</span> and <span class="math inline">\(2\)</span> are natural numbers, division maps them to a value that is not a natural number.</p>
+</div>
+<div class="exercise">
+<p>Whether <span class="math inline">\(\left \langle \mathbb{N}, - \right \rangle\)</span> is a magma depends on one’s definition of subtraction. Explain why!</p>
+</div>
+<div class="exercise">
+<p>Which of the following is a magma? Give counterexamples where necessary.</p>
+<ul>
+<li>the integers with subtraction</li>
+<li>the rationals with multiplication</li>
+<li>the odd natural numbers with addition</li>
+<li><span class="math inline">\(\Sigma^*\)</span> with string concatenation</li>
+<li>the set of all English sentences with sentence-level conjunction via <em>and</em></li>
+<li>the set of all creatures that ever lived, under the ancestor operation <span class="math inline">\(\oplus\)</span> (where <span class="math inline">\(a \oplus b\)</span> returns the closest shared ancestor of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, <span class="math inline">\(a \oplus a = a\)</span>).</li>
+</ul>
+</div>
+<p>Almost every algebra you will ever come across is total and a magma. Without those two properties, algebras get a lot harder to study. The more properties are heaped on, the better behaved algebras are. Three types of algebras are of particular importance: semigroups, monoids, and groups. They are covered in the next notebook.</p>
+</body>
+</html>

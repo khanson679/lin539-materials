@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="automaton-constructions">Automaton constructions</h1>
+<h2 id="intersection">Intersection</h2>
+<p>Given two FSAs <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> that recognize the languages <span class="math inline">\(L(A)\)</span> and <span class="math inline">\(L(B)\)</span>, respectively, one can construct an automaton <span class="math inline">\(A \cap B\)</span> that recognizes <span class="math inline">\(L(A) \cap L(B)\)</span>. This shows that the class of regular languages is closed under intersection. Closure under intersection is an incredibly valuable property because it means that a complex pattern can be factored into simpler patterns such that the intersection of all the simple patterns produces the complex pattern.</p>
+<p>The construction of <span class="math inline">\(A \cap B\)</span> is fairly simple as it all amounts to constructing an automaton that runs <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> in parallel. But one thing after another: intuitively, a string <span class="math inline">\(s\)</span> is in the intersection of <span class="math inline">\(L(A)\)</span> and <span class="math inline">\(L(B)\)</span> only if there is an accepting run of <span class="math inline">\(A\)</span> over <span class="math inline">\(s\)</span> and an accepting run of <span class="math inline">\(B\)</span> over <span class="math inline">\(s\)</span>. So if we were to run <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> in parallel, both would have to end up in a final state.</p>
+<p>Let’s imagine this in an even more visual manner. Suppose our automata <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are as below.</p>
+<p><img src="abaa.svg" alt="abaa.svg" /></p>
+<p><img src="modulo4_ab.svg" alt="modulo4_ab.svg" /></p>
+<p>Here <span class="math inline">\(A\)</span> recognizes strings of the form <span class="math inline">\(\mathit{a(baa)^*}\)</span> (where <span class="math inline">\(^*\)</span> means 0 or more iteration of the bracketed part). And <span class="math inline">\(B\)</span> recognizes any string over <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> whose length is a multiple of <span class="math inline">\(4\)</span> (including the empty string <span class="math inline">\(\varepsilon\)</span>, whose length of 0 is a multiple of 4). So <span class="math inline">\(abaa\)</span> would be recognized by both and thus is in the intersection of <span class="math inline">\(L(A)\)</span> and <span class="math inline">\(L(B)\)</span>, whereas <span class="math inline">\(a\)</span> would be rejected by <span class="math inline">\(B\)</span> and <span class="math inline">\(abab\)</span> would be rejected by <span class="math inline">\(A\)</span>.</p>
+<p>Now imagine that you put your left index finger on the initial state of <span class="math inline">\(A\)</span>, and your right index finger on the initial state of <span class="math inline">\(B\)</span>. Move your fingers in parallel as you move along with the symbols in <span class="math inline">\(\mathit{abaa}\)</span>:</p>
+<ol type="1">
+<li>First <span class="math inline">\(a\)</span>: your finger moves from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> in <span class="math inline">\(A\)</span>, and from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> in <span class="math inline">\(B\)</span>.</li>
+<li>Next <span class="math inline">\(b\)</span>: your finger is pushed from <span class="math inline">\(1\)</span> to <span class="math inline">\(2\)</span> in <span class="math inline">\(A\)</span>, and also from <span class="math inline">\(1\)</span> to <span class="math inline">\(2\)</span> in <span class="math inline">\(B\)</span>.</li>
+<li>Next <span class="math inline">\(a\)</span>: your finger moves from <span class="math inline">\(2\)</span> to <span class="math inline">\(0\)</span> in <span class="math inline">\(A\)</span>, and from <span class="math inline">\(2\)</span> to <span class="math inline">\(3\)</span> in <span class="math inline">\(B\)</span>.</li>
+<li>Last <span class="math inline">\(a\)</span>: you shift your finger from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> in <span class="math inline">\(A\)</span>, and from <span class="math inline">\(3\)</span> to <span class="math inline">\(0\)</span> in <span class="math inline">\(B\)</span>.</li>
+<li>Verdict: Both are final states, and thus the string is recognized by both automata. This means that <span class="math inline">\(\mathit{abaa}\)</span> is a member of <span class="math inline">\(L(A) \cap L(B)\)</span>.</li>
+</ol>
+<div class="exercise">
+<p>Using the same “finger pushing” procedure, say for each one of the following strings whether it is a member of <span class="math inline">\(L(A) \cap L(B)\)</span>.</p>
+<ul>
+<li><span class="math inline">\(\mathit{aba}\)</span></li>
+<li><span class="math inline">\(\mathit{abaabaabaabaabaa}\)</span></li>
+<li><span class="math inline">\(\mathit{abb}\)</span></li>
+</ul>
+<p>You do not need to write down each individual move of your finger, “Yes” and “No” are sufficient answers.</p>
+</div>
+<p>Based on this intuition, we construct an automaton where each state keeps track of the position of our fingers in these two automata. For the string above, we start out in <span class="math inline">\((A:0, B:0)\)</span>. This means that one finger is on state <span class="math inline">\(0\)</span> in automaton <span class="math inline">\(A\)</span>, the other on state on state <span class="math inline">\(0\)</span> in automaton <span class="math inline">\(B\)</span>. The first <span class="math inline">\(a\)</span> transition then moves us into the state <span class="math inline">\((A:1, B:1)\)</span> — state 1 in automaton <span class="math inline">\(A\)</span> and state 1 in automaton <span class="math inline">\(B\)</span>. After that, a <span class="math inline">\(b\)</span> transition moves us to <span class="math inline">\((A:2, B:2)\)</span>, from which another <span class="math inline">\(a\)</span> gets us to <span class="math inline">\((A:0, B:3)\)</span>, and from there to <span class="math inline">\((A:1, B:0)\)</span> via yet another <span class="math inline">\(a\)</span>. But that’s just the automaton for one specific string, we need to construct an automaton that emulates <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> for any string.</p>
+<p>This is actually fairly easy, we just have to consider all symbols and how they may move us between states. For <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the only relevant symbols are <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. For any two states <span class="math inline">\((A:i, B:x)\)</span> and <span class="math inline">\((A:j, B:y)\)</span>, there is a transition labeled <span class="math inline">\(\sigma\)</span> from <span class="math inline">\((A:i, B:x)\)</span> to <span class="math inline">\((A:j, B:y)\)</span> iff there is a <span class="math inline">\(\sigma\)</span>-transition from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> in automaton <span class="math inline">\(A\)</span> and a <span class="math inline">\(\sigma\)</span>-transition from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> in automaton <span class="math inline">\(B\)</span>. Furthermore, a state <span class="math inline">\((A:i, B:x)\)</span> is initial iff both <span class="math inline">\(i\)</span> and <span class="math inline">\(x\)</span> are initial in <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, respectively. Similarly, <span class="math inline">\((A:i, B:x)\)</span> is final iff both <span class="math inline">\(i\)</span> and <span class="math inline">\(x\)</span> are final in <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, respectively.</p>
+<p>Applying this construction to the two automata above yields the automaton below. For simplicity, we write <span class="math inline">\(i, x\)</span> instead of <span class="math inline">\((A:i, B:x)\)</span>.</p>
+<p><img src="intersection_automaton.svg" alt="intersection_automaton.svg" /></p>
+<div class="definition">
+<p>Let <span class="math inline">\(A \mathrel{\mathop:}=\left \langle \Sigma, Q_A, I_A, F_A, \Delta_A \right \rangle\)</span> and <span class="math inline">\(B \mathrel{\mathop:}=\left \langle \Sigma, Q_B, I_B, F_B, \Delta_B \right \rangle\)</span> be two FSAs. The <strong>intersection automaton</strong> <span class="math inline">\(A \cap B\)</span> is the FSA <span class="math inline">\(\left \langle \Sigma, Q_A \times Q_B, I, F, \Delta \right \rangle\)</span> such that</p>
+<ul>
+<li><span class="math inline">\(\left \langle a,x \right \rangle \in I\)</span> iff <span class="math inline">\(a \in I\)</span> and <span class="math inline">\(x \in I\)</span>,</li>
+<li><span class="math inline">\(\left \langle a,x \right \rangle \in F\)</span> iff <span class="math inline">\(a \in F\)</span> and <span class="math inline">\(x \in F\)</span>,</li>
+<li><span class="math inline">\(\left \langle \left \langle a,x \right \rangle, \sigma, \left \langle b,y \right \rangle \right \rangle \in \Delta\)</span> iff <span class="math inline">\(\left \langle a,\sigma,b \right \rangle \in \Delta_A\)</span> and <span class="math inline">\(\left \langle x, \sigma, y \right \rangle \in \Delta_B\)</span>.</li>
+</ul>
+</div>
+<div class="theorem">
+<p>For all FSAs <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> there exists an FSA <span class="math inline">\(C\)</span> such that <span class="math inline">\(L(A) \cap L(B) = L(C)\)</span>.</p>
+</div>
+<div class="exercise">
+<p>In an earlier exercise you had to construct FSAs for <span class="math inline">\(\mathit{a^* b^+}\)</span> and <span class="math inline">\(\mathit{a^+ b^+ a^*}\)</span>. Construct their intersection automaton and verify that it recognizes the language <span class="math inline">\(\mathit{a^+ b^+}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>This exercise is optional!</p>
+<p>The theorem above still requires a proof. We have to show that the intersection automaton <span class="math inline">\(C \mathrel{\mathop:}=A \cap B\)</span> does indeed recognize <span class="math inline">\(L(A) \cap L(B)\)</span>. This breaks down into two separate claims:</p>
+<ul>
+<li><span class="math inline">\(L(C) \subseteq L(A) \cap L(B)\)</span></li>
+<li><span class="math inline">\(L(C) \supseteq L(A) \cap L(B)\)</span></li>
+</ul>
+<p>Try to prove each statement.</p>
+</div>
+<h2 id="determinization">Determinization</h2>
+<p>Notice that nothing in our definition of FSAs prevents the set <span class="math inline">\(\Delta\)</span> of transitions from containing two transitions of the form <span class="math inline">\(\left \langle q, \sigma, u \right \rangle\)</span> and <span class="math inline">\(\left \langle q, \sigma, v \right \rangle\)</span>. In this case, a single string containing the symbol <span class="math inline">\(\sigma\)</span> may have multiple runs because we can move from <span class="math inline">\(q\)</span> to <span class="math inline">\(u\)</span> or to <span class="math inline">\(v\)</span>. Such an automaton is called <strong>non-deterministic</strong>. But multiple transitions aren’t the only sources of non-determinism. An automaton with multiple initial states is also non-deterministic as we have a choice as to where we want to start. Finally, the automaton may also contain a transition labeled with the empty string <span class="math inline">\(\varepsilon\)</span>. This too, creates a choice point: should the automaton follow the <span class="math inline">\(\varepsilon\)</span>-transition, or read in the next symbol and take the transition for that symbol? Whenever an automaton furnishes choices of this kind, it is non-deterministic. Automata for which this not the case are called <strong>deterministic</strong>.</p>
+<div class="definition">
+<p>An FSA <span class="math inline">\(\left \langle \Sigma, Q, I, F, \Delta \right \rangle\)</span> is <strong>deterministic</strong> iff all of the following hold:</p>
+<ul>
+<li><span class="math inline">\(I\)</span> is singleton,</li>
+<li><span class="math inline">\(\Delta\)</span> contains no transitions of the form <span class="math inline">\(\left \langle q, \varepsilon, u \right \rangle\)</span> (<span class="math inline">\(q, u \in Q\)</span>),</li>
+<li>if <span class="math inline">\(\Delta\)</span> contains both <span class="math inline">\(\left \langle q, \sigma, u \right \rangle\)</span> and <span class="math inline">\(\left \langle q, \sigma, v \right \rangle\)</span>, then <span class="math inline">\(u = v\)</span>.</li>
+</ul>
+<p>An automaton is <strong>non-deterministic</strong> iff it is not deterministic.</p>
+</div>
+<div class="example">
+<p>The familiar automaton below is non-deterministic because there are two distinct arcs out of <span class="math inline">\(0\)</span> that are both labeled <span class="math inline">\(a\)</span>.</p>
+<p><img src="nondet.svg" alt="nondet.svg" /></p>
+<p>Formally, <span class="math inline">\(\left \langle 0, a, 1 \right \rangle \in \Delta\)</span> and <span class="math inline">\(\left \langle 0, a, 2 \right \rangle \in \Delta\)</span>, yet <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> are distinct states.</p>
+</div>
+<div class="exercise">
+<p>Construct a non-deterministic automaton that recognizes the language <span class="math inline">\(ac^*b \cup acb^*\)</span>. Careful, the automaton should recognize all strings of this language, but no more than that. For instance, <span class="math inline">\(\mathit{accbb}\)</span> is not a string of this language.</p>
+</div>
+<p>Determinism is a very desirable property. Not only does it simplify certain proofs, it also is essential for efficient recognition. With a deterministic automaton, recognition proceeds in real-time. Just as in a prefix tree, we can immediately start moving through the automaton as the symbols of the string are read in.</p>
+<p>With a non-deterministic automaton, recognition is more complex. Suppose we reach a fork where we could move from <span class="math inline">\(q\)</span> to <span class="math inline">\(u\)</span> or <span class="math inline">\(v\)</span>. We could try <span class="math inline">\(u\)</span>, and if we’re lucky this is the correct path. But if we do not make it to a final state along this path, we have to backtrack to <span class="math inline">\(q\)</span> and try <span class="math inline">\(v\)</span> instead. Since each state may have many different choice points, recognition becomes much slower. If every state has at most <span class="math inline">\(m\)</span> choice points, recognition of a string of length <span class="math inline">\(n\)</span> can take up to <span class="math inline">\(m^n\)</span> steps. That is truly awful, with <span class="math inline">\(m = 4\)</span> and a short string of length <span class="math inline">\(5\)</span> this may already require <span class="math inline">\(4^5 = (2^2)^5 = 2^{10} = 1024\)</span> steps instead of just <span class="math inline">\(5\)</span>.</p>
+<p>An alternative to this kind of serial search is to do parallel search: whenever we reach a state with <span class="math inline">\(m\)</span> choices, we make <span class="math inline">\(m\)</span> copies of the automaton and each copy proceeds along a different possible path. Now recognition can again proceed in real-time (modulo the cost of spawning copies of the automaton), but we consume a lot of memory. This situation is very common in software engineering, and it is known as a time-space tradeoff: either we do it slow but memory-efficient, or we do it fast but at a much higher memory cost.</p>
+<p>The copy-spawning idea can be compiled directly into a non-deterministic automaton by <strong>determinizing</strong> it. The idea isn’t too dissimilar from the construction of the intersection automaton: each state consists of multiple components that encode the state of one of the spawned copies. The construction makes some tweaks though to reduce state bloat. If one were to represent the state configuration of <span class="math inline">\(m\)</span> copies of the FSA as an <span class="math inline">\(m\)</span>-tuple of states, then one could easily end up with <span class="math inline">\(m\)</span>-tuples that contain many redundant components. For example, the states <span class="math inline">\(\left \langle u,v,u \right \rangle\)</span> and <span class="math inline">\(\left \langle u,u,v \right \rangle\)</span> encode the same information: one copy is in state <span class="math inline">\(v\)</span>, the other two in state <span class="math inline">\(u\)</span>. Since all copies are exactly the same automaton, there is no point in maintaining two copies that are both in state <span class="math inline">\(u\)</span>. Instead, we can use sets, so that <span class="math inline">\(\left \{ u,v,u \right \} = \left \{ u, u, v \right \} = \left \{ u,v \right \}\)</span>. So now states are chosen from <span class="math inline">\(2^Q\)</span>. A state like <span class="math inline">\(\left \{ u \right \}\)</span> encodes that we only need one copy of the machine, which is in state <span class="math inline">\(u\)</span>. If we then transition from <span class="math inline">\(\left \{ u \right \}\)</span> to <span class="math inline">\(\left \{ v,w \right \}\)</span>, that is tantamount to saying “we had a single automaton in state <span class="math inline">\(u\)</span>, and then we spawned a copy so that we now have one automaton in state <span class="math inline">\(v\)</span> and one in state <span class="math inline">\(w\)</span>”. And if we switch from <span class="math inline">\(\left \{ v,w \right \}\)</span> to <span class="math inline">\(\left \{ x \right \}\)</span>, this means that both copies of the automaton moved into state <span class="math inline">\(x\)</span>, so we destroyed one of the copies as it had become redundant.</p>
+<div class="definition">
+<p>Let <span class="math inline">\(A \mathrel{\mathop:}=\left \langle \Sigma, Q, I, F \Delta \right \rangle\)</span> be a non-deterministic FSA. Then the <strong>determinization</strong> of <span class="math inline">\(A\)</span> is the FSA <span class="math inline">\(\mathrm{Det}(A) \mathrel{\mathop:}=\left \langle \Sigma, 2^Q, \left \{ I \right \}, F_D, \Delta_D \right \rangle\)</span> such that</p>
+<ul>
+<li><span class="math inline">\(\left \{ I \right \}\)</span> contains <span class="math inline">\(I\)</span> as its only initial state,</li>
+<li><span class="math inline">\(\left \{ q_1, \ldots, q_n \right \} \in 2^Q\)</span> is a member of <span class="math inline">\(F_D\)</span> iff <span class="math inline">\(q_i \in F\)</span> for some <span class="math inline">\(1 \leq i \leq n\)</span>,</li>
+<li><span class="math inline">\(\left \langle u, \sigma, v \right \rangle \in \Delta_D\)</span> iff <span class="math inline">\(v \mathrel{\mathop:}=\left \{  q \in Q \mid \left \langle p, \sigma, q \right \rangle \in \Delta \text{ for some } p \in u \right \}.\)</span></li>
+</ul>
+</div>
+<p>When manually determinizing an FSA, it is best to follow this incremental procedure:</p>
+<ul>
+<li>Pick the original automaton’s set <span class="math inline">\(I\)</span> of initial states and treat it as a single state.</li>
+<li>Suppose you have a state <span class="math inline">\(q \mathrel{\mathop:}=\left \{ q_1, \ldots, q_n \right \}\)</span>. For every symbol <span class="math inline">\(\sigma \in \Sigma\)</span>, do the following:
+<ul>
+<li>Look at <span class="math inline">\(q_1\)</span> and write down which states can be reached from <span class="math inline">\(q_1\)</span> via <span class="math inline">\(\sigma\)</span>.</li>
+<li>Look at <span class="math inline">\(q_2\)</span> and write down which states can be reached from <span class="math inline">\(q_2\)</span> via <span class="math inline">\(\sigma\)</span>.</li>
+<li>Keep doing this for all <span class="math inline">\(q_i\)</span>.</li>
+<li>The new state reachable from <span class="math inline">\(q\)</span> via <span class="math inline">\(\sigma\)</span> is the set of all the states you wrote down.</li>
+</ul></li>
+<li>Keep following this procedure until no new states are added anymore.</li>
+<li>Among the states of the deterministic automaton you constructed, the final states are those that contain at least one final state of the non-deterministic automaton.</li>
+</ul>
+<p>Here’s a concrete example. The language <span class="math inline">\(a^+\)</span> is recognized by the two automata below. The first one is deterministic, the second one non-deterministic.</p>
+<p><img src="aplus_det.svg" alt="aplus_det.svg" /></p>
+<p><img src="aplus_nondet.svg" alt="aplus_nondet.svg" /></p>
+<p>Let’s apply the determinization procedure to the non-deterministic FSA. For succinctness, let <span class="math inline">\(N\)</span> be the name of the non-deterministic FSA and <span class="math inline">\(D\)</span> its deterministic counterpart.</p>
+<ol type="1">
+<li>The set of initial states for <span class="math inline">\(N\)</span> is <span class="math inline">\(\left \{ 0 \right \}\)</span>, so the unique initial state of <span class="math inline">\(D\)</span> is <span class="math inline">\(\left \{ 0 \right \}\)</span>.</li>
+<li>Our alphabet only contains <span class="math inline">\(a\)</span>, so we only need to figure out where <span class="math inline">\(a\)</span> may lead us from <span class="math inline">\(\left \{ 0 \right \}\)</span> in <span class="math inline">\(D\)</span>. In order to do so, we have to know where <span class="math inline">\(a\)</span> takes us from <span class="math inline">\(0\)</span> in <span class="math inline">\(N\)</span>.
+<ol type="1">
+<li>As you can see in the figure above, we can go from <span class="math inline">\(0\)</span> to <span class="math inline">\(0\)</span> with the <span class="math inline">\(a\)</span>-loop, or from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> with an <span class="math inline">\(a\)</span>-edge. Overall, <span class="math inline">\(a\)</span> may take us from <span class="math inline">\(0\)</span> to <span class="math inline">\(0\)</span> or to <span class="math inline">\(1\)</span> in <span class="math inline">\(N\)</span>.</li>
+<li>Hence <span class="math inline">\(\left \{ 0 \right \}\)</span> has an <span class="math inline">\(a\)</span>-arc to the state <span class="math inline">\(\left \{ 0,1 \right \}\)</span> in <span class="math inline">\(D\)</span>.</li>
+</ol></li>
+<li>This concludes all possible transitions out of <span class="math inline">\(\left \{ 0 \right \}\)</span> as there are no other symbols to consider besides <span class="math inline">\(a\)</span>. Next we look at where we can go from <span class="math inline">\(\left \{ 0,1 \right \}\)</span> with <span class="math inline">\(a\)</span>. In order to do so, we have to figure out were we can go from <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> in <span class="math inline">\(N\)</span>.
+<ol type="1">
+<li>We already know that <span class="math inline">\(0\)</span> can lead to <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> via <span class="math inline">\(a\)</span> in <span class="math inline">\(N\)</span>.</li>
+<li>From <span class="math inline">\(1\)</span>, on the other hand, we cannot go anywhere with <span class="math inline">\(a\)</span> in <span class="math inline">\(N\)</span>.</li>
+<li>So from <span class="math inline">\(\left \{ 0,1 \right \}\)</span> in <span class="math inline">\(D\)</span>, <span class="math inline">\(a\)</span> leads us to the state <span class="math inline">\(\left \{ 0,1 \right \} \cup \emptyset = \left \{ 0,1 \right \}\)</span>. This means that <span class="math inline">\(\left \{ 0,1 \right \}\)</span> is connected to itself by an <span class="math inline">\(a\)</span>-loop.</li>
+</ol></li>
+<li>We do not need to consider any other transitions out of <span class="math inline">\(\left \{ 0,1 \right \}\)</span> because there are no other symbols besides <span class="math inline">\(a\)</span>.</li>
+<li>There are no other states to look at, either. We have already worked through <span class="math inline">\(\left \{ 0 \right \}\)</span> and <span class="math inline">\(\left \{ 0,1 \right \}\)</span>, and our procedure has no yielded any new states beyond that.</li>
+<li>To complete the construction, we mark <span class="math inline">\(\left \{ 0,1 \right \}\)</span> as a final state of <span class="math inline">\(D\)</span> because it contains <span class="math inline">\(N\)</span>’s final state <span class="math inline">\(1\)</span>.</li>
+</ol>
+<p>The determinized FSA is shown below. Note that it looks exactly like the deterministic one above, with the only difference being the names of states.</p>
+<p><img src="aplus_nondet_det.svg" alt="aplus_nondet_det.svg" /></p>
+<div class="example">
+<p>Consider the slightly more complicated FSA below.</p>
+<p><img src="nondet_complex.svg" alt="nondet_complex.svg" /></p>
+<p>Determinization yields the equivalent automaton below:</p>
+<p><img src="nondet_complex_det.svg" alt="nondet_complex_det.svg" /></p>
+<p>You should verify for yourself that you can correctly construct this automaton.</p>
+</div>
+<div class="exercise">
+<p>In the previous two examples, determinization does not increase the size of the automaton. in general, though, determinization can cause an exponential blow-up: determinizing a non-deterministic FSA with <span class="math inline">\(n\)</span> states may yield a deterministic FSA with <span class="math inline">\(2^n\)</span> states. That’s huge. For instance, a 10-state automaton might have 1024 states after determinization. A 20-state automaton over a million!</p>
+<p>In practice, the blow-up is not as bad, but it isn’t uncommon for automata size to double, triple, or quadruple. As a concrete example of this, determinize the automaton below.</p>
+<p><img src="nondet_blowup.svg" alt="nondet_blowup.svg" /></p>
+</div>
+<div class="exercise">
+<p>Only for the brave!</p>
+<p>The automaton above doubles its size after determinization. What about the automaton below?</p>
+<p><img src="nondet_blowup2.svg" alt="nondet_blowup2.svg" /></p>
+</div>
+<div class="exercise">
+<p>Determinization does not necessarily increase the size of an automaton. If the original automaton contains some redundancies, determinization can eliminate those.</p>
+<p>The automaton below is a slightly redundant machine for accepting all strings over <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> that contain at least three symbols.</p>
+<p><img src="nondet_shrinking.svg" alt="nondet_shrinking.svg" /></p>
+<p>What does it look like after determinization?</p>
+</div>
+<h2 id="adding-a-sink">Adding a Sink</h2>
+<p>There are two reasons why a string <span class="math inline">\(s\)</span> might not be recognized by an automaton <span class="math inline">\(A\)</span>: either there is a run of <span class="math inline">\(A\)</span> over <span class="math inline">\(s\)</span> that is not accepting, or there is no run at all because at some point we reach a state from which no transition can be taken.</p>
+<div class="example">
+<p>Consider once more the automaton for <span class="math inline">\(\mathit{a(baa)^*}\)</span>.</p>
+<p><img src="abaa.svg" alt="abaa.svg" /></p>
+<p>This automaton rejects <span class="math inline">\(\mathit{ab}\)</span> because the run for this string ends in state <span class="math inline">\(2\)</span>, which is not a final state. But it also rejects <span class="math inline">\(\mathit{abb}\)</span> because there is no <span class="math inline">\(b\)</span>-transition from <span class="math inline">\(2\)</span>.</p>
+</div>
+<p>It is sometimes convenient to eliminate the latter case by adding a <em>sink state</em>. This sink state is never a final state! For every state <span class="math inline">\(q\)</span> that currently has no <span class="math inline">\(\sigma\)</span>-transition emanating from it, we add a <span class="math inline">\(\sigma\)</span>-transition to the sink state. From the sink state, every <span class="math inline">\(\sigma\)</span>-transition can only take us back to the sink state. So once we end up in the sink state, we are trapped and cannot reach a final state anymore. Adding a sink state ensures that there is a run for every <span class="math inline">\(s \in \Sigma^*\)</span> without altering the recognized string language. Hence the only distinction between recognized and rejected strings is whether their run is accepting, not whether they have a run at all.</p>
+<div class="example">
+<p>Here is the result of adding a sink state <span class="math inline">\(S\)</span> to the automaton above:</p>
+<p><img src="abaa_sink.svg" alt="abaa_sink.svg" /></p>
+</div>
+<div class="exercise">
+<p>For each one of the following strings, give its run according to the automaton above with a sink state.</p>
+<ul>
+<li><span class="math inline">\(\mathit{a}\)</span></li>
+<li><span class="math inline">\(\mathit{ab}\)</span></li>
+<li><span class="math inline">\(\mathit{abaa}\)</span></li>
+<li><span class="math inline">\(\mathit{abba}\)</span></li>
+<li><span class="math inline">\(\mathit{abaabaa}\)</span></li>
+<li><span class="math inline">\(\mathit{abbabaa}\)</span></li>
+</ul>
+</div>
+</body>
+</html>

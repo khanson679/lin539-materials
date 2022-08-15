@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Thomas Graf" />
+  <title>background/posets</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">background/posets</h1>
+<p class="subtitle">Course Notes for LIN 539</p>
+<p class="author">Thomas Graf</p>
+<p class="date">Fall 2022</p>
+</header>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>tuples (basics)</li>
+<li>relations (basic orders)</li>
+</ul>
+<h2 id="posets">Posets</h2>
+<p>While sets are unstructured, they can be combined with an ordering relation to yield a structured object. Usually, this will be a partial order. A set with a partial order defined over it is a <strong>partially ordered set</strong> or simply <strong>poset</strong>.</p>
+<h3 id="definition">Definition</h3>
+<p>In mathematical terms, a poset is usually treated as a tuple <span class="math inline">\(\left \langle S, R \right \rangle\)</span> that consists of the set <span class="math inline">\(S\)</span> and the order <span class="math inline">\(R\)</span> defined over its elements. Don’t attach too much significance to this, it is just a matter of notation and you wouldn’t want to apply the usual tuple operations to these objects. For instance, we wouldn’t want to concatenate the posets <span class="math inline">\(\left \langle S_1, R_1 \right \rangle\)</span> and <span class="math inline">\(\left \langle S_2, R_2 \right \rangle\)</span> to get a 4-tuple <span class="math inline">\(\left \langle S_1, R_1, S_2, R_2 \right \rangle\)</span>, that doesn’t make much sense.</p>
+<div class="definition">
+<p>A <strong>partially ordered set</strong>, or simple <strong>poset</strong>, is a pair <span class="math inline">\(\left \langle S, R \right \rangle\)</span> such that <span class="math inline">\(S\)</span> is some set and <span class="math inline">\(R\)</span> is a partial order over <span class="math inline">\(S\)</span>. <!-- If $R$ is a weak/strict partial order, then $\tuple{S, R}$ is also called a weak/strict poset. --></p>
+</div>
+<p>Sometimes, <span class="math inline">\(S\)</span> is also called the <strong>carrier</strong> of the poset <span class="math inline">\(\left \langle S, R \right \rangle\)</span>.</p>
+<div class="example">
+<p>The set of natural numbers is <span class="math inline">\(\mathbb{N} \mathrel{\mathop:}=\left \{ 0, 1, 2, 3, \ldots \right \}\)</span>. By itself, it has no internal order. But of course we can order the natural numbers according to the familiar relation <span class="math inline">\(\leq\)</span>, and then we get the poset <span class="math inline">\(\left \langle \mathbb{N}, \leq \right \rangle\)</span>. The carrier of <span class="math inline">\(\left \langle \mathbb{N}, \leq \right \rangle\)</span> is <span class="math inline">\(\mathbb{N}\)</span>.</p>
+</div>
+<div class="example">
+<p>We can take the set <span class="math inline">\(H\)</span> of all humans that ever lived or are currently alive. We then order this set by the ancestor relation. Since that is a partial order, the result is a poset. <!-- If we treat every human as an ancestor of themselves, the ancestor relation is a weak partial order, so once again we get a weak poset. --> <!-- If we use the more intuitive definition, then we get a strict poset. --></p>
+</div>
+<h3 id="visualizing-posets">Visualizing posets</h3>
+<p>Often it is very useful to visualize posets. In this case, elements of the set are represented as nodes in a figure, and arrows between the nodes indicate that they are related via the order relation. Here is what this looks like for the natural numbers ordered by <span class="math inline">\(\leq\)</span>.</p>
+<p><img src="natnum_lessthan_redundant.svg" alt="natnum_lessthan_redundant.svg" /></p>
+<p>Since that is very convoluted, it is customary to omit arrows that can be inferred from the properties of the order. First, one omits all arrows that can be inferred from transitivity. That is to say, if there is an arrow from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> and another arrow from <span class="math inline">\(y\)</span> to <span class="math inline">\(z\)</span>, we do not need an arrow from <span class="math inline">\(x\)</span> to <span class="math inline">\(z\)</span>.</p>
+<p><img src="natnum_lessthan_loops.svg" alt="natnum_lessthan_loops.svg" /></p>
+<p>And if we know that the ordering relation <span class="math inline">\(R\)</span> is such that <span class="math inline">\(x \mathrel{R} x\)</span> holds for every <span class="math inline">\(x\)</span>, then we do not need all the loops either.</p>
+<p><img src="natnum_lessthan_simplified.svg" alt="natnum_lessthan_simplified.svg" /></p>
+<p><strong>Caution:</strong> due to these conventions, a depiction of <span class="math inline">\(\left \langle \mathbb{N}, \leq \right \rangle\)</span> will look the same as one for <span class="math inline">\(\left \langle \mathbb{N}, &lt; \right \rangle\)</span>, but those are different posets.</p>
+<div class="exercise">
+<p>Take the set <span class="math inline">\(\mathbb{Z} \mathrel{\mathop:}=\left \{ 0, -1, 1, -2, 2, -3, 3, \ldots \right \}\)</span> of integers. Let <span class="math inline">\(x \prec y\)</span> iff <span class="math inline">\(x^2 \leq y^2\)</span>. Sketch a figure of the poset <span class="math inline">\(\left \langle \mathbb{Z}, \prec \right \rangle\)</span>. Avoid all arrows that can be inferred from the general properties of <span class="math inline">\(\prec\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Let <span class="math inline">\(S\)</span> be the set of all substrings of the word <em>poset</em>. Draw the strict poset <span class="math inline">\(\left \langle S, \sqsubset \right \rangle\)</span>, where <span class="math inline">\(\sqsubset\)</span> is the proper substring relation: <span class="math inline">\(x \sqsubset y\)</span> iff there is some <span class="math inline">\(z \neq \varepsilon\)</span> such that <span class="math inline">\(x \cdot z = y\)</span>.</p>
+<p>Now suppose that we used <span class="math inline">\(\sqsubseteq\)</span> instead: <span class="math inline">\(x \sqsubseteq y\)</span> iff there is some (possibly empty) <span class="math inline">\(z\)</span> such that <span class="math inline">\(x \cdot z = y\)</span>. Do you have to change anything about your figure?</p>
+</div>
+<h2 id="lower-bounds-and-upper-bounds">Lower bounds and upper bounds</h2>
+<p>Suppose that we have some poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span>, where <span class="math inline">\(\leq\)</span> is an arbitrary partial order. Given a set <span class="math inline">\(x \in S\)</span>, we can ask which elements are less than <span class="math inline">\(x\)</span> and which elements are greater than <span class="math inline">\(x\)</span>. These are the <strong>lower bounds</strong> and <strong>upper bounds</strong> of <span class="math inline">\(x\)</span>. This is an important notion, and it can be generalized from a single member of <span class="math inline">\(S\)</span> to whole subsets of <span class="math inline">\(S\)</span>.</p>
+<h3 id="bounds-for-single-elements">Bounds for single elements</h3>
+<p>The definition for lower and upper bounds of a single element in a poset is straightforward.</p>
+<div class="definition">
+<p>Let <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> be an arbitrary poset and <span class="math inline">\(x\)</span> an arbitrary member of <span class="math inline">\(S\)</span>. Then <span class="math inline">\(y \in S\)</span> is a <strong>lower bound</strong> for <span class="math inline">\(x\)</span> iff <span class="math inline">\(y \leq x\)</span>. We call <span class="math inline">\(y\)</span> an <strong>upper bound</strong> iff <span class="math inline">\(x \leq y\)</span>.</p>
+</div>
+<div class="example">
+<p>Consider the poset below, which consists of all subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> ordered by the subset relation <span class="math inline">\(\subseteq\)</span>.</p>
+<p><img src="lattice_123.svg" alt="lattice_123.svg" /></p>
+<p>The upper bounds of <span class="math inline">\(\left \{ 1 \right \}\)</span> are <span class="math inline">\(\left \{ 1 \right \}\)</span>, <span class="math inline">\(\left \{ 1,2 \right \}\)</span>, <span class="math inline">\(\left \{ 1,3 \right \}\)</span>, and <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>. Its lower bounds are <span class="math inline">\(\left \{ 1 \right \}\)</span> and <span class="math inline">\(\emptyset\)</span>.</p>
+</div>
+<div class="example">
+<p>Thinking of upper and lower bounds in pictorial terms may strengthen your intuitions. In the figure below, upper bounds are in dashed boxes, and lower bounds in dashed circles. We underline <span class="math inline">\(\left \{ 1 \right \}\)</span> to indicate that this is the element for which we are computing upper and lower bounds.</p>
+<p><img src="lattice_123_bounds1.svg" alt="lattice_123_bounds1.svg" /></p>
+</div>
+<div class="exercise">
+<p>Draw corresponding diagrams indicating the upper and lower bounds of</p>
+<ul>
+<li><span class="math inline">\(\left \{ 1,3 \right \}\)</span></li>
+<li><span class="math inline">\(\emptyset\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Say whether the following is true or false, and justify your answer: if <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> is a poset, then it holds for all <span class="math inline">\(x, y \in S\)</span> that <span class="math inline">\(y\)</span> is both an upper and a lower bound for <span class="math inline">\(x\)</span> iff <span class="math inline">\(x = y\)</span>.</p>
+</div>
+<h3 id="generalizing-bounds-to-subsets">Generalizing bounds to subsets</h3>
+<p>While it can be interesting to know the lower and upper bounds for a given element, very often we want to know the bounds for multiple elements. For instance, which elements are such that they are greater than both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>? To this end, we generalize bounds from elements of a poset to subsets of the poset. We say that <span class="math inline">\(y\)</span> is an upper (or lower) bound for subset <span class="math inline">\(T\)</span> iff <span class="math inline">\(y\)</span> is an upper (or lower) bound for every member of <span class="math inline">\(T\)</span>.</p>
+<div class="definition">
+<p>Let <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> be a poset and <span class="math inline">\(T\)</span> and arbitrary subset of <span class="math inline">\(S\)</span>. Then the set of <strong>upper bounds</strong> of <span class="math inline">\(T\)</span> is <span class="math display">\[\mathrm{ub}(T) \mathrel{\mathop:}=\left \{  y \in S \mid x \leq y \text{ for all } x \in T \right \}.\]</span> Similarly, the set of <strong>lower bounds</strong> of <span class="math inline">\(T\)</span> is <span class="math display">\[\mathrm{lb}(T) \mathrel{\mathop:}=\left \{  y \in S \mid y \leq x \text{ for all } x \in T \right \}.\]</span></p>
+</div>
+<div class="example">
+<p>Consider the poset <span class="math inline">\(\left \langle \left \{ 0,1,2,3,4 \right \}, \leq \right \rangle\)</span>, the set of the first five natural numbers ordered in the usual fashion via <span class="math inline">\(\leq\)</span>. The lower bounds of <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span> are <span class="math inline">\(0\)</span>, <span class="math inline">\(1\)</span>, and <span class="math inline">\(2\)</span> as these are the only elements that are less than <span class="math inline">\(2\)</span> and less than <span class="math inline">\(4\)</span>. More succinctly, <span class="math inline">\(\mathrm{lb}(\left \{ 2,4 \right \}) = \left \{ 0,1,2 \right \}\)</span>.</p>
+<p>The only upper bound of <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span> is <span class="math inline">\(4\)</span> as no other member of the carrier <span class="math inline">\(\left \{ 0,1,2,3,4 \right \}\)</span> is greater than both of those numbers. Hence we write <span class="math inline">\(\mathrm{ub}(\left \{ 2,4 \right \}) = \left \{ 4 \right \}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Given some arbitrary poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span>, what are <span class="math inline">\(\mathrm{lb}(\emptyset)\)</span> and <span class="math inline">\(\mathrm{ub}(\emptyset)\)</span>? Justify your answer.</p>
+</div>
+<div class="example">
+<p>Consider once more the poset of all subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> ordered by the subset relation <span class="math inline">\(\subseteq\)</span>.</p>
+<p><img src="lattice_123.svg" alt="lattice_123.svg" /></p>
+<p>The upper bounds of <span class="math inline">\(\left \{ 1 \right \}\)</span> and <span class="math inline">\(\left \{ 2 \right \}\)</span> are <span class="math inline">\(\left \{ 1,2 \right \}\)</span> and <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>. Their only lower bound is <span class="math inline">\(\emptyset\)</span>. In mathematical notation, this is <span class="math display">\[\mathrm{lb}(\left \{  \left \{ 1 \right \}, \left \{ 2 \right \}  \right \}) = \left \{  \left \{ 1,2 \right \}, \left \{ 1,2,3 \right \}  \right \}\]</span> and <span class="math display">\[\mathrm{ub}(\left \{  \left \{ 1 \right \}, \left \{ 2 \right \}  \right \}) = \left \{  \emptyset  \right \}.\]</span></p>
+<p>Yes, those are sets of sets. You have to keep in mind that <span class="math inline">\(\mathrm{lb}\)</span> and <span class="math inline">\(\mathrm{ub}\)</span> always apply to the set of things whose lower and upper bounds we want to compute. In the case at hand, these things themselves are sets, so <span class="math inline">\(\mathrm{lb}\)</span> and <span class="math inline">\(\mathrm{ub}\)</span> take a set of sets as their argument. And since they return a set of things that are lower/upper bounds, we get back a set of sets.</p>
+<p>We can also depict this in the graphical format that we used for the lower and upper bounds of individual elements.</p>
+<p><img src="lattice_123_bounds1-2.svg" alt="lattice_123_bounds1-2.svg" /></p>
+</div>
+<div class="example">
+<p>Given the same poset, the upper bounds of <span class="math inline">\(\left \{ 1 \right \}\)</span> are <span class="math inline">\(\left \{ 1 \right \}\)</span>, <span class="math inline">\(\left \{ 1,2 \right \}\)</span>, <span class="math inline">\(\left \{ 1,3 \right \}\)</span>, and <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>, while the lower bounds are <span class="math inline">\(\left \{ 1 \right \}\)</span> and <span class="math inline">\(\emptyset\)</span>. Hence we have <span class="math inline">\(\mathrm{ub}(\left \{ \left \{ 1 \right \} \right \}) = \left \{ \left \{ 1 \right \}, \left \{ 1,2 \right \}, \left \{ 1,3 \right \}, \left \{ 1,2,3 \right \} \right \}\)</span> and <span class="math inline">\(\mathrm{lb}(\left \{ \left \{ 1 \right \} \right \}) = \left \{ \emptyset, \left \{ 1 \right \} \right \}\)</span>. Again the notation is slightly confusing as we are looking at sets of elements of the poset, and these elements just so happen to be sets themselves. Relying once more on our graphical format, we see that <span class="math inline">\(\mathrm{ub}(\left \{ \left \{ 1 \right \} \right \})\)</span> and <span class="math inline">\(\mathrm{lb}(\left \{ \left \{ 1 \right \} \right \})\)</span> yield the same upper and lower bounds that we computed for <span class="math inline">\(\left \{ 1 \right \}\)</span> at the beginning of this unit.</p>
+<p><img src="lattice_123_bounds1.svg" alt="lattice_123_bounds1.svg" /></p>
+</div>
+<div class="exercise">
+<p>Explain why the set of upper bounds of some element <span class="math inline">\(x\)</span> of a poset is identical to <span class="math inline">\(\mathrm{ub}(\left \{ x \right \})\)</span>.</p>
+</div>
+<div class="example">
+<p>One more example with the same poset. The upper bounds of <span class="math inline">\(\left \{ 2 \right \}\)</span>, <span class="math inline">\(\left \{ 3 \right \}\)</span>, and <span class="math inline">\(\left \{ 2,3 \right \}\)</span> are <span class="math inline">\(\left \{ 2,3 \right \}\)</span> and <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>, whereas their only lower bound is <span class="math inline">\(\emptyset\)</span>. We write this more succinctly as <span class="math inline">\(\mathrm{ub}(\left \{ \left \{ 2 \right \}, \left \{ 3 \right \}, \left \{ 2,3 \right \} \right \}) = \left \{ \left \{ 2,3 \right \} \left \{ 1,2,3 \right \} \right \}\)</span> and <span class="math inline">\(\mathrm{lb}(\left \{ \left \{ 2 \right \}, \left \{ 3 \right \}, \left \{ 2,3 \right \} \right \}) = \left \{ \emptyset \right \}\)</span>. Once again we can also depict this in the graphical format:</p>
+<p><img src="lattice_123_bounds2-3-23.svg" alt="lattice_123_bounds2-3-23.svg" /></p>
+</div>
+<div class="exercise">
+<p>Given the poset in the previous example, compute all of the following:</p>
+<ul>
+<li><span class="math inline">\(\mathrm{ub}(\left \{ \left \{ 1,2 \right \}, \left \{ 2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{lb}(\left \{ \left \{ 1,2 \right \}, \left \{ 2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{ub}(\left \{ \emptyset \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{ub}(\emptyset)\)</span></li>
+<li><span class="math inline">\(\mathrm{lb}(\left \{ \emptyset, \left \{ 1,2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{lb}(\left \{ \left \{ 1 \right \}, \left \{ 2,3 \right \}, \left \{ 1,2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{ub}(\left \{ \left \{ 1 \right \}, \left \{ 2 \right \}, \left \{ 3 \right \} \right \})\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Consider <span class="math inline">\(\left \langle \left \{ 0,1,2,3,4 \right \}, \leq \right \rangle\)</span>, the set of the first five natural numbers ordered in the usual fashion via <span class="math inline">\(\leq\)</span>. Using the pictorial format described above, indicate the lower and upper bounds for the following subsets:</p>
+<ul>
+<li><span class="math inline">\(\left \{ 2 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 1,4 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 2,3 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ 0,3 \right \}\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Since <span class="math inline">\(\mathrm{lb}\)</span> and <span class="math inline">\(\mathrm{ub}\)</span> are functions from sets to sets, the output of one can be the input for the other. Compute <span class="math inline">\(\mathrm{lb}(\mathrm{ub}({\left \{ 0,3 \right \}}))\)</span> over <span class="math inline">\(\left \{ 0,1,2,3,4 \right \}\)</span> ordered by <span class="math inline">\(\leq\)</span>. By comparison, what is <span class="math inline">\(\mathrm{ub}(\mathrm{lb}(\left \{ 0,3 \right \}))\)</span>?</p>
+</div>
+<div class="exercise">
+<p>Now consider <span class="math inline">\(\left \langle \mathbb{N}, \leq \right \rangle\)</span> instead, the set of all natural numbers ordered via <span class="math inline">\(\leq\)</span>. For each one of the following statements, say whether it is true or false and justify your answer.</p>
+<ul>
+<li>Any two natural numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> have infinitely many upper bounds.</li>
+<li>Any two natural numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> have infinitely many lower bounds.</li>
+</ul>
+</div>
+<div class="example">
+<p>Note that the existence of upper and lower bounds isn’t guaranteed once we move from individual elements of the posets to subsets. Take for instance the poset <span class="math inline">\(\left \langle \left \{ 1,2 \right \}, R \right \rangle\)</span> where <span class="math inline">\(x \mathrel{R} y\)</span> iff <span class="math inline">\(x = y\)</span>. <!-- You should convince yourself that this is a poset (i.e. that $R$ transitive, antisymmetric, and reflexive). --> Yes, this is still a poset (there is an order, and it is partial). In this case, <span class="math inline">\(\mathrm{lb}(\left \{ 1,2 \right \}) = \emptyset\)</span> because there simply is no <span class="math inline">\(y\)</span> such that <span class="math inline">\(y \mathrel{R} 1\)</span> and <span class="math inline">\(y \mathrel{R} 2\)</span>. In other words, <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> don’t have any lower bounds. For the same reason, they don’t have any upper bounds either.</p>
+</div>
+<div class="exercise">
+<p>You might think that the poset in the previous example is somehow defective or pathological because no element is related to any element except itself. But that’s not really the issue, as is witnessed by the structure below.</p>
+<p><img src="poset_nobounds.svg" alt="poset_nobounds.svg" /></p>
+<p>Find the smallest subset <span class="math inline">\(S\)</span> such that <span class="math inline">\(\mathrm{ub}(S) = \emptyset\)</span> and <span class="math inline">\(\mathrm{lb}(S) = \emptyset\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Say whether the following is true or false, and justify your answer:</p>
+<p>Given some poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span>, it holds for every finite subset <span class="math inline">\(\left \{ s_1, \ldots, s_n \right \}\)</span> of <span class="math inline">\(S\)</span> that <span class="math display">\[\mathrm{ub}(\left \{ s_1, \ldots, s_n \right \}) = \mathrm{ub}(\left \{ s_1 \right \}) \cap \mathrm{ub}(\left \{ s_2 \right \} \cap \cdots \cap \mathrm{ub}(\left \{ s_n \right \})\]</span></p>
+</div>
+<div class="exercise">
+<p>Say whether the following is true or false, and justify your answer:</p>
+<p>Given some poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span>, it holds for every finite subset <span class="math inline">\(\left \{ s_1, \ldots, s_n \right \}\)</span> of <span class="math inline">\(S\)</span> that <span class="math display">\[\mathrm{lb}(\left \{ s_1, \ldots, s_n \right \}) = \mathrm{lb}(\left \{ s_1 \right \}) \cup \mathrm{lb}(\left \{ s_2 \right \} \cup \cdots \cup \mathrm{lb}(\left \{ s_n \right \})\]</span></p>
+</div>
+<h2 id="semilattices">(Semi)Lattices</h2>
+<p>Posets are already a special kind of structure. Among all the possible ways of defining a relation over a set, only those yield a poset where the relation is a partial order. But some posets are even more special because they furnish particular upper or lower bounds for the elements of the poset. These posets are called <strong>semilattices</strong> and <strong>lattices</strong>.</p>
+<h3 id="greatest-lower-bounds-and-least-upper-bounds">Greatest lower bounds and least upper bounds</h3>
+<p>The previous unit was only concerned with identifying lower bounds and upper bounds, but not all lower bounds and upper bounds are the same. Some are “closer” to the elements whose bounds we want to compute. This gives us the notion of <strong>greatest lower bound</strong> and <strong>least upper bound</strong>.</p>
+<div class="example">
+<p>We return once more to the poset of subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> ordered by the subset relation <span class="math inline">\(\subseteq\)</span>. We have already seen that the upper bounds of <span class="math inline">\(\left \{ 1 \right \}\)</span> are <span class="math inline">\(\left \{ 1 \right \}\)</span>, <span class="math inline">\(\left \{ 1,2 \right \}\)</span>, <span class="math inline">\(\left \{ 1,3 \right \}\)</span>, and <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>. And the lower bounds of <span class="math inline">\(\left \{ 1 \right \}\)</span> are the empty set and <span class="math inline">\(\left \{ 1 \right \}\)</span> itself.</p>
+<p><img src="lattice_123_bounds1.svg" alt="lattice_123_bounds1.svg" /></p>
+<p>Among those lower bounds, the greatest lower bound is <span class="math inline">\(\left \{ 1 \right \}\)</span> because it is closest to <span class="math inline">\(\left \{ 1 \right \}\)</span>. And the least upper bound is also <span class="math inline">\(\left \{ 1 \right \}\)</span>.</p>
+</div>
+<div class="example">
+<p>We also know already that given the poset above, <span class="math inline">\(\mathrm{ub}(\left \{ \left \{ 2 \right \}, \left \{ 3 \right \}, \left \{ 2,3 \right \} \right \}) = \left \{ \left \{ 2,3 \right \}, \left \{ 1,2,3 \right \} \right \}\)</span> and <span class="math inline">\(\mathrm{lb}(\left \{ \left \{ 2 \right \}, \left \{ 3 \right \}, \left \{ 2,3 \right \} \right \}) = \left \{ \emptyset \right \}\)</span>.</p>
+<p><img src="lattice_123_bounds2-3-23.svg" alt="lattice_123_bounds2-3-23.svg" /></p>
+<p>In this case, the least upper bound is <span class="math inline">\(\left \{ 2,3 \right \}\)</span> because <span class="math inline">\(\left \{ 2,3 \right \}\)</span> is less than <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> (we have <span class="math inline">\(\left \{ 2,3 \right \} \subseteq \left \{ 1,2,3 \right \}\)</span>). The greatest lower bound is <span class="math inline">\(\emptyset\)</span> because there was only one lower bound to begin with.</p>
+</div>
+<p>Looking at those examples, you might have already noticed a peculiar connection. The greatest lower bounds of some subset <span class="math inline">\(S\)</span> are exactly the upper bounds of the lower bounds of <span class="math inline">\(S\)</span>. And the least upper bounds of <span class="math inline">\(S\)</span> are exactly the lower bounds of the upper bounds of <span class="math inline">\(S\)</span>.</p>
+<div class="definition">
+<p>Given a poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> and some arbitrary subset <span class="math inline">\(T \subseteq S\)</span>, we call <span class="math inline">\(\mathrm{lub}(T) \mathrel{\mathop:}=\mathrm{lb}(\mathrm{ub}(T))\)</span> the set of <strong>least upper bounds</strong> of <span class="math inline">\(T\)</span>. An element of <span class="math inline">\(\mathrm{lub}(T)\)</span> is also called a <strong>lub</strong> or a <strong>supremum</strong> or a <strong>join</strong>. Similarly, <span class="math inline">\(\mathrm{glb}(T) \mathrel{\mathop:}=\mathrm{ub}(\mathrm{lb}(T))\)</span> is the set of <strong>greatest lower bounds</strong> of <span class="math inline">\(T\)</span>. An element of <span class="math inline">\(\mathrm{glb}(T)\)</span> is also called a <strong>glb</strong> or an <strong>infimum</strong> or a <strong>meet</strong>.</p>
+</div>
+<div class="example">
+<p>Let us return to the first example, where we saw that the set of upper bounds of <span class="math inline">\(\left \{ 1 \right \}\)</span> is <span class="math inline">\(\left \{  \left \{ 1 \right \}, \left \{ 1,2 \right \}, \left \{ 1,3 \right \}, \left \{ 1,2,3 \right \}  \right \}\)</span> while the least upper bound of <span class="math inline">\(\left \{ 1 \right \}\)</span> is <span class="math inline">\(\left \{ 1 \right \}\)</span> itself. Following our definition, we compute the lub as <span class="math display">\[\mathrm{lub}(\left \{ \left \{ 1 \right \} \right \}) = \mathrm{lb}(\mathrm{ub}(\left \{ \left \{ 1 \right \} \right \})) = \mathrm{lb}(\left \{  \left \{ 1 \right \}, \left \{ 1,2 \right \}, \left \{ 1,3 \right \}, \left \{ 1,2,3 \right \}  \right \}) = \left \{ \left \{ 1 \right \} \right \}.\]</span> This tells us that <span class="math inline">\(\left \{ 1 \right \}\)</span> is the only lub of <span class="math inline">\(\left \{ 1 \right \}\)</span>, as expected.</p>
+</div>
+<div class="exercise">
+<p>Given the same poset as in the previous examples, compute all of the following:</p>
+<ul>
+<li><span class="math inline">\(\mathrm{lub}(\left \{ \left \{ 1,2 \right \}, \left \{ 2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{glb}(\left \{ \left \{ 1,2 \right \}, \left \{ 2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{lub}(\left \{ \emptyset \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{glb}(\left \{ \emptyset, \left \{ 1,2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{glb}(\left \{ \left \{ 1 \right \}, \left \{ 2,3 \right \}, \left \{ 1,2,3 \right \} \right \})\)</span></li>
+<li><span class="math inline">\(\mathrm{lub}(\left \{ \left \{ 1 \right \}, \left \{ 2 \right \}, \left \{ 3 \right \} \right \})\)</span></li>
+</ul>
+</div>
+<h3 id="uniqueness-of-lubs-and-glbs">Uniqueness of lubs and glbs</h3>
+<p>In the examples so far, there has always been a unique lub and a unique glb. But this isn’t always the case with posets.</p>
+<div class="example">
+<p>We have already seen in the previous units that some posets many not have any lower bounds or upper bounds for at least some subsets of the carrier.</p>
+<p><img src="poset_nobounds.svg" alt="poset_nobounds.svg" /></p>
+<p>If there’s no lower bounds or upper bounds, then there can’t be any greatest lower bounds or least upper bounds either.</p>
+</div>
+<div class="example">
+<p>With the poset below, <span class="math inline">\(\mathrm{ub}(S)\)</span> and <span class="math inline">\(\mathrm{lb}(S)\)</span> are non-empty for any non-empty subset <span class="math inline">\(S\)</span> of the carrier. That is to say, any collection of one or more elements has at least one upper bound and at least one lower bound.</p>
+<p><img src="poset_nouniquemeet.svg" alt="poset_nouniquemeet.svg" /></p>
+<p>However, <span class="math inline">\(\mathrm{lub}(\left \{ c,d \right \})\)</span> is actually empty. To see this, we first compute <span class="math inline">\(\mathrm{ub}(\left \{ c,d \right \}) = \left \{ a,b,e \right \}\)</span>. We next calcuate <span class="math inline">\(\mathrm{lb}(\left \{ a,b,e \right \})\)</span>, which is the empty set because there is no <span class="math inline">\(x\)</span> in <span class="math inline">\(\left \{ a,b,e \right \}\)</span> such that <span class="math inline">\(x \leq y\)</span> for all <span class="math inline">\(y \in \left \{ a,b,e \right \}\)</span>. Putting these two results together, we get <span class="math inline">\(\mathrm{lub}(\left \{ c,d \right \}) = \emptyset\)</span>.</p>
+</div>
+<p>The reasoning in the example above can be used to prove a powerful result: lubs and glbs are unique.</p>
+<div class="proposition">
+<p>Let <span class="math inline">\(T\)</span> be a subset of the carrier of some poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span>. If <span class="math inline">\(\mathrm{lub}(T) \neq \emptyset\)</span>, then it contains exactly one element. If <span class="math inline">\(\mathrm{glb}(T) \neq \emptyset\)</span>, then it contains exactly one element.</p>
+</div>
+<div class="exercise">
+<p>Try to explain to yourself why this result holds.</p>
+<p><em>Hint</em>: Suppose towards a contradiction that <span class="math inline">\(\mathrm{lub}(T)\)</span> does contain at least two distinct elements <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. How would <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> have to be ordered by <span class="math inline">\(\leq\)</span>? Is this possible in a poset?</p>
+</div>
+<p>Since lubs and glbs are unique, it is often convenient to assume that the functions <span class="math inline">\(\mathrm{lub}\)</span> and <span class="math inline">\(\mathrm{glb}\)</span> return this unique element rather than a set containing the element. Quite generally, we can reduce the use of sets in the notation by quite a bit. It is often convenient to write <span class="math inline">\(x \vee y\)</span> as a shorthand for <span class="math inline">\(\mathrm{lub}(\left \{ x,y \right \})\)</span>, and <span class="math inline">\(x \wedge y\)</span> as a shorthand for <span class="math inline">\(\mathrm{glb}(x, y)\)</span>. If you didn’t like notation like <span class="math inline">\(\mathrm{glb}(\left \{  \left \{ 1 \right \}, \left \{ 2 \right \}  \right \})\)</span>, you can now rejoice because you have the more legible alternative <span class="math inline">\(\left \{ 1 \right \} \wedge \left \{ 2 \right \}\)</span>. The notation can be generalized such that <span class="math inline">\(\mathrm{lub}(\left \{ s_1, \ldots, s_n \right \}) = s_1 \vee s_2 \vee \cdots \vee s_n\)</span>, and similarly for <span class="math inline">\(\mathrm{glb}\)</span> and <span class="math inline">\(\wedge\)</span>. The operations <span class="math inline">\(\vee\)</span> and <span class="math inline">\(\wedge\)</span> are referred to as <strong>join</strong> and <strong>meet</strong>.</p>
+<div class="exercise">
+<p>Writing <span class="math inline">\(\mathrm{glb}(\left \{ s_1, \ldots, s_n \right \})\)</span> as <span class="math inline">\(s_1 \wedge s_2 \wedge \cdots \wedge s_n\)</span> is possible because <span class="math inline">\(\wedge\)</span> is an associative operation: <span class="math inline">\((x \wedge y) \wedge z = x \wedge (y \wedge z)\)</span>. Explain why <span class="math inline">\(\wedge\)</span> is associative.</p>
+<p><em>Hint</em>: You want to show that <span class="math inline">\(\mathrm{glb}(\left \{  \mathrm{glb}(\left \{ x, y \right \}), z \right \}) = \mathrm{glb}(\left \{ x, \mathrm{glb}(\left \{ y, z \right \}) \right \})\)</span> if one adopts the convention that the <span class="math inline">\(\mathrm{glb}\)</span> function returns a unique element rather than a set.</p>
+</div>
+<div class="example">
+<p>A quick remark on terminology: beginners often confuse the symbols <span class="math inline">\(\vee\)</span> and <span class="math inline">\(\wedge\)</span>. There’s multiple tricks that might help you remember which is which.</p>
+<p>First, think of the poset of subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> we had in the first example of this unit. In this lattice, intersecting two elements (<span class="math inline">\(\cap\)</span>) is the same as taking their meet (<span class="math inline">\(\wedge\)</span>), whereas taking their union (<span class="math inline">\(\cup\)</span>) is the same as taking their join (<span class="math inline">\(\vee\)</span>). So the symbols for meet and join mirror those for intersection and union.</p>
+<p>In addition, you can think of the meet operation as looking at all the lower bounds below and limiting them to just one at the very top, just like <span class="math inline">\(\wedge\)</span> is broad at the bottom and has only enough room for one thing at the top. The join operation <span class="math inline">\(\vee\)</span> is the mirror image of that. We look at the upper bounds above and limit it to just one thing at the very bottom.</p>
+<p>Finally, the meet symbol <span class="math inline">\(\wedge\)</span> looks like one half of the letter <em>m</em> at the beginning of <em>meet</em>. And <span class="math inline">\(\vee\)</span> is the final part of the final letter <em>n</em> of <em>join</em>. This is perhaps the hokiest way of memorizing the symbols, but it’s the one that worked best for me back in the days.</p>
+</div>
+<h3 id="semilattices-1">(Semi)Lattices</h3>
+<p>As we have seen, not every poset furnishes a join or a meet for every subset of the carrier. The posets that do are particularly well-behaved and hence get special terms: <strong>join semilattice</strong> and <strong>meet semilattice</strong>.</p>
+<div class="definition">
+<p>A poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> is a <strong>join semilattice</strong> iff <span class="math inline">\(x \vee y\)</span> exists for all <span class="math inline">\(x, y \in S\)</span>. It is a <strong>meet semilattice</strong> iff <span class="math inline">\(x \wedge y\)</span> exists for all <span class="math inline">\(x, y \in S\)</span>. It is a <strong>semilattice</strong> iff is a join semilattice or a meet semilattice.</p>
+</div>
+<div class="exercise">
+<p>For each one of the following depictions of a poset, say whether it is a join semilattice, a meet semilattice, both, or neither.</p>
+</div>
+<p>In practice, the distinction between join and meet semilattices isn’t all that relevant. You can convert between join semilattices and meet semilattices by reversing the order: <span class="math inline">\(x \mathrel{R} y\)</span> becomes <span class="math inline">\(y \mathrel{R} x\)</span>. In terms of drawings, that’s the same as flipping the semilattice upside-down, or rotating it by 180 degrees.</p>
+<div class="example">
+<p>Consider the poset whose carrier contains the sets <span class="math inline">\(\left \{ 1 \right \}\)</span>, <span class="math inline">\(\left \{ 2 \right \}\)</span>, and <span class="math inline">\(\left \{ 1,2 \right \}\)</span>, ordered by the subset relation <span class="math inline">\(\subseteq\)</span>. This is a join semilattice. It is not a meet semilattice because <span class="math inline">\(\left \{ 1 \right \}\)</span> and <span class="math inline">\(\left \{ 2 \right \}\)</span> have no meet. However, we can just replace <span class="math inline">\(\subseteq\)</span> with <span class="math inline">\(\supseteq\)</span>. Now the poset is no longer a join semilattice, but it is a meet semilattice.</p>
+<p><img src="semilattice_switch.svg" alt="semilattice_switch.svg" /></p>
+</div>
+<p>Some posets are so well-behaved that they are both join semilattices and meet semilattices. These posets are <strong>lattices</strong>.</p>
+<div class="definition">
+<p>A poset is a <strong>lattice</strong> iff it is both a join semilattice and a meet semilattice.</p>
+</div>
+<div class="example">
+<p>The poset of subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span> ordered by the subset relation <span class="math inline">\(\subseteq\)</span> is a lattice. That’s because it is both a join semilattice and a meet semilattice. We cannot really show this manually here, since we would have to check for any collection of elements that is has a unique join and a unique meet. And with <span class="math inline">\(8\)</span> elements, there would be <span class="math inline">\(2^8 = 256\)</span> combinations, and for each one we would have to compute join and meet to ensure that it exists and is unique.</p>
+<p>Rather than brute-forcing it like this, it is better to think about the nature of the poset. First of all, we only need to show that there is a unique join and a unique meet for any two elements of the poset (because as pointed out above, join and meet are associative). The ordering relation of the poset is subset, and the carrier includes all possible subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>. Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, their least upper bound will be equivalent to <span class="math inline">\(A \cup B\)</span>, and their greatest lower bound will be the same as <span class="math inline">\(A \cap B\)</span>. We know that <span class="math inline">\(A \cap B\)</span> and <span class="math inline">\(A \cup B\)</span> always exist, and we know that they cannot produce any sets that aren’t subsets of <span class="math inline">\(\left \{ 1,2,3 \right \}\)</span>. This ensures that there is always a unique join and a unique meet.</p>
+</div>
+<div class="example">
+<p>The poset <span class="math inline">\(\left \langle \mathbb{N}, \leq \right \rangle\)</span> of natural numbers ordered by <span class="math inline">\(\leq\)</span> in the usual fashion is also a lattice. In this case there would be infinitely many cases to check, so again we cannot brute-force this by looking at all possible cases. And once again it is sufficient to consider the join and meet of two arbitrary elements. Pick two such numbers <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span>. Since <span class="math inline">\(\leq\)</span> is a total order, either <span class="math inline">\(m \leq n\)</span> or <span class="math inline">\(n \leq m\)</span> have to hold. Assume the former. Then <span class="math inline">\(m \wedge n = m\)</span> and <span class="math inline">\(m \vee n = n\)</span>. Once again we get a unique solution for join and meet that is guaranteed to exist no matter how <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> are chosen.</p>
+</div>
+<div class="example">
+<p>The poset <span class="math inline">\(\mathbf{2}\)</span> of truth values is also a lattice.</p>
+<p><img src="lattice_2.svg" alt="lattice_2.svg" /></p>
+<p>In this case, the lattice is small enough to verify by hand that meet and join exist in all relevant cases, which are <span class="math inline">\(T \wedge T\)</span>, <span class="math inline">\(T \wedge F\)</span>, and <span class="math inline">\(F \wedge F\)</span> (and similarly for <span class="math inline">\(\vee\)</span>).</p>
+</div>
+<div class="exercise">
+<p>Why don’t we need to check <span class="math inline">\(F \wedge T\)</span> (or <span class="math inline">\(F \vee T\)</span>)?</p>
+</div>
+<div class="exercise">
+<p>Consider the poset depicted below. Say whether it is a join semilattice, a meet semilattice, or both (and hence a lattice).</p>
+<p><img src="lattice_pentagon.svg" alt="lattice_pentagon.svg" /></p>
+</div>
+<div class="exercise">
+<p>Say whether the following statement is true or false. Justify your answer.</p>
+<p>If a poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> with a finite carrier <span class="math inline">\(S\)</span> does not contain a unique element <span class="math inline">\(x \in S\)</span> such that <span class="math inline">\(x \leq y\)</span> for all <span class="math inline">\(y \in S\)</span>, then this poset cannot be a meet semilattice.</p>
+</div>
+<div class="exercise">
+<p>Say whether the following statement is true or false. Justify your answer.</p>
+<p>If a poset <span class="math inline">\(\left \langle S, \leq \right \rangle\)</span> with a finite carrier <span class="math inline">\(S\)</span> contains a unique element <span class="math inline">\(x \in S\)</span> such that <span class="math inline">\(x \leq y\)</span> for all <span class="math inline">\(y \in S\)</span>, then this poset is guaranteed to be a meet semilattice.</p>
+</div>
+</body>
+</html>

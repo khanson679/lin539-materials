@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="operations-on-multisets">Operations on multisets</h1>
+<div class="prereqs">
+<ul>
+<li>sets (operations)</li>
+<li>multisets (basics)</li>
+</ul>
+</div>
+<h2 id="standard-set-operations">Standard set operations</h2>
+<p>The set operations union, intersection and relative complement can be generalized to multisets.</p>
+<div class="definition">
+<p>Given two natural numbers <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> with <span class="math inline">\(m \leq n\)</span>, let <span class="math inline">\(\max(m,n) = n\)</span> and <span class="math inline">\(\min(m,n) = m\)</span>. Then for any two multisets <span class="math inline">\(A_M\)</span> and <span class="math inline">\(B_M\)</span></p>
+<ul>
+<li>the union <span class="math inline">\(A_M \cup B_M\)</span> maps every <span class="math inline">\(a\)</span> to <span class="math inline">\(\max(A_M(a), B_M(a))\)</span>,</li>
+<li>the intersection <span class="math inline">\(A_M \cap B_M\)</span> maps every <span class="math inline">\(a\)</span> to <span class="math inline">\(\min(A_M(a), B_M(a))\)</span></li>
+<li>the relative complement <span class="math inline">\(A_M - B_M\)</span> maps every <span class="math inline">\(a\)</span> to <span class="math inline">\(A_M(a) - B_M(a)\)</span> (or <span class="math inline">\(0\)</span> if the value would be negative)</li>
+</ul>
+</div>
+<div class="example">
+<p>Let <span class="math inline">\(A_M \mathrel{\mathop:}=\left \{ a:3, b:2, c:1 \right \}\)</span> and <span class="math inline">\(B_M \mathrel{\mathop:}=\left \{ a:1, b:1, c:2, d:1 \right \}\)</span>. Then</p>
+<ul>
+<li><span class="math inline">\(A_M \cup B_M = B_M \cup A_M = \left \{ a:3, b:2, c:2, d:1 \right \}\)</span></li>
+<li><span class="math inline">\(A_M \cap B_M = B_M \cap A_M = \left \{ a:1, b:1, c:1 \right \}\)</span></li>
+<li><span class="math inline">\(A_M - B_M = \left \{ a:2, b:1, c:0 \right \}\)</span></li>
+<li><span class="math inline">\(B_M - A_M = \left \{ c:1, d:1 \right \}\)</span></li>
+</ul>
+</div>
+<div class="jupyterpython">
+<p>from collections import Counter</p>
+<p>A = Counter({“a”: 3, “b”: 2, “c”: 1}) B = Counter({“a”: 1, “b”: 1, “c”: 2, “d”: 1})</p>
+<p>def multiset_operator(A, B, function): keys = set(A.keys()).union(set(B.keys())) return Counter({key: function(A.get(key,0), B.get(key,0)) for key in keys})</p>
+<p>def multiset_union(A, B): return multiset_operator(A, B, max)</p>
+<p>def multiset_intersection(A, B): return multiset_operator(A, B, min)</p>
+<p>print(“Union of and is”.format(A, B, multiset_union(A, B))) print(“Intersection of and is”.format(A, B, multiset_intersection(A, B))) print(“Relative complement of and is”.format(A, B, A-B)) print(“Relative complement of and is”.format(B, A, B-A))</p>
+</div>
+<div class="exercise">
+<p>Fill each gap with a matching multiset or operator.</p>
+<ul>
+<li><span class="math inline">\(\left \{ a:3, b:2, c:1 \right \} \cup \left \{ a:5, b:1, d:8 \right \} = \_\)</span></li>
+<li><span class="math inline">\(\left \{ c:17 \right \} \_ \left \{ a:5, b:1, d:8 \right \} = \left \{ c:17 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ a:3, b:3 \right \} \cup \_ = \left \{ a:5, b:3, c:5, d:6 \right \}\)</span></li>
+<li><span class="math inline">\(\_\ \_ \left \{ a:5, b:1, d:8 \right \} = \left \{ a:3, b:1 \right \}\)</span></li>
+</ul>
+</div>
+<h2 id="special-operations-for-multisets">Special operations for multisets</h2>
+<p>Since multisets are a generalization of sets, they allow for certain operations that would not make much sense with sets. These are <em>multiset sum</em> (<span class="math inline">\(\uplus\)</span>) and <em>scalar multiplication </em> (<span class="math inline">\(\otimes\)</span>).</p>
+<div class="definition">
+<p>Let <span class="math inline">\(A_M\)</span> and <span class="math inline">\(B_M\)</span> be two multisets and <span class="math inline">\(n\)</span> a natural number. Then</p>
+<ul>
+<li>the multiset sum <span class="math inline">\(A_M \uplus B_M\)</span> maps every <span class="math inline">\(a\)</span> to <span class="math inline">\(A_M(a) + B_M(a)\)</span>,</li>
+<li>the scalar multiplication <span class="math inline">\(n \otimes A_M\)</span> maps every <span class="math inline">\(a\)</span> to <span class="math inline">\(n \times A_M(a)\)</span> (where <span class="math inline">\(\times\)</span> denotes multiplication over natural numbers).</li>
+</ul>
+</div>
+<div class="example">
+<p>As in the previous examples, we will look at the multisets <span class="math inline">\(A_M \mathrel{\mathop:}=\left \{ a:3, b:2, c:1 \right \}\)</span> and <span class="math inline">\(B_M \mathrel{\mathop:}=\left \{ a:1, b:1, c:2, d:1 \right \}\)</span>. For those two sets, <span class="math inline">\(A_M \uplus B_M \mathrel{\mathop:}=\left \{ a:4, b:3, c:3, d:1 \right \}\)</span>, which is identical to <span class="math inline">\(B_M \uplus A_M\)</span>. Furthermore, <span class="math inline">\(3 \otimes A_M = \left \{ a:9, b:6, c:3 \right \}\)</span> whereas <span class="math inline">\(3 \otimes B_M = \left \{ a:3, b:3, c:6, d:3 \right \}\)</span>.</p>
+</div>
+<div class="jupyterpython">
+<p>def scalar_multiplication(A, n): return Counter({key: n * val for key, val in A.items()})</p>
+<p>print(“{} + {} = {}”.format(A, B, A+B)) print(“{} * {} = {}”.format(3, A, scalar_multiplication(A, 3))) print(“{} * {} = {}”.format(3, B, scalar_multiplication(B, 3)))</p>
+</div>
+<div class="exercise">
+<p>Calculate the final result of the equations below. If the result cannot be uniquely determined without additional assumptions, explain why.</p>
+<ul>
+<li><span class="math inline">\(3 \otimes\big( (\left \{ a:5, b:3 \right \}_M \uplus\left \{ a:1, c:5, d:6 \right \}_M) - (\left \{ a:5, b:3 \right \}_M \cap \left \{ a:1, c:5, d:6 \right \}_M) \big )\)</span></li>
+<li><span class="math inline">\(\left \{ \text{John}, \text{John} \right \} \uplus 3 \otimes\left \{ \text{Mary}, \text{Mary}, \text{Mary}, \text{John} \right \}_M\)</span></li>
+<li><span class="math inline">\(\left \{ a:5, c:1 \right \}_M \cup \left \{ a:3, b:3, c:3, d:3 \right \}_M \uplus\left \{ a:1 \right \}_M\)</span></li>
+</ul>
+</div>
+</body>
+</html>

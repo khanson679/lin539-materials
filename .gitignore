@@ -27,6 +27,8 @@
 !exercises/
 !exercises/**/
 !filters/
+!html/
+!html/**/
 !jupyter/
 !jupyter/**/
 !notebooks/

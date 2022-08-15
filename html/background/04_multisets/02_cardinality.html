@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="cardinality-of-multisets">Cardinality of multisets</h1>
+<div class="prereqs">
+<ul>
+<li>general (big operators)</li>
+<li>sets (cardinality)</li>
+<li>multisets (operations)</li>
+</ul>
+</div>
+<p>Given a multiset <span class="math inline">\(S_M\)</span>, we write <span class="math inline">\(S_M(a)\)</span> for the count of <span class="math inline">\(a\)</span> in <span class="math inline">\(S_M\)</span>.</p>
+<div class="example">
+<p>Let <span class="math inline">\(A_M \mathrel{\mathop:}=\left \{ a:3, b:2, c:1 \right \}\)</span> and <span class="math inline">\(B_M \mathrel{\mathop:}=\left \{ a:1, b:1, c:1, d:1 \right \}\)</span>. Then <span class="math inline">\(A_M(a) = 3\)</span> and <span class="math inline">\(B_M(a) = 1\)</span>, whereas <span class="math inline">\(A_M(c) = B_M(c) = 1\)</span>.</p>
+</div>
+<p>The <strong>cardinality</strong> of a multiset with finitely many elements is the sum of all its counts. As a formula, this looks as follows:</p>
+<p><span class="math display">\[
+    \left | S_M \right | \mathrel{\mathop:}=\sum_{s \in S_M} S_M(s)
+\]</span></p>
+<p>This formula uses the symbol <span class="math inline">\(\sum\)</span> as an abbreviation for addition. The subscript on <span class="math inline">\(\sum\)</span> tells us that <span class="math inline">\(s\)</span> should be substituted in all possible ways by elements of <span class="math inline">\(S_M\)</span>. For multiset <span class="math inline">\(S_M \mathrel{\mathop:}=\left \{ s_1: c_1, s_2: c_2, \ldots , s_n: c_n \right \}\)</span> the formula expands to <span class="math inline">\(S_M(s_1) + S_M(s_2) + \cdots + S_M(s_n)\)</span>, which in turn reduces to <span class="math inline">\(c_1 + c_2 + \cdots + c_n\)</span>.</p>
+<div class="example">
+<p>Consider once more the multisets <span class="math inline">\(A_M \mathrel{\mathop:}=\left \{ a:3, b:2, c:1 \right \}\)</span> and <span class="math inline">\(B_M \mathrel{\mathop:}=\left \{ a:1, b:1, c:2, d:1 \right \}\)</span>, for which the following hold:</p>
+<p><span class="math display">\[\begin{align*}
+    \left | A_M \right | &amp;= \sum_{s \in A_M} A_M(s)\\
+               &amp;= A_M(a) + A_M(b) + A_M(c)\\
+               &amp;= 3 + 2 + 1\\
+               &amp;= 6\\
+    \left | B_M \right | &amp;= \sum_{s \in B_M} B_M(s)\\
+               &amp;= B_M(a) + B_M(b) + B_M(c) + B_M(d)\\
+               &amp;= 1 + 1 + 2 + 1\\
+               &amp;= 5\\
+    \left | A_M \cup B_M \right | &amp;= 8\\
+    \left | A_M \cap B_M \right | &amp;= 3\\
+    \left | A_M - B_M \right | &amp;= 3\\
+    \left | B_M - A_M \right | &amp;= 2\\
+\end{align*}\]</span></p>
+</div>
+<div class="jupyterpython">
+<p>def card(multiset): return sum(multiset.values())</p>
+<p>print(“|{}| = {}”.format(A, card(A))) print(“|{}| = {}”.format(B, card(B))) print(“Union of {} and {} is {}”.format(A, B, multiset_union(A, B))) print(“Intersection of {} and {} is {}”.format(A, B, multiset_intersection(A, B))) print(“Relative complement of {} and {} is {}”.format(A, B, A-B))</p>
+</div>
+<div class="exercise">
+<p>Calculate the cardinality of the following multisets:</p>
+<ul>
+<li><span class="math inline">\(\left \{ a:17 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ \text{John}: 5, \text{Mary}: 5, \text{Bill}: 10 \right \}\)</span></li>
+<li><span class="math inline">\(\left \{ a: 0, b: 0, c:0 \right \}\)</span></li>
+</ul>
+</div>
+</body>
+</html>

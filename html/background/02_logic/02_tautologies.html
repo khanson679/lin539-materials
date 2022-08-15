@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="tautologies">Tautologies</h1>
+<p>A tautology is a formula that is always true, irrespective of what assignment function one picks. A simple example is <span class="math inline">\(a \vee \neg a\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(a\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\vee\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\neg\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(a\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<p>Sometimes the <strong>verum</strong> symbol <span class="math inline">\(\top\)</span> is used to denote an arbitrary tautology. So <span class="math inline">\(\top\)</span> is short for a proposition that is always true. Its opposite is the <strong>falsum</strong> <span class="math inline">\(\bot\)</span>, which is always false.</p>
+<p>Tautologies are very useful for simplifying formulas. For one thing, if one knows that the formula <span class="math inline">\(\phi\)</span> is a tautology, then one can always replace it by <span class="math inline">\(1\)</span> without computing the truth values of any of its parts. But one can also use tautologies to convert <span class="math inline">\(\phi\)</span> into a fully equivalent yet distinct formula <span class="math inline">\(\psi\)</span>.</p>
+<p>The rest of this section lists some important tautologies.</p>
+<h2 id="commutativity-of-wedge-and-vee">Commutativity of <span class="math inline">\(\wedge\)</span> and <span class="math inline">\(\vee\)</span></h2>
+<p>From the truth tables of <span class="math inline">\(\wedge\)</span> and <span class="math inline">\(\vee\)</span>, it follows immediately that</p>
+<ul>
+<li><span class="math inline">\(\phi \wedge \psi \leftrightarrow \psi \wedge \phi\)</span></li>
+<li><span class="math inline">\(\phi \vee \psi \leftrightarrow \psi \vee \phi\)</span></li>
+</ul>
+<h2 id="double-negation">Double negation</h2>
+<p>It always holds that <span class="math inline">\(\phi\)</span> is equivalent to <span class="math inline">\(\neg \neg \phi\)</span>, no matter what formula or propositional symbol <span class="math inline">\(\phi\)</span> corresponds to. So <span class="math inline">\(\phi \leftrightarrow \neg \neg \phi\)</span> is a tautology.</p>
+<div class="exercise">
+<p>Explain how this also entails that <span class="math inline">\(\neg \phi \leftrightarrow \neg \neg \neg \phi\)</span>.</p>
+</div>
+<h2 id="de-morgans-law">De Morgan’s Law</h2>
+<p>In set theory, De Morgan’s law states that <span class="math inline">\(A \cap B = \overline{\overline{A} \cup \overline{B}}\)</span> and <span class="math inline">\(A \cup B = \overline{\overline{A} \cap \overline{B}}\)</span>. A direct analogue of that holds in propositional logic. Both of the following are tautologies:</p>
+<ul>
+<li><span class="math inline">\(\phi \wedge \psi \leftrightarrow \neg (\neg \phi \vee \neg \psi)\)</span></li>
+<li><span class="math inline">\(\phi \vee \psi \leftrightarrow \neg (\neg \phi \wedge \neg \psi)\)</span></li>
+</ul>
+<p>This means that every instance of <span class="math inline">\(\phi \wedge \psi\)</span> can be replaced by <span class="math inline">\(\neg (\neg \phi \wedge \neg \psi)\)</span>, and similarly for negation.</p>
+<div class="exercise">
+<p>Give the truth table for each one of the two tautologies.</p>
+</div>
+<h2 id="decomposition-of-implication">Decomposition of implication</h2>
+<p>Implication can be decomposed into negation and disjunction:</p>
+<ul>
+<li><span class="math inline">\(\phi \rightarrow \psi \leftrightarrow \neg \phi \vee \psi\)</span></li>
+</ul>
+<div class="exercise">
+<p>Rewrite each one of the following formulae using only <span class="math inline">\(\neg\)</span> and <span class="math inline">\(\wedge\)</span> (yes, logical and, not logical or):</p>
+<ul>
+<li><span class="math inline">\(p \rightarrow q\)</span></li>
+<li><span class="math inline">\((p \vee (q \rightarrow \neg p))\)</span></li>
+<li><span class="math inline">\(p \rightarrow (q \rightarrow r)\)</span></li>
+</ul>
+</div>
+<h2 id="implication-chains-as-conjunction">Implication chains as conjunction</h2>
+<p>Some implicational chains can be converted to a single implication with <span class="math inline">\(\wedge\)</span> in the antecedent.</p>
+<ul>
+<li><span class="math inline">\(\phi \rightarrow (\psi \rightarrow \rho) \leftrightarrow \phi \wedge \psi \rightarrow \rho\)</span></li>
+</ul>
+<p>Bracketing is crucial. It is not the case that <span class="math inline">\((\phi \rightarrow \psi) \rightarrow \rho\)</span> is equivalent to <span class="math inline">\(\phi \wedge \psi \rightarrow \rho\)</span>.</p>
+<div class="exercise">
+<p>Give truth tables for the two formulas below to show that only the first is a tautology.</p>
+<ul>
+<li><span class="math inline">\(\phi \rightarrow (\psi \rightarrow \rho) \leftrightarrow \phi \wedge \psi \rightarrow \rho\)</span></li>
+<li><span class="math inline">\((\phi \rightarrow \psi) \rightarrow \rho \leftrightarrow \phi \wedge \psi \rightarrow \rho\)</span></li>
+</ul>
+</div>
+<h2 id="distributivity-of-wedge-and-vee">Distributivity of <span class="math inline">\(\wedge\)</span> and <span class="math inline">\(\vee\)</span></h2>
+<p>The operators <span class="math inline">\(\wedge\)</span> and <span class="math inline">\(\vee\)</span> distribute over each other</p>
+<ul>
+<li><span class="math inline">\(\phi \wedge (\psi \vee \rho) \leftrightarrow (\phi \wedge \psi) \vee (\phi \wedge \rho)\)</span></li>
+<li><span class="math inline">\(\phi \vee (\psi \wedge \rho) \leftrightarrow (\phi \vee \psi) \wedge (\phi \vee \rho)\)</span></li>
+</ul>
+<div class="exercise">
+<p>Show via truth tables that both formulae are indeed tautologies.</p>
+</div>
+</body>
+</html>

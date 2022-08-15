@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="algebras-with-two-operations">Algebras with two operations</h1>
+<p>The notions of magma, semigroup, monoid, and group only apply to algebras with a single operation. But of course one can easily imagine algebraic structures with multiple operations. The natural numbers with addition and multiplication are one of the most natural examples that you have all known since grade school, although you probably didn’t call it an algebraic structure back then.</p>
+<p>Mathematicians have also studied such algebraic structures in great depth, and you can spend an entire lifetime learning about them. Perhaps the three most important types, however, are semirings, rings, and fields. This notebook focuses almost exclusively on semirings as rings and fields are again not that common in linguistics. But since rings and fields are just special cases of semirings, the latter still provide a good foundation for understanding the former.</p>
+<h2 id="semirings">Semirings</h2>
+<h3 id="definition">Definition</h3>
+<p>Intuitively, a semiring is a combination of two monoids over the same carrier set. But not any arbitrary monoids will do, instead the two monoids have to be tightly integrated.</p>
+<div class="definition">
+<p>An algebra <span class="math inline">\(\left \langle C, \oplus, \otimes, 0, 1 \right \rangle\)</span> is a <strong>semiring</strong> iff all of the following hold:</p>
+<ul>
+<li><span class="math inline">\(\left \langle C, \oplus, 0 \right \rangle\)</span> is a commutative monoid</li>
+<li><span class="math inline">\(\left \langle C, \otimes, 1 \right \rangle\)</span> is a monoid</li>
+<li><span class="math inline">\(\otimes\)</span> distributes over <span class="math inline">\(\oplus\)</span>: <span class="math inline">\(a \otimes (b \oplus c) = (a \otimes b) \oplus (a \otimes c)\)</span> and <span class="math inline">\((b \oplus c) \otimes a = (b \otimes a) \oplus (c \otimes a)\)</span></li>
+<li><span class="math inline">\(0\)</span> is an annihilator for <span class="math inline">\(\otimes\)</span>: <span class="math inline">\(a \otimes 0 = 0 \otimes a = 0\)</span></li>
+</ul>
+</div>
+<div class="example">
+<p>The prototypical semiring is the natural numbers with addition and multiplication: <span class="math inline">\(\left \langle \mathbb{N}, +, \times, 0, 1 \right \rangle\)</span>.</p>
+<p>First of all, it holds that <span class="math inline">\(\left \langle \mathbb{N}, +, 0 \right \rangle\)</span> is a commutative monoid and <span class="math inline">\(\left \langle \mathbb{N}, \times, 1 \right \rangle\)</span> is a monoid (also a commutative one, in fact, but that’s not required by the definition of semiring). Second, addition distributes over multiplication in the intended fashion:</p>
+<p><span class="math display">\[
+5 \times (7 + 3) = (7 \times 5) + (3 \times 5) = 50 = 5 \times 10
+\]</span></p>
+<p>Since multiplication is commutative, this also shows that <span class="math inline">\(5 \times (7 + 3) = (5 \times 7) + (3 \times 7)\)</span>. As desired, then, distributivity holds irrespective of the order of arguments. Finally, the identity element for addition is <span class="math inline">\(0\)</span>, and <span class="math inline">\(n \times 0 = 0 \times n = 0\)</span> for every natural number <span class="math inline">\(n\)</span>. So the additive identity is indeed an annihilator for multiplication. This takes care of the last property, showing that we do indeed have a semiring.</p>
+</div>
+<h3 id="detailed-discussion">Detailed discussion</h3>
+<p>The example might have clarified things a bit, but it’s still a good idea to go through the definition step by step. The first thing to keep in mind here is that <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> do not refer to the actual numbers <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. They are just arbitrary names for the identities, we could have just as well called them <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. The names <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> are inspired by the fact that if one interprets <span class="math inline">\(\oplus\)</span> as addition and <span class="math inline">\(\otimes\)</span> as multiplication (as we did in the previous example), then their respective identity elements are indeed the numbers <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. But since <span class="math inline">\(\oplus\)</span> and <span class="math inline">\(\otimes\)</span> stand for arbitrary operations, the identity elements might not even be numbers at all in the general case.</p>
+<div class="example">
+<p>Suppose we generalize the string concatenation operation <span class="math inline">\(\cdot\)</span> from strings to sets of strings such that <span class="math inline">\(U \cdot V = \left \{  u \cdot v \mid u \in U, v \in V \right \}\)</span>. For example, <span class="math inline">\(\left \{  \mathit{ab}, \mathit{c}  \right \} \cdot\left \{  \mathit{dab}, \mathit{c}  \right \} = \left \{  \mathit{abdab}, \mathit{abc}, \mathit{cdab}, \mathit{cc} \right \}\)</span>. Then <span class="math inline">\(\left \langle  \wp(\Sigma^*), \cup, \cdot, \emptyset, \left \{ \varepsilon \right \} \right \rangle\)</span> is a semiring. Notice that the identity elements are now <span class="math inline">\(\emptyset\)</span> for <span class="math inline">\(\cup\)</span> and <span class="math inline">\(\left \{ \varepsilon \right \}\)</span> for the generalized string concatenation operation <span class="math inline">\(\cdot\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Show that both of the following hold:</p>
+<ul>
+<li><span class="math inline">\(\left \langle  \wp(\Sigma^*), \cup, \emptyset  \right \rangle\)</span> is a commutative monoid</li>
+<li><span class="math inline">\(\left \langle  \wp(\Sigma^*), \cdot, \left \{ \varepsilon \right \} \right \rangle\)</span> is a monoid</li>
+</ul>
+</div>
+<p>Next, the distributive property has to hold in both directions. If <span class="math inline">\(\otimes\)</span> is commutative, it suffices to check distributivity in one direction, but for non-commutative <span class="math inline">\(\otimes\)</span> both directions have to be checked.</p>
+<div class="exercise">
+<p>Show with a concrete example that our generalized version of <span class="math inline">\(\cdot\)</span> is not commutative. Then give two concrete examples for each one of the following distributivity equations:</p>
+<ul>
+<li><span class="math inline">\(A \cdot(B \cup C) = (A \cdot B) \cup (A \cdot C)\)</span></li>
+<li><span class="math inline">\((B \cup C) \cdot A = (B \cdot A) \cup (C \cdot A)\)</span></li>
+</ul>
+</div>
+<p>The last condition requires that the additive identity also plays a special role for the multiplicative operation: it must be an annihilator. Whereas an identity element for operation <span class="math inline">\(O\)</span> makes <span class="math inline">\(O\)</span> map everything to itself, an annihilator instead makes <span class="math inline">\(O\)</span> map everything to said annihilator. In formal terms: an identity <span class="math inline">\(e\)</span> has the property <span class="math inline">\(x \otimes e = e \otimes x = x\)</span>, whereas an annihilator <span class="math inline">\(a\)</span> gives <span class="math inline">\(x \otimes a = a \otimes x = a\)</span> (note that both directions must hold even if <span class="math inline">\(\otimes\)</span> is not commutative). Just like distributivity, the requirement that the additive identity must also be a multiplicative annihilator establishes a close link between the two monoids. This is the very essence of a semiring: two monoids that are tightly integrated.</p>
+<div class="exercise">
+<p>The identity element for <span class="math inline">\(\cup\)</span> is <span class="math inline">\(\emptyset\)</span>. Explain why <span class="math inline">\(\emptyset\)</span> is an annihilator for our set-version of <span class="math inline">\(\cdot\)</span>.</p>
+</div>
+<p>One more thing! While it is common usage to call <span class="math inline">\(\oplus\)</span> the additive operation and <span class="math inline">\(\otimes\)</span> the multiplicative operation, this does not entail that the operations are exactly like addition and multiplication. Any two operations will do as long as they meet all the required axioms. However, what axioms must be met differs between the two operations. Only <span class="math inline">\(\oplus\)</span> absolutely has to be commutative. It has to be the case that <span class="math inline">\(\otimes\)</span> distributes over <span class="math inline">\(\oplus\)</span>, but not the other way round. And while the identity for <span class="math inline">\(\oplus\)</span> must be an annihilator for <span class="math inline">\(\otimes\)</span>, the opposite need not hold (though it certainly can in some cases).</p>
+<div class="exercise">
+<p>Suppose that we swap the operations in our semiring so that we get <span class="math inline">\(\left \langle \wp(\Sigma^*), \cdot, \cup, \left \{ \varepsilon \right \}, \emptyset \right \rangle\)</span>. Give all the reasons why this is no longer a semiring.</p>
+</div>
+<p>Just like monoids and groups, semirings have the advantage that they establish connections between mathematical ideas that seem entirely unrelated. At first glance, addition and multiplication of natural numbers has nothing to do with constructing sets of strings via concatenation and union. But the algebraic analysis of the two systems reveals important similarities. Knowing that two systems are semirings is similar to knowing that two phonological phenomena are tier-based strictly local. It does not tell the full story, but it gives you an important baseline that you can make good use of for various purposes.</p>
+<div class="exercise">
+<p>Which one of the following are semirings? Justify your answer! If an algebraic structure is not a semiring, it is enough to list one axiom that is not satisfied (as an extra challenge, you may try to list as many reasons as possible).</p>
+<ul>
+<li><p><span class="math inline">\(\left \langle  \left \{ 0,1 \right \}, \max, \min, 0, 1  \right \rangle\)</span></p></li>
+<li><p><span class="math inline">\(\left \langle  \mathbb{N}, +, +, 0, 0  \right \rangle\)</span></p></li>
+<li><p><span class="math inline">\(\left \langle  \Sigma^*, \mathrm{lcs}, \cdot, \varepsilon, \varepsilon \right \rangle\)</span>, where <span class="math inline">\(\mathrm{lcs}(u,v)\)</span> returns the longest common substring of <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>; for instance, <span class="math inline">\(\mathrm{lcs}(baaaa, aaaab) = aaaa\)</span></p></li>
+<li><p><span class="math inline">\(\left \langle  \mathbb{N} \times \Sigma^*, \oplus, \otimes, \left \langle 0,\emptyset \right \rangle, \left \langle 1, \left \{ \varepsilon \right \} \right \rangle  \right \rangle\)</span>, where <span class="math inline">\(\left \langle m, A \right \rangle \oplus \left \langle n, B \right \rangle = \left \langle m + n, A \cup B \right \rangle\)</span> and <span class="math inline">\(\left \langle m, A \right \rangle \otimes \left \langle n, B \right \rangle = \left \langle m \times n, A \cdot B \right \rangle\)</span></p></li>
+</ul>
+</div>
+<h2 id="rings-and-fields">Rings and fields</h2>
+<p>Now that you have a better idea what semirings are, rings and fields are easy. A <strong>ring</strong> is a semiring <span class="math inline">\(\left \langle C, \oplus, \otimes, 0, 1 \right \rangle\)</span> where <span class="math inline">\(\oplus\)</span> also has an inverse. So <span class="math inline">\(\left \langle C, \oplus, 0 \right \rangle\)</span> isn’t just a commutative monoid, but a commutative (= Abelian) group.</p>
+<div class="example">
+<p>We already encountered <span class="math inline">\(\left \langle  \mathbb{N}, +, \times, 0, 1 \right \rangle\)</span> as an example of a semiring. This structure is not a ring since addition has no inverse. But we can broaden <span class="math inline">\(\mathbb{N}\)</span> to <span class="math inline">\(\mathbb{Z}\)</span>, the set of integers. Then every number has an inverse for addition, so that <span class="math inline">\(\left \langle \mathbb{Z}, +, 0 \right \rangle\)</span> forms an Abelian group. And hence <span class="math inline">\(\left \langle  \mathbb{Z}, +, \times, 0, 1  \right \rangle\)</span> is a ring.</p>
+</div>
+<p>If the multiplicative operation <span class="math inline">\(\otimes\)</span> also gives rise to an Abelian group, the ring is a <strong>field</strong>.</p>
+<div class="example">
+<p>While <span class="math inline">\(\left \langle  \mathbb{Z}, +, \times, 0, 1 \right \rangle\)</span> is a ring, it is not a field. That is because the set of integers does not provide multiplicative inverses. But we can again broaden the carrier set, this time from the set <span class="math inline">\(\mathbb{Z}\)</span> of integers to the set <span class="math inline">\(\mathbb{Q}\)</span> of rationals. The structure <span class="math inline">\(\left \langle  \mathbb{Q}, \times, 1 \right \rangle\)</span> is an Abelian group, as is <span class="math inline">\(\left \langle  \mathbb{Q}, +, 0  \right \rangle\)</span>. So <span class="math inline">\(\left \langle  \mathbb{Q}, +, \times, 0, 1  \right \rangle\)</span> is a semiring that is built from two Abelian groups, making it a field.</p>
+</div>
+<p>As mentioned at the beginning, rings and fields are better known than semirings, but the latter are more important for anything related to formal language theory. So if you can only remember one of the three, make sure it’s semirings. But anybody who understands how a semiring works will also have an easy time remembering rings and fields as special cases of semirings.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Structure</th>
+<th style="text-align: center;"><span class="math inline">\(\oplus\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\otimes\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Semiring</td>
+<td style="text-align: center;">comm. monoid</td>
+<td style="text-align: center;">monoid</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Ring</td>
+<td style="text-align: center;">comm. group</td>
+<td style="text-align: center;">monoid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Field</td>
+<td style="text-align: center;">comm. group</td>
+<td style="text-align: center;">comm. group</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

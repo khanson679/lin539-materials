@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="trees-as-relational-objects">Trees as relational objects</h1>
+<div class="prereqs">
+<ul>
+<li>sets (cardinality)</li>
+</ul>
+</div>
+<p>If our claims about hierarchies so far are on the right track, then posets seem to play an important role in language. Not just any posets, though, but rather the ones that constitute at least weakly connected graphs. Among those, some are even more special as they form semilattices or lattices, but as we saw that is not always the case. The next few notebooks give further examples of representations that matter for language and are at least weakly connected graphs. We start with syntactic trees.</p>
+<h2 id="trees-for-sentence-structure">Trees for sentence structure</h2>
+<p>So far we have treated sentences as strings, as simple sequences of words. But decades of syntactic research have amassed an enormous body of evidence that this simply isn’t the right way of thinking about sentences. Some words in a sentence are more tightly connected than others, and a string cannot encode this fact.</p>
+<div class="example">
+<p>The sentence <em>John saw the man with the telescope</em> can have two meanings: one where John used a telescope to see the man, and one where the man that John saw had a telescope with him. In the first case <em>with the telescope</em> seems more closely connected to <em>saw</em>, in the second to <em>man</em>.</p>
+</div>
+<div class="exercise">
+<p>Each one of the following sentences is ambiguous. Describe the ambiguity, in particular which words seem to be more closely related depending on the reading.</p>
+<ul>
+<li>I watched a movie with Arnold.</li>
+<li>The father of the woman on the balcony is an officer in the military.</li>
+<li>Sue must have met with John and Bill or Mary.</li>
+<li>My daughter is dating John and Bill’s dad.</li>
+<li>The police man stopped and arrested the criminal.</li>
+<li>Who do you want to leave?</li>
+</ul>
+</div>
+<div class="example">
+<p>Here’s another piece of evidence that sentences aren’t just a flat string of words that are all on equal footing and all enjoy equal status. English speakers can emphasize parts of a sentence by putting them at the beginning, as in the following paradigm:</p>
+<ul>
+<li>The old man met this girl at a party</li>
+<li>It is the old man that met this girl at a party</li>
+<li>It is this girl that the old man met at a party</li>
+<li>It is at a party that the old man met this girl</li>
+<li>It is a party that the old man met this girl at</li>
+</ul>
+<p>But not everything can go in this spot, even if could be worth emphasizing.</p>
+<ul>
+<li>It is man (not woman) that the old met this girl at a party</li>
+<li>It is old (not young) that the man met this girl at a party</li>
+<li>It is old man (not young woman) that the met this girl at a party</li>
+<li>It is this (not that) that the old man met girl at a party</li>
+<li>It is at (not after) that the old man met this girl a party</li>
+<li>It is met (not kiss) that the old man this girl at a party</li>
+</ul>
+<p>So not all words in a sentence are on the same level, some can do things that others cannot. And the same argument also shows that not all substrings of a sentence are alike.</p>
+</div>
+<p>Instead of flat strings, sentences are more like chemical molecules where words are connected by intricate structures. Linguists formalize these structures by <strong>trees</strong>, such as the one below.</p>
+<p><img src="tree_psg.svg" alt="tree_psg.svg" /></p>
+<p>As in all sciences, there isn’t perfect agreement about how to analyze the facts, and so you might also find other tree structures being proposed. Three examples are shown below, some of which are considered obsolete nowadays.</p>
+<p><img src="tree_xbar.svg" alt="tree_xbar.svg" /></p>
+<p><img src="tree_bps.svg" alt="tree_bps.svg" /></p>
+<p><img src="tree_dep.svg" alt="tree_dep.svg" /></p>
+<p>There certainly are many differences between these structures, but the motivation for these differences would be the subject of a syntax class. We are only concerned with the mathematical status of these structures. And in that respect things are simple: despite all their differences, all these structures are trees.</p>
+<p>A tree consists of a number of nodes that are ordered vertically. The tree must have a single node at the very top, which is called its <em>root</em>. Each node may have one or more branches that connect it to nodes below it. Crucially, no node can be connected to more than one node above it. That’s what gives the tree-like appearance.</p>
+<h2 id="defining-trees-as-graphs">Defining trees as graphs</h2>
+<p>Since trees are a fundamental data structure in linguistics, we will be dealing with them quite a bit at various points. That’s why we need to have a precise terminology to talk about them, and a more abstract understanding for what a tree is (among other things, this is very useful if you ever have to write a program that works with trees rather than strings). The most common view of trees defines them as a special type of graph.</p>
+<div class="definition">
+<p>A tree is a graph <span class="math inline">\(G\)</span> such that</p>
+<ul>
+<li>the graph is rooted and acyclic, and</li>
+<li>every vertex except the root has an in-degree of 1.</li>
+</ul>
+</div>
+<p>Those are some fancy new terms in there, but all the ideas are simple.</p>
+<p>Given a graph <span class="math inline">\(G \mathrel{\mathop:}=\left \langle V, E \right \rangle\)</span>, the <strong>in-degree</strong> of a vertex <span class="math inline">\(v\)</span> measures how many edges end in <span class="math inline">\(E\)</span>. Its counterpart is the <strong>out-degree</strong>, which measures how many edges leave <span class="math inline">\(v\)</span>. Formally, the in-degree of a vertex <span class="math inline">\(v\)</span> is the cardinality of <span class="math inline">\(\mathrel{E} v\)</span>, and its out-degree is the cardinality of <span class="math inline">\(v \mathrel{E}\)</span>. A vertex with in-degree 0 is a <strong>source</strong>, and a vertex with out-degree 0 is a <strong>sink</strong>. The in-degree and out-degree of a graph are the maximum of the in-degrees and out-degrees of its vertices.</p>
+<div class="example">
+<p>Consider the two weakly connected graphs below.</p>
+<p><img src="graph_indegree.svg" alt="graph_indegree.svg" /></p>
+<p>In the left one, the vertices B, C, and D all have an in-degree of 1 and an out-degree 0, making them sinks but not sources. The vertex A has an in-degree of 0 and an out-degree of 3, so it’s a source but not a sink. Overall, the graph has an in-degree of 1 and an out-degree of 3.</p>
+<p>Now look at the right graph. The vertices A, B, and C all have an out-degree of 2, whereas 10 has an out-degree of 1. The in-degree of A is 1, whereas B, C and D have in-degrees 2. None of the vertices in this graph are sources or sinks. This graph has an in-degree of 2 and an out-degree of 2.</p>
+</div>
+<div class="exercise">
+<p>Draw the smallest graph possible where every vertex has in-degree 2 and out-degree 2. Try to minimize both the number of vertices and the number of edges.</p>
+</div>
+<div class="exercise">
+<p>Say whether the following statement is true or false: In every finite graph, the sum of in-degrees of all vertices must equal the sum of the out-degrees of all vertices. Justify your answer.</p>
+<p>If the plain English description is unclear to you, here’s one in formal terms. Suppose we write <span class="math inline">\(i(v)\)</span> and <span class="math inline">\(o(v)\)</span> for the in-degree and out-degree of vertex <span class="math inline">\(v\)</span>, respectively. Then it holds for every finite graph <span class="math inline">\(\left \langle V,E \right \rangle\)</span> that summing all elements of <span class="math inline">\(\left \{  i(v) \mid v \in V  \right \}\)</span> yields the same number as summing all elements of <span class="math inline">\(\left \{  o(v) \mid v \in V \right \}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Say whether the following is true or false: no vertex can be both a source and a sink. Justify your answer.</p>
+</div>
+<p>A graph is <strong>rooted</strong> iff both of the following hold:</p>
+<ol type="1">
+<li>there is exactly one vertex <span class="math inline">\(s\)</span> that is a source, and</li>
+<li>all vertices distinct from <span class="math inline">\(s\)</span> can be reached from <span class="math inline">\(s\)</span>.</li>
+</ol>
+<p>We can express this in formal terms using <span class="math inline">\(E^*\)</span> for the reflexive, transitive closure of the edge relation <span class="math inline">\(E\)</span>: there must be exactly one <span class="math inline">\(v\)</span> such that <span class="math inline">\(E^* v = \emptyset\)</span>, and it also holds for <span class="math inline">\(v\)</span> that <span class="math inline">\(v E^* = V\)</span>.</p>
+<div class="exercise">
+<p>Explain step-by-step why it is the case that if there is exactly one <span class="math inline">\(v\)</span> such that <span class="math inline">\(E^* v = \emptyset\)</span> and <span class="math inline">\(v E^* = V\)</span>, then the graph <span class="math inline">\(G \mathrel{\mathop:}=\left \langle V, E \right \rangle\)</span> is rooted.</p>
+</div>
+<div class="example">
+<p>Consider once more the graphs from the previous example, repeated here for your convenience:</p>
+<p><img src="graph_indegree.svg" alt="graph_indegree.svg" /></p>
+<p>The left one is rooted, whereas the right one is not.</p>
+</div>
+<div class="exercise">
+<p>Draw the smallest graph that is rooted but not a tree. Try to minimize both the number of vertices and the number of edges.</p>
+</div>
+<div class="exercise">
+<p>Every rooted graph is weakly connected. Explain why.</p>
+</div>
+<p>Finally, a graph is <strong>acyclic</strong> iff there is no vertex <span class="math inline">\(v\)</span> such that <span class="math inline">\(\left \langle v,v \right \rangle \in E^*\)</span>. Keep in mind that <span class="math inline">\(E^*\)</span> is the reflexive transitive closure of the edge relation, so even if the edge relation itself does not contain <span class="math inline">\(\left \langle v,v \right \rangle\)</span> the graph may still contain a cycle. Perhaps <span class="math inline">\(v\)</span> is connected to <span class="math inline">\(u\)</span>, <span class="math inline">\(u\)</span> to <span class="math inline">\(w\)</span>, and <span class="math inline">\(w\)</span> to <span class="math inline">\(v\)</span>. That would still be a cycle. Basically, whenever we can start at some vertex <span class="math inline">\(v\)</span> and follow a sequence of 1 or more edges all the way back to <span class="math inline">\(v\)</span>, the graph contains a cycle and hence cannot be acyclic.</p>
+<div class="exercise">
+<p>For each one of the two graphs from the previous example, say whether it is acyclic.</p>
+</div>
+<div class="exercise">
+<p>Now that you know what all these terms means, go back to the definition of trees and study it carefully. Does it match your intuitive understanding of trees? Or is there something that must be added in <em>order</em> to make it a traditional linguistic tree? Only read on once you’ve made up your mind.</p>
+</div>
+<p>Taking a step back, a tree in the graph-theoretic sense is just a graph with a unique source from which all vertices can be reached, and where no vertex can have more than one incoming edge. The number of outgoing edges, however, is not limited. This makes trees unbalanced. A graph is <strong>balanced</strong> iff it holds for every vertex that its in-degree is the same as its out-degree.</p>
+<p>Trees show up in all kinds of areas and aren’t a peculiarity of linguistics. However, linguistic trees are a more specialized construct than trees in the graph-theoretic sense. Note how the definition above only uses a single edge relation. So nodes can only be ordered along one dimension, which linguists commonly refer to as dominance. But linguistic trees also have linearity.</p>
+<div class="example">
+<p>The two trees below are equivalent from a graph-theoretic perspective as they define exactly the same edge relation over the same vertices.</p>
+<p><img src="tree_orderdifference.svg" alt="tree_orderdifference.svg" /></p>
+<p>But the two are not the same. One represents the structure of <em>Thus Mary died</em>, whereas the other is the structure of the (fairly stilted) <em>Thus died Mary</em>.</p>
+</div>
+<p>We could enrich graphs with a second relation for linear order, but then the definition for trees gets much more convoluted. Fortunately, there is a nice alternative that also reveals trees to be a natural generalization of strings. This is shown in the next notebook.</p>
+</body>
+</html>

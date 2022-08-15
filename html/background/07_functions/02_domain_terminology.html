@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="domains-and-co-domains">Domains and co-domains</h1>
+<p>Every function has a <strong>domain</strong> and a <strong>co-domain</strong>. The domain is the set of objects from which its arguments can be drawn, and the <strong>co-domain</strong> is the set of objects from which outputs can be drawn. A function is undefined on any arguments that do not belong to its domain. One commonly writes <span class="math inline">\(f: D \rightarrow C\)</span> to indicate that <span class="math inline">\(f\)</span> is a function from domain <span class="math inline">\(D\)</span> to co-domain <span class="math inline">\(C\)</span>.</p>
+<div class="example">
+<p>Consider the function <span class="math inline">\(f(x) = x +1\)</span>. This actually represents multiple functions depending on how one picks the domain and co-domain.</p>
+<p>Suppose <span class="math inline">\(f: \mathbb{N} \rightarrow \mathbb{N}\)</span>. Then <span class="math inline">\(f\)</span> is a function from natural numbers (0, 1, 2, ) to natural numbers. In this case we have, for instance, <span class="math inline">\(f(0) = 1\)</span> and <span class="math inline">\(f(500) = 501\)</span>. However, <span class="math inline">\(f(-1)\)</span> or <span class="math inline">\(f(2.5)\)</span> would be undefined because <span class="math inline">\(-1\)</span> and <span class="math inline">\(2.5\)</span> are not natural numbers.</p>
+</div>
+<div class="example">
+<p>Now suppose that we have <span class="math inline">\(f(x) = x + 1\)</span> with <span class="math inline">\(f: \mathbb{R} \rightarrow \mathbb{R}\)</span>, i.e. <span class="math inline">\(f\)</span> is a function from real numbers to real numbers. (We haven’t encountered real numbers yet, just assume that <span class="math inline">\(\mathbb{R}\)</span> includes pretty much number you have encountered in high school, e.g. <span class="math inline">\(1\)</span>, <span class="math inline">\(1.38702\)</span>, <span class="math inline">\(-\frac{5}{17}\)</span>, <span class="math inline">\(\sqrt{2}\)</span>, and so on.) Now <span class="math inline">\(f(-1)\)</span> = 0$ and <span class="math inline">\(f(2.5) = 3.5\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Suppose that <span class="math inline">\(f\)</span> is still defined by <span class="math inline">\(f(x) = x + 1\)</span>, but we have <span class="math inline">\(f: \mathbb{R} \rightarrow \mathbb{N}\)</span>. For each one of the following, say whether it is defined or undefined.</p>
+<ol type="1">
+<li><span class="math inline">\(f(0)\)</span></li>
+<li><span class="math inline">\(f(-1)\)</span></li>
+<li><span class="math inline">\(f(-2)\)</span></li>
+<li><span class="math inline">\(f(2.5)\)</span></li>
+</ol>
+</div>
+<div class="example">
+<p>When a car wash is viewed as a function, its domain is the set of all cars (both dirty and clean), whereas the co-domain only contains clean cars.</p>
+</div>
+<div class="exercise">
+<p>What would be the domain and co-domain of a broken car wash that fails to remove even the tiniest speck of dirt?</p>
+</div>
+<p>Since it is so important to know the domain and co-domain of a function, those are usually specified before the precise mapping from inputs to outputs is given.</p>
+<div class="example">
+<p>Let <span class="math inline">\(E\)</span> be the set of English first names. Then the function <span class="math inline">\(f: E \rightarrow \left \{ 0,1 \right \}\)</span> maps <span class="math inline">\(n\)</span> to <span class="math inline">\(1\)</span> iff <span class="math inline">\(n\)</span> contains at least three syllables.</p>
+</div>
+<p>The mapping from arguments to outputs can be defined in various ways, e.g. in plain English, or as a formula like <span class="math inline">\(f(x) = \frac{(x + x^2 + 5)^{x+1}}{1000^x}\)</span>. For very simple functions whose name was already mentioned, one often writes <span class="math inline">\(x \mapsto y\)</span> instead of <span class="math inline">\(f(x) = y\)</span>.</p>
+<div class="example">
+<p>Instead of <span class="math inline">\(f(x) = 5 \times x - 3\)</span>, we may simple write <span class="math inline">\(x \mapsto 5 \times x - 3\)</span>.</p>
+</div>
+<p><strong>Caution:</strong> Notice the difference between <span class="math inline">\(\rightarrow\)</span> and <span class="math inline">\(\mapsto\)</span>. The first is used when specifying the domain and co-domain, whereas the latter indicates the concrete mapping from an argument to an output.</p>
+</body>
+</html>

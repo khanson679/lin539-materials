@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="functions-basic-notation">Functions: Basic notation</h1>
+<p><strong>Functions</strong>, also called <strong>maps</strong> or <strong>mappings</strong>, are ubiquitous in mathematics. The laymen usually thinks of things like <span class="math inline">\(f(x) = x + 1\)</span> when they hear the word <em>function</em>, but the concept is much more general.</p>
+<h2 id="functions-convert-input-arguments-to-an-output">Functions convert input arguments to an output</h2>
+<p>Anything can be thought of as a function as long as it takes a fixed number of <strong>arguments</strong> as its input and converts them to an output. Crucially, the output is not allowed to vary while the input is kept the same.</p>
+<div class="example">
+<p>A car wash can be regarded as a function that takes as input a car and returns as its output a clean car (in an ideal world, at least). A dirty Dodge Viper comes out as a clean Dodge Viper, and a clean Audi A4 still comes out as a clean Audi A4. The output is always perfectly predictable from the input.</p>
+</div>
+<div class="example">
+<p>Suppose <span class="math inline">\(f(x)\)</span> can be randomly chosen between <span class="math inline">\(x+1\)</span> and <span class="math inline">\(2 \times x\)</span>. This is not a function because one and the same input can produce different outputs.</p>
+</div>
+<div class="exercise">
+<p>Let <span class="math inline">\(f\)</span> be a function that takes as its input a number <span class="math inline">\(n\)</span> and returns <span class="math inline">\(n+1\)</span> on a weekday and <span class="math inline">\(n+2\)</span> on the weekend.</p>
+<ul>
+<li>Is <span class="math inline">\(f\)</span> a function?</li>
+<li>What if <span class="math inline">\(f\)</span> instead takes two arguments: a number <span class="math inline">\(n\)</span>, and the name of the day of the week.</li>
+</ul>
+</div>
+<p>This special property of functions is known as <strong>right uniqueness</strong>. Right uniqueness guarantees that functions are deterministic in the sense that one can predict the output from the input with 100% accuracy.</p>
+<p><strong>Caution</strong>: The functions used in programming languages are not necessarily functions in the mathematical sense because their output can vary even if the input stays the same.</p>
+<div class="jupyterpython">
+<p>import random import re</p>
+<h1 id="a-programming-function-that-is-not-a-mathematical-function">a programming function that is not a mathematical function</h1>
+<p>def random_output(number): # randomly choose between two outputs if random.choice([True, False]): return 2 * number else: return 3 * number</p>
+<h1 id="lets-see-what-happens-when-we-run-the-function-multiple-times">let’s see what happens when we run the function multiple times</h1>
+<p>for _ in range(10): print(“The output of random_output({}) is {}”.format(5, random_output(5)))</p>
+</div>
+<!-- ```python -->
+<!-- import random -->
+<!-- import re -->
+<!-- import ipywidgets -->
+<!-- from ipywidgets import Button, Layout -->
+<!--  -->
+<!-- from IPython.display import display -->
+<!--  -->
+<!-- # a programming function that is not a mathematical function -->
+<!-- def random_output(number): -->
+<!--     # randomly choose between two outputs -->
+<!--     if random.choice([True, False]): -->
+<!--         return 2 * number -->
+<!--     else: -->
+<!--         return 3 * number -->
+<!--  -->
+<!-- b = ipywidgets.Button(description='Click to run randomization', -->
+<!--            layout=Layout(width='50%', height='80px')) -->
+<!-- display(b) -->
+<!--  -->
+<!-- def on_button_clicked(b): -->
+<!--     for _ in range(10): -->
+<!--         print("The output of random_output({}) is {}".format(5, random_output(5))) -->
+<!--      -->
+<!-- b.on_click(on_button_clicked) -->
+<!-- ``` -->
+</body>
+</html>

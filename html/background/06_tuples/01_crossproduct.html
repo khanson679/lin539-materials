@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<p><strong>Prerequisite</strong></p>
+<ul>
+<li>Tuples (basics)</li>
+</ul>
+<h1 id="crossproduct">Crossproduct</h1>
+<p>One often wants to define an entire set of tuples. This can be done with set-builder notation.</p>
+<div class="example">
+<p>Let <span class="math inline">\(N\)</span> be a set of names and <span class="math inline">\(P\)</span> a set of phone numbers. Then we might define an address book as the set <span class="math display">\[
+A \mathrel{\mathop:}=\left \{  \left \langle n, p \right \rangle \mid n \in N, p \in P, \text{ and } p  \text{ is } n \text{&#39;s phone number} \right \}
+\]</span></p>
+</div>
+<p>But when we want to allow all possible combinations, there is an easier option. Consider the colored objects depicted below:</p>
+<p><img src="shapes.svg" alt="shapes.svg" /></p>
+<p>We can represent each object as a pair <span class="math inline">\(\left \langle s,c \right \rangle\)</span> where <span class="math inline">\(s\)</span> and <span class="math inline">\(c\)</span> are drawn from a set <span class="math inline">\(S \mathrel{\mathop:}=\left \{ \text{square}, \text{circle} \right \}\)</span> of shapes and a set <span class="math inline">\(C \mathrel{\mathop:}=\left \{ \text{blue}, \text{red} \right \}\)</span> of colors, respectively. The figure above contains every possible combination of those shapes and colors. We can still use set-builder notation in this case: <span class="math inline">\(\left \{  \left \langle s,c \right \rangle \mid s \in S, c \in C \right \}\)</span>.</p>
+<div class="exercise">
+<p>Why shouldn’t we use a set <span class="math inline">\(\left \{ s,c \right \}\)</span> instead of the pair <span class="math inline">\(\left \langle s,c \right \rangle\)</span>? What might go wrong in this case depending on our choice of <span class="math inline">\(S\)</span> and <span class="math inline">\(C\)</span>?</p>
+</div>
+<p>A more elegant alternative to set-builder notation, however, is the <strong>crossproduct</strong> or <strong>Cartesian product</strong>.</p>
+<div class="definition">
+<p>For any two sets <span class="math inline">\(S\)</span> and <span class="math inline">\(T\)</span>, their crossproduct <span class="math inline">\(S \times C\)</span> is defined as <span class="math inline">\(\left \{  \left \langle s,c \right \rangle \mid s \in S, c \in C \right \}\)</span>. In general, <span class="math inline">\(A_1 \times A_2 \times \cdots \times A_n \mathrel{\mathop:}=\left \{  \left \langle a_1, a_2, \ldots, a_n \right \rangle \mid a_1 \in A_1, a_2 \in A_2, \ldots, a_n \in A_n \right \}\)</span>.</p>
+</div>
+<div class="example">
+<p>For <span class="math inline">\(S \mathrel{\mathop:}=\left \{ \text{square}, \text{circle} \right \}\)</span> and <span class="math inline">\(C \mathrel{\mathop:}=\left \{ \text{blue}, \text{red} \right \}\)</span>, <span class="math inline">\(S \times C\)</span> contains the pairs</p>
+<ul>
+<li><span class="math inline">\(\left \langle \text{square}, \text{blue} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{circle}, \text{blue} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{square}, \text{red} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{circle}, \text{red} \right \rangle\)</span></li>
+</ul>
+<p>This is different from <span class="math inline">\(C \times S\)</span>, which contains</p>
+<ul>
+<li><span class="math inline">\(\left \langle \text{blue}, \text{square} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{blue}, \text{circle} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{red}, \text{square} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{red}, \text{circle} \right \rangle\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Suppose <span class="math inline">\(S\)</span> consists of , , and , whereas <span class="math inline">\(V\)</span> contains only <em>slept</em> and <em>left</em>. Compute <span class="math inline">\(S \times V\)</span>.</p>
+</div>
+<div class="example">
+<p>Now suppose that we also have a set <span class="math inline">\(A \mathrel{\mathop:}=\left \{  \text{awesome}  \right \}\)</span>. Then <span class="math inline">\(S \times C \times A\)</span> would be a set containing the following triples:</p>
+<ul>
+<li><span class="math inline">\(\left \langle \text{square}, \text{blue}, \text{awesome} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{circle}, \text{blue}, \text{awesome} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{square}, \text{red}, \text{awesome} \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \text{circle}, \text{red}, \text{awesome} \right \rangle\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>List all 8 members of <span class="math inline">\(A \times C \times S \times A \times C \times A\)</span>.</p>
+</div>
+<div class="exercise">
+<p>In a certain sense, the crossproduct is the result of generalizing concatenation from tuples to sets of 1-tuples. Explain why.</p>
+</div>
+<div class="exercise">
+<p>If <span class="math inline">\(A\)</span> has <span class="math inline">\(m\)</span> members and <span class="math inline">\(B\)</span> has <span class="math inline">\(n\)</span> members, then the number of tuples in <span class="math inline">\(A \times B\)</span> is <span class="math inline">\(m\)</span> multiplied by <span class="math inline">\(n\)</span>. Explain why.</p>
+</div>
+<div class="remark">
+<p>The name Cartesian product makes more sense if you consider the special case of <span class="math inline">\(\mathbb{N} \times \mathbb{N}\)</span>. Here <span class="math inline">\(\mathbb{N} \mathrel{\mathop:}=\left \{ 0, 1, 2, 3, \ldots \right \}\)</span> is the set of all natural numbers. So <span class="math inline">\(\mathbb{N} \times \mathbb{N}\)</span> is the set of all possible pairs of natural numbers. We can take these two components to represent <span class="math inline">\((x,y)\)</span>-coordinates in the upper right quadrant of a coordinate system. Such a coordinate system is also called a <strong>Cartesian plane</strong>, and that is why the crossproduct is sometimes called the Cartesian product.</p>
+</div>
+<p>Just like tuple concatenation, the crossproduct operation is not commutative.</p>
+<div class="example">
+<p>Let <span class="math inline">\(A \mathrel{\mathop:}=\left \{ a,b \right \}\)</span> and <span class="math inline">\(B \mathrel{\mathop:}=\left \{ 1 \right \}\)</span>. Then <span class="math inline">\(A \times B = \left \{  \left \langle a,1 \right \rangle, \left \langle b,1 \right \rangle \right \}\)</span> whereas <span class="math inline">\(B \times A = \left \{  \left \langle 1,a \right \rangle, \left \langle 1,b \right \rangle  \right \}\)</span>.</p>
+</div>
+<p>But whereas tuple concatenation is associative, the crossproduct operation is not. Most of the time, <span class="math inline">\(A \times B \times C\)</span> and <span class="math inline">\(A \times (B \times C)\)</span> and <span class="math inline">\((A \times B) \times C\)</span> yield different results.</p>
+<div class="example">
+<p>Let <span class="math inline">\(A \mathrel{\mathop:}=\left \{ a,b,c \right \}\)</span>, <span class="math inline">\(B \mathrel{\mathop:}=\left \{ T,F \right \}\)</span>, and <span class="math inline">\(C \mathrel{\mathop:}=\left \{ 1 \right \}\)</span>. Then <span class="math inline">\(A \times (B \times C)\)</span> contains 6 pairs:</p>
+<ul>
+<li><span class="math inline">\(\left \langle a, \left \langle T,1 \right \rangle \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle a, \left \langle F,1 \right \rangle \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle b, \left \langle T,1 \right \rangle \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle b, \left \langle F,1 \right \rangle \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle c, \left \langle T,1 \right \rangle \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle c, \left \langle F,1 \right \rangle \right \rangle\)</span></li>
+</ul>
+<p>While <span class="math inline">\((A \times B) \times C\)</span> also contains 6 pairs, they are different pairs:</p>
+<ul>
+<li><span class="math inline">\(\left \langle \left \langle a, T \right \rangle, 1 \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \left \langle a, F \right \rangle, 1 \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \left \langle b, T \right \rangle, 1 \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \left \langle b, F \right \rangle, 1 \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \left \langle c, T \right \rangle, 1 \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \left \langle c, F \right \rangle, 1 \right \rangle\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>Continuing the previous example, list all elements of <span class="math inline">\(A \times B \times C\)</span>. Does this set also contain 6 tuples? Are they also pairs?</p>
+</div>
+<h2 id="recap">Recap</h2>
+<ul>
+<li>The crossproduct (or Cartesian product) generalizes concatenation from tuples to sets: <span class="math display">\[A_1 \times A_2 \times \cdots \times A_n \mathrel{\mathop:}=\left \{  \left \langle a_1, a_2, \ldots, a_n \right \rangle \mid a_1 \in A_1, a_2 \in A_2, \ldots, a_n \in A_n \right \}\]</span></li>
+<li>The crossproduct operation is not commutative. Never confuse <span class="math inline">\(A \times B\)</span> and <span class="math inline">\(B \times A\)</span>.</li>
+<li>The crossproduct operation is not associative. Never confuse <span class="math inline">\(A \times B \times C\)</span>, <span class="math inline">\(A \times (B \times C)\)</span>, and <span class="math inline">\((A \times B) \times C\)</span>.</li>
+</ul>
+</body>
+</html>

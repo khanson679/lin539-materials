@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="switching-between-representations">Switching between representations</h1>
+<p>The unit on universals argues that unrelated phenomena can be unified under the banner of monotonicity. The apparent differences between the phenomena are due to differences in the structures that monotonicity is evaluated over:</p>
+<ul>
+<li>the person hierarchy (<span class="math inline">\(1 &lt; 2 &lt; 3\)</span>),</li>
+<li>the adjectival gradation hierarchy (<span class="math inline">\(\text{positive} &lt; \text{comparative} &lt; \text{superlative}\)</span>),</li>
+<li>the (partially ordered) case hierarchy,</li>
+<li>the person-person hierarchy for the PCC,</li>
+<li>the adjunct extension semilattices for the Adjunct Island Constraint.</li>
+</ul>
+<p>What we have done, then, is given each empirical domain a specific <strong>representation</strong>. A representation is a structure that expresses crucial properties of the object is represents. Mathematically, we are free to choose our representations any way we want. In fact, there are <strong>representation theorems</strong> that establish how, sometimes, one representation can be transferred into another representation without losing any essential properties.</p>
+<div class="example">
+<p>Here is a very simple representation theorem. Every set <span class="math inline">\(S\)</span> be represented as its <strong>characteristic function</strong> <span class="math inline">\(f_S\)</span> such that <span class="math inline">\(f_S(x) = 1\)</span> if <span class="math inline">\(x \in S\)</span> and <span class="math inline">\(0\)</span> otherwise. For instance, if the set <span class="math inline">\(S\)</span> of students who cheated on an exam contains John and Mary, but not Sue, then its characteristic function <span class="math inline">\(f_S\)</span> maps John to <span class="math inline">\(1\)</span>, Mary to <span class="math inline">\(1\)</span>, and Sue to <span class="math inline">\(0\)</span>.</p>
+<p>Note how this preserves all crucial aspects of a set. The set is still unordered because the characteristic function only expresses whether the element is in the set, not what position it occupies. Idempotency also holds: <span class="math inline">\(S \mathrel{\mathop:}=\left \{ a \right \}\)</span> is the same set as <span class="math inline">\(T \mathrel{\mathop:}=\left \{ a,a \right \}\)</span> because <span class="math inline">\(f_S\)</span> and <span class="math inline">\(f_T\)</span> are the same function that maps <span class="math inline">\(a\)</span> to <span class="math inline">\(1\)</span>, and everything else to <span class="math inline">\(0\)</span>.</p>
+<p>The functional view of sets is sometimes more convenient to work with. That’s particularly the case for semantics, the linguistic study of meaning. Semanticists use a notational format that expresses everything in terms of functions (the <strong>lambda calculus</strong>). We will see some of that in a later chapter.</p>
+</div>
+<div class="exercise">
+<p>Suppose that the students in this class are <em>John</em>, <em>Sue</em>, and <em>Mary</em>. Write</p>
+<ul>
+<li>the characteristic function for the set of female students (assuming heteronormative naming conventions), and</li>
+<li>the characteristic function for the set of students whose name contains exactly four letters, and</li>
+<li>the characteristic function for the union of the two sets.</li>
+</ul>
+<p>Define each function by explicitly writing down the values, e.g. <span class="math inline">\(\text{John} \mapsto 1\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Continuing the previous exercise, can you give a general definition for union that uses the values 0 and 1 assigned by characteristic functions?</p>
+<p><em>Hint</em>: Check out the <strong>max</strong> function in the backgrounds section.</p>
+</div>
+<div class="exercise">
+<p>Can you define the analog of a characteristic function for multisets?</p>
+</div>
+<div class="example">
+<p>A more complicated representation theorem is the Kuratovsky definition of pairs. You might already be familiar with this definition if you have prior training in theoretical syntax, where this definition has gained some notoriety since the mid 90s. Rather than taking tuples as a primitive, Kuratovsky defined <span class="math inline">\(\left \langle a,b \right \rangle\)</span> as a shorthand for <span class="math inline">\(\left \{  \left \{ a \right \}, \left \{ a,b \right \}  \right \}\)</span>. Intuitively, the two don’t seem to have anything in common. But think about the crucial property of pairs: <span class="math inline">\(\left \langle a,b \right \rangle = \left \langle c,d \right \rangle\)</span> iff <span class="math inline">\(a = c\)</span> and <span class="math inline">\(b = d\)</span>. This equivalence also holds under Kuratovsky’s definition of pairs.</p>
+<p>Suppose that <span class="math inline">\(\left \langle a,b \right \rangle = \left \langle c,d \right \rangle\)</span>. Then by Kuratowsky’s definition, <span class="math inline">\(\left \{  \left \{ a \right \}, \left \{ a,b \right \}  \right \} = \left \{  \left \{ c \right \}, \left \{ c,d \right \} \right \}\)</span>. If <span class="math inline">\(\left \{ a \right \} \neq \left \{ c \right \}\)</span>, then <span class="math inline">\(\left \{ a \right \} = \left \{ c,d \right \}\)</span>, which can only hold if <span class="math inline">\(c = d\)</span>. But then <span class="math inline">\(\left \{ a \right \} = \left \{ c,d \right \} = \left \{ c,c \right \} = \left \{ c \right \} \neq \left \{ a \right \}\)</span>. As this is a contradiction, it must be the case that <span class="math inline">\(\left \{ a \right \} = \left \{ c \right \}\)</span>. From this it follows that <span class="math inline">\(a = c\)</span>, wherefore <span class="math inline">\(\left \{ a,b \right \} = \left \{ c,d \right \}\)</span> implies <span class="math inline">\(b = d\)</span>, exactly as desired.</p>
+</div>
+<div class="exercise">
+<p>Explain why the equivalence also holds in the other direction: if <span class="math inline">\(a = c\)</span> and <span class="math inline">\(b = d\)</span>, then <span class="math inline">\(\left \{ \left \{ a \right \}, \left \{ a,b \right \} \right \} = \left \{ \left \{ c \right \}, \left \{ c,d \right \} \right \}\)</span> (and thus <span class="math inline">\(\left \langle a,b \right \rangle = \left \langle c,d \right \rangle\)</span>).</p>
+</div>
+<div class="exercise">
+<p>Under Kuratovsky’s definition, what set corresponds to the pair <span class="math inline">\(\left \langle a,a \right \rangle\)</span>?</p>
+</div>
+<div class="exercise">
+<p>In earlier units, we said that the crucial difference between sets and tuples is that the latter are ordered and not idempotent. So <span class="math inline">\(\left \langle a,b \right \rangle \neq \left \langle b,a \right \rangle\)</span> (“order matters”) and <span class="math inline">\(\left \langle a \right \rangle \neq \left \langle a,a \right \rangle\)</span> (“tuples are not idempotent”). But now we only checked that <span class="math inline">\(\left \langle a,b \right \rangle = \left \langle c,d \right \rangle\)</span> iff <span class="math inline">\(a = c\)</span> and <span class="math inline">\(b = d\)</span>. This biconditional actually entails that pairs are ordered and not idempotent, as desired. Explain why!</p>
+</div>
+<div class="exercise">
+<p>The Kuratowski definition does not hold for arbitrary tuples. That is to say, <span class="math inline">\(\left \langle a, b, c \right \rangle\)</span> cannot always be represented as <span class="math inline">\(\left \{  \left \{ a \right \}, \left \{ a, b \right \}, \left \{ a,b,c \right \} \right \}\)</span>. To see this, try to represent the following two triples in terms of these sets:</p>
+<ul>
+<li><span class="math inline">\(\left \langle a, a, b \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle a, b, b \right \rangle\)</span></li>
+</ul>
+<p>What is the problem?</p>
+</div>
+<p>Alright, so mathematically the sky is the limit when it comes to representations. That is certainly a good thing: using representation theorems, we can switch between representations in whatever way is convenient for the task at hand. The linguists among you might find that irritating, though. Linguists are used to talking about “<em>the</em> structure”, and “<em>the</em> representation”. Their implicit assumption is that there is one specific representation used by the human mind, and that is what linguists should use in their descriptions. But things simply aren’t that straight-forward. Even with computers, there is no clear notion of representation. What exactly is the representation of, say, a set on your computer? In the programming language, it is a specific construct X, but that does not at all reflect how X is instantiated by your computer’s hardware. And there’s many intermediate representations between those two extremes. Computers, a man-made product, do not allow us to identify a unique representation even though we know exatly how they work. The human mind, by contrast, is still a giant black box to us. There is no reason to believe that there is something like “<em>the</em> uniquely correct representation” — and even if there is, odds are we will never get it quite right, so we might just as well switch between representations.</p>
+<p>That said, linguists are right in insisting on the importance of representations in general. We want to have a good idea of what properties hold of linguistic representations. For instance, why is the person hierarchy <span class="math inline">\(1 &lt; 2 &lt; 3\)</span>? Why couldn’t it simply be <span class="math inline">\(1 &lt; 2\)</span>, with <span class="math inline">\(3\)</span> completely unordered with respect to <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>? With such a hierarchy, we would expect a very different syncretism typology. Ideally, there is some important property that separates these two hierarchies, making one natural and the other unnatural. Both are weak partial orders, which we need for case syncretism and the PCC. So whatever is the relevant property, it can’t be a limitation to weak partial orders.</p>
+<p>The answer is still largely open - that’s how it is with research, it takes a lot of effort to clear up the fog. But there are some simple restrictions that can be put in place. Like monotonicity, they are ubiquitous in language. In order to talk about them from a mathematical perspective, we need to bring in <strong>graph theory</strong>.</p>
+</body>
+</html>

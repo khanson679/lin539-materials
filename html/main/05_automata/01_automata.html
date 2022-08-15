@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="finite-state-automata">Finite-state automata</h1>
+<div class="prereqs">
+<ul>
+<li>strings (string parts)</li>
+<li>general (big operators)</li>
+</ul>
+</div>
+<p>Prefix trees, although limited to tree structures rather than arbitrary graphs, generalize our standard notion of graphs in that they have both vertex labels (which we called <em>colors</em>) and edge labels (the actual characters of the strings). We briefly entertained the notion of generalizing prefix trees to prefix DAGs, but that did not turn out to be particularly useful for our intended application, namely a more efficient encoding of word lists. But when we take one more step and generalize prefix trees from trees to arbitrary graphs with colors and edge labels, we do get a very useful kind of object: <em>finite-state automata</em>.</p>
+<h2 id="automata-as-graphs">Automata as graphs</h2>
+<p>A finite-state automaton (FSA) is a finite graph that has both edge labels and vertex labels. The edges are usually called <strong>arcs</strong>, and the vertices are called <strong>states</strong> (by now you’re hopefully accustomed to one and the same thing having many different names). We will freely switch between these terms depending on how much we want to emphasize the graph-theoretic nature of FSAs.</p>
+<p>As was just said, FSAs have both edge labels and vertex labels. The edge labels are drawn from some arbitrary alphabet. The vertex labels are used to distinguish between four types of vertices, two of which are already familiar from prefix trees:</p>
+<ol type="1">
+<li>normal vertices,</li>
+<li><strong>final</strong> vertices,</li>
+<li><strong>initial</strong> vertices,</li>
+<li>vertices that are both initial and final.</li>
+</ol>
+<p>We already had normal and final vertices for prefix trees (they were color-coded as red and blue, respectively). Initial vertices are a new type. For prefix trees, it is obvious that we always want to start at the source, i.e. the root of the tree. An arbitrary graph may have multiple sources, however, or none at all, so instead the possible starting points have to be indicated explicitly by marking them as initial.</p>
+<p>Any graph that satisfies the requirements above is a finite-state automaton. As with prefix trees, we can look at the strings that are associated with paths from an initial vertex to a final vertex and thus compute a (possibly infinite) set of strings.</p>
+<div class="example">
+<p>Consider the FSA below, where initial states are marked by an edge labeled <em>start</em> and final nodes are doubly circled.</p>
+<p><img src="abaa.svg" alt="abaa.svg" /></p>
+<p>The shortest path from an initial to a final state goes from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>, or simply <span class="math inline">\(\left \langle 0,1 \right \rangle\)</span>. This path contains only an <span class="math inline">\(a\)</span> along the way. So the string associated with this path is <span class="math inline">\(a\)</span>.</p>
+<p>The next longer path is <span class="math inline">\(\left \langle 0,1,2,0,1 \right \rangle\)</span>, yielding <span class="math inline">\(\mathit{abaa}\)</span>. After that, one can follow the path <span class="math inline">\(\left \langle 0,1,2,0,1,2,0,1 \right \rangle\)</span> and obtain the string <span class="math inline">\(\mathit{abaabaa}\)</span>. In sum, all the associated strings start with an <span class="math inline">\(\mathit{a}\)</span>, followed by 0 or more instances of <span class="math inline">\(\mathit{baa}\)</span>.</p>
+</div>
+<div class="example">
+<p>In the minor variant below, the initial state is also a final state.</p>
+<p><img src="aba.svg" alt="aba.svg" /></p>
+<p>As a result, the empty path is a valid path from an initial state to a final state. The empty path is associated with the empty string <span class="math inline">\(\varepsilon\)</span>. In addition, for every valid path ending in <span class="math inline">\(1\)</span> there is now a valid truncated version missing the final step from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>. This also allows for the following strings: <span class="math inline">\(\mathit{a}\)</span>, <span class="math inline">\(\mathit{aba}\)</span>, <span class="math inline">\(\mathit{ababa}\)</span>, and so on.</p>
+</div>
+<div class="example">
+<p>The automaton below produces strings over <span class="math inline">\(\left \{ a \right \}\)</span> of length <span class="math inline">\(l\)</span> such that <span class="math inline">\(l \mod 4 = 2\)</span>.</p>
+<p><img src="modulo4.svg" alt="modulo4.svg" /></p>
+</div>
+<p>FSAs are incredibly useful for modeling natural language. For example, the <span class="math inline">\(n\)</span>-gram grammars we have seen are all special cases of FSAs.</p>
+<div class="example">
+<p>Consider the SL grammar that bans word-final voicing for German:</p>
+<p><span class="math display">\[
+\left \{ 
+\text{b} \ltimes,
+\text{d} \ltimes,
+\text{v} \ltimes,
+\text{z} \ltimes
+ \right \}
+\]</span></p>
+<p>We can convert this to an FSA that will move us into a non-final state whenever a voiced consonant is encountered. Since we only consider paths that end in a final state, it is impossible for a word to end in a voiced consonant. For the sake of succinctness, we denote all voiced consonants by <span class="math inline">\(Z\)</span> and all other sounds by <span class="math inline">\(\neg Z\)</span>.</p>
+<p><img src="voicing.svg" alt="voicing.svg" /></p>
+</div>
+<div class="example">
+<p>A <em>strictly piecewise</em> (SP) grammar is similar to an SL grammar except that each <span class="math inline">\(n\)</span>-gram is a forbidden subsequence, rather than a forbidden substring. For example, the phenomenon of unbounded tone plateauing forbids low tones (L) from occurring between high tones (H) no matter how far apart the two high tones are. So LHLLLLL and LLLLLHL are well-formed, but not LHLLLHL. An SP-grammar can capture this by forbidding the subsequence HLH.</p>
+<p>Equivalently, one can construct an FSA where seeing an L after an H moves us into a special part of the graph where all edges are labeled L. This way it becomes impossible to continue a string like LHLLL with an H.</p>
+<p><img src="utp.svg" alt="utp.svg" /></p>
+</div>
+<p>The last example illustrates how vertices in an FSA serve as a limited kind of memory. The fact that we are in a specific vertex implicitly encodes that certain symbols were encountered along the path to this vertex, and by carefully placing edges from this vertex we can regulate how the computation proceeds from here. This connection between vertices and “memory states” is why the term is finite <strong>state</strong> automata.</p>
+<h2 id="definition-and-terminology">Definition and terminology</h2>
+<p>The canonical definition of FSAs looks very different from the graph-theoretic one. This is because FSAs were invented independently, and none of the important theorems about them build on the insights of graph theory. I will first define FSAs in graph-theoretic terms, and then contrast those definitions with the canonical one from formal language theory.</p>
+<div class="definition">
+<p>A <strong>finite-state automaton</strong> (FSA) is a vertex- and edge-labeled (directed) graph <span class="math inline">\(A \mathrel{\mathop:}=\left \langle V, E, \Sigma, c, \ell \right \rangle\)</span> such that</p>
+<ul>
+<li><span class="math inline">\(V\)</span> is a finite set of vertices, also called <strong>states</strong>, and</li>
+<li><span class="math inline">\(E \subseteq V \times V\)</span> is the edge relation, also called the <strong>transition relation</strong>, and</li>
+<li><span class="math inline">\(\Sigma\)</span> is a fixed, non-empty alphabet, and</li>
+<li><span class="math inline">\(\ell\)</span> maps edges to members of <span class="math inline">\(\wp(\Sigma)\)</span>, and</li>
+<li><span class="math inline">\(c\)</span> maps vertices to members of <span class="math inline">\(\wp(\left \{ I,F \right \})\)</span>.</li>
+</ul>
+<p>A vertex <span class="math inline">\(v\)</span> is called <strong>initial</strong> iff <span class="math inline">\(I \in c(v)\)</span> and <strong>final</strong> iff <span class="math inline">\(F \in c(v)\)</span>.</p>
+</div>
+<p>The definition above isn’t too different from that of graphs mostly straight-forward, except for <span class="math inline">\(\ell\)</span> and <span class="math inline">\(c\)</span>. The role of <span class="math inline">\(c\)</span> is to indicate whether a vertex is initial (mapped to <span class="math inline">\(\left \{ I \right \}\)</span>), final (mapped to <span class="math inline">\(\left \{ F \right \}\)</span>), neither (mapped to <span class="math inline">\(\emptyset\)</span>), or both (mapped to <span class="math inline">\(\left \{ I&lt;F \right \}\)</span>). The labeling function <span class="math inline">\(\ell\)</span>, on the other hand, associates each edge with a set of symbols. This may surprise you because the examples so far had edges labeled with symbols. But this was a bit of a notational trick to obscure the use of sets.</p>
+<div class="example">
+<p>In the devoicing automaton above, <span class="math inline">\(Z\)</span> and <span class="math inline">\(\neg Z\)</span> each represent multiple symbols. Each one of <em>b</em>, <em>d</em>, <em>v</em>, and <em>z</em> can take us from 0 to 1 in that automaton, which we represented with a single edge from 0 to 1 that is labeled <span class="math inline">\(Z\)</span>. More accurately, we should have four distinct edges from 0 to 1, one labeled <em>b</em>, one labeled <em>d</em>, one labeled <em>v</em>, and one labeled <em>z</em>. But we cannot have 4 distinct edges that connect the same vertices. Each one of those edges would be exactly the same pair <span class="math inline">\(\left \langle 0,1 \right \rangle\)</span>. So instead, we say that there is a single edge from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> that is labeled <span class="math inline">\(\left \{ b,d,v,z \right \}\)</span>, indicating that any one of those symbols can take us from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Alternatively, we could use a different definition of labeled edges where we do not have a labeling function <span class="math inline">\(\ell: E \rightarrow L\)</span> from the set of edges to some fixed set <span class="math inline">\(L\)</span> of edge labels, but instead <span class="math inline">\(E\)</span> itself is a subset of <span class="math inline">\(V \times L \times V\)</span>. Explain why this removes the need for sets as edge labels.</p>
+</div>
+<p>Every path through the graph is also associated with a set of strings. Intuitively, these are all the strings that can be built by following along the path.</p>
+<div class="definition">
+<p>With every finite path <span class="math inline">\(p = \left \langle v_1, v_2, v_3 \ldots, v_{n-1}, v_n \right \rangle\)</span> we associate a string set <span class="math inline">\(L(p) \mathrel{\mathop:}=\ell(\left \langle v_1, v_2 \right \rangle) \times \ell(\left \langle v_2, v_3 \right \rangle) \cdots \times \ell(\left \langle v_{n-1}, v_n \right \rangle)\)</span>. If <span class="math inline">\(p = \left \langle  \right \rangle\)</span>, <span class="math inline">\(L(p) = \emptyset\)</span>. If <span class="math inline">\(p = \left \langle v_1 \right \rangle\)</span>, then <span class="math inline">\(L(p) = \left \{ \varepsilon \right \}\)</span> if <span class="math inline">\(v_1\)</span> is final, and <span class="math inline">\(\emptyset\)</span> otherwise. Let <span class="math inline">\(P\)</span> be the set of all paths from an initial state to a final state. Then the language <strong>recognized</strong> by <span class="math inline">\(A\)</span> is <span class="math inline">\(\bigcup_{p \in P} L(p)\)</span>. For every stringset <span class="math inline">\(L \subseteq \Sigma^*\)</span>, <span class="math inline">\(L\)</span> is <strong>regular</strong> iff <span class="math inline">\(L\)</span> is recognized by some FSA.</p>
+</div>
+<p>The canonical definition of FSAs can avoid the complication of set-labeled edges by directly treating edges as triples of the form <em>start</em>, <em>label</em>, <em>end</em>.</p>
+<div class="definition">
+<p>A <strong>finite-state automaton</strong> (FSA) is a 5-tuple <span class="math inline">\(A \mathrel{\mathop:}=\left \langle \Sigma, Q, I, F, \Delta \right \rangle\)</span> such that</p>
+<ul>
+<li>the alphabet <span class="math inline">\(\Sigma\)</span> is a finite, non-empty set,</li>
+<li><span class="math inline">\(Q\)</span> is a finite set of <strong>states</strong>,</li>
+<li><span class="math inline">\(I \subseteq Q\)</span> is the set of <strong>initial</strong> states,</li>
+<li><span class="math inline">\(F \subseteq Q\)</span> is the set of <strong>final</strong> states,</li>
+<li><span class="math inline">\(\Delta \subseteq Q \times \Sigma \times Q\)</span> is the <strong>transition relation</strong>.</li>
+</ul>
+<p>Given a string <span class="math inline">\(s \mathrel{\mathop:}=\sigma_1 \cdots \sigma_n \in \Sigma^n\)</span> (<span class="math inline">\(n \geq 0\)</span>), a <strong>run</strong> of <span class="math inline">\(A\)</span> over <span class="math inline">\(s\)</span> is a tuple <span class="math inline">\(r \mathrel{\mathop:}=\left \langle q_0, q_1, \ldots, q_n \right \rangle\)</span> such that <span class="math inline">\(q_0 \in I\)</span> and for all <span class="math inline">\(0 &lt; i \leq n\)</span>, <span class="math inline">\(\left \langle q_{i-1}, \sigma_i, q_i \right \rangle \in \Delta\)</span>. A run is <strong>accepting</strong> iff its last component is a final state. A string <span class="math inline">\(s\)</span> is <strong>recognized</strong> or <strong>generated</strong> by <span class="math inline">\(A\)</span> iff there is some accepting run of <span class="math inline">\(A\)</span> over <span class="math inline">\(s\)</span>. The string language <span class="math inline">\(L(A)\)</span> recognized/generated by <span class="math inline">\(A\)</span> is the smallest set containing all strings recognized by <span class="math inline">\(A\)</span>.</p>
+</div>
+<p>A run is just a record of which states an automaton passes through when processing a string. The run is accepting if it starts in an initial state and ends in a final state. Note that one string may allow for multiple runs. A string is recognized by the automaton iff there is at least one accepting run.</p>
+<div class="example">
+<p>Consider once more the automaton for unbounded tone plateauing.</p>
+<p><img src="utp.svg" alt="utp.svg" /></p>
+<p>In this automaton, the string LLLHH has only one run, which is <span class="math inline">\(000011\)</span>. Note how the run is one symbol longer than the string. That’s because we start in <span class="math inline">\(0\)</span>, and then the first symbol (i.e. L) moves us from <span class="math inline">\(0\)</span> to <span class="math inline">\(0\)</span>. In more detail:</p>
+<ul>
+<li>start: 0</li>
+<li>L: 0</li>
+<li>L: 0</li>
+<li>L: 0</li>
+<li>H: 1</li>
+<li>H: 1</li>
+<li>done</li>
+</ul>
+</div>
+<div class="example">
+<p>In the automaton below, the string <span class="math inline">\(\mathit{aaaaaaa}\)</span> receives the run <span class="math inline">\(01230123\)</span>.</p>
+<p><img src="modulo4.svg" alt="modulo4.svg" /></p>
+</div>
+<div class="example">
+<p>Now consider the automaton below.</p>
+<p><img src="nondet.svg" alt="nondet.svg" /></p>
+<p>The string <span class="math inline">\(\mathit{aba}\)</span> has two distinct runs. One is <span class="math inline">\(0123\)</span>, the other one is <span class="math inline">\(0223\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Draw an FSA that recognizes the language <span class="math inline">\(\mathit{a^* b^+}\)</span>, where <span class="math inline">\(a^*\)</span> denotes “0 or more <span class="math inline">\(a\)</span>s” and <span class="math inline">\(b^+\)</span> is short for “1 or more <span class="math inline">\(b\)</span>s”.</p>
+</div>
+<div class="exercise">
+<p>Draw an FSA that recognizes the language <span class="math inline">\(\mathit{a^+ b^+ a^*}\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Consider once more the following automaton:</p>
+<p><img src="nondet.svg" alt="nondet.svg" /></p>
+<p>For each one of the following strings, list all accepting runs with respect to this automaton. If there is no such run, say so.</p>
+<ol type="1">
+<li><span class="math inline">\(\mathit{aa}\)</span></li>
+<li><span class="math inline">\(\mathit{acbba}\)</span></li>
+<li><span class="math inline">\(\mathit{abba}\)</span></li>
+<li><span class="math inline">\(\mathit{abab}\)</span></li>
+</ol>
+</div>
+<div class="exercise">
+<p>For each one of the following string languages, draw the smallest FSA that recognizes the language.</p>
+<ol type="1">
+<li><span class="math inline">\(\left \{ \mathit{aa} \right \}\)</span> (the string <span class="math inline">\(\mathit{aa}\)</span>, and nothing else)</li>
+<li>the set of all strings except <span class="math inline">\(\mathit{aa}\)</span></li>
+<li><span class="math inline">\(\mathit{b^+(aa)^+}\)</span> (1 or more <span class="math inline">\(b\)</span>s followed by an even number of <span class="math inline">\(a\)</span>s, but at least 2 <span class="math inline">\(a\)</span>s)</li>
+<li><span class="math inline">\(\left \{ a,b \right \}^*\)</span> (the set of all strings over <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, including the empty string <span class="math inline">\(\varepsilon\)</span>)</li>
+<li><span class="math inline">\(\mathit{(}acdc)^*\)</span> (0 or more iterations of <span class="math inline">\(\mathit{acdc}\)</span>)</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> such that the string contains <span class="math inline">\(a\)</span> iff it does not contain <span class="math inline">\(c\)</span></li>
+<li><span class="math inline">\(\left \{ a,b \right \}^* c \left \{ a,b \right \}^*\)</span> (the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> that contain exactly one <span class="math inline">\(c\)</span>)</li>
+<li><span class="math inline">\(c \left \{ a,b,c \right \}^* c\)</span> (the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> that start with a <span class="math inline">\(c\)</span> and end with another <span class="math inline">\(c\)</span>)</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> whose first symbol is distinct from their last symbol</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> such that the number of <span class="math inline">\(a\)</span>s within the first 4 symbols must not exceed the number of <span class="math inline">\(b\)</span>s among the last 4 symbols</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> where <span class="math inline">\(a\)</span> never occurs immediately to the right of <span class="math inline">\(b\)</span> (<span class="math inline">\(\mathit{ab}\)</span> and <span class="math inline">\(\mathit{bca}\)</span> are fine, but <span class="math inline">\(\mathit{ba}\)</span> is not)</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> where <span class="math inline">\(a\)</span> never occurs anywhere to the right of <span class="math inline">\(b\)</span> (<span class="math inline">\(\mathit{ab}\)</span> is fine, but <span class="math inline">\(\mathit{bca}\)</span> and <span class="math inline">\(\mathit{ba}\)</span> are not)</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> such that the number of <span class="math inline">\(c\)</span>s in the string is a multiple of 3 or 5</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> that are worth at least 10 points, where each <span class="math inline">\(a\)</span> is worth 2 points and each <span class="math inline">\(b\)</span> is worth 3 points</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> whose point value is at most 10 or a multiple of 3, where each <span class="math inline">\(a\)</span> is worth 2 points and each <span class="math inline">\(b\)</span> is worth 3 points</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, and <span class="math inline">\(d\)</span> where <span class="math inline">\(a\)</span> may have <span class="math inline">\(b\)</span> somewhere to its left and a <span class="math inline">\(b\)</span> somewhere to its right only if there is no <span class="math inline">\(d\)</span> in the string</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> such that whenever a <span class="math inline">\(b\)</span> is immediately followed by at least one <span class="math inline">\(a\)</span>, the next <span class="math inline">\(b\)</span> to the right must be immediately followed by at least one <span class="math inline">\(c\)</span> (for example <span class="math inline">\(bbacabcbb\)</span> is well-formed, but <span class="math inline">\(bbacabbcb\)</span> is not because the second <span class="math inline">\(b\)</span> is immediately followed by <span class="math inline">\(a\)</span> but the third <span class="math inline">\(b\)</span> is not immediately followed by <span class="math inline">\(c\)</span>)</li>
+<li>the set of all strings over <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> such that whenever a <span class="math inline">\(b\)</span> has an <span class="math inline">\(a\)</span> somewhere to its right, then the next <span class="math inline">\(b\)</span> to the right must have at least one <span class="math inline">\(c\)</span> somewhere to its right (<span class="math inline">\(bbacabbcb\)</span> is now well-formed, and so is <span class="math inline">\(bbacabbabbc\)</span>, but <span class="math inline">\(bbacabbbb\)</span> and <span class="math inline">\(bbacabbabbb\)</span> are ill-formed)</li>
+</ol>
+</div>
+</body>
+</html>

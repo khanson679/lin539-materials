@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="propositions">Propositions</h1>
+<h2 id="intuition">Intuition</h2>
+<p>A proposition is a statement that is either true or false. This does not mean that one can necessarily tell whether a proposition is true, nor that the proposition makes any sense considering what our world is like. It just means that the statement is such that it can have a truth value.</p>
+<div class="example">
+<p>All of the following are propositions, even though whether they’re true or false can depend greatly on context:</p>
+<ul>
+<li>Nobody likes ponies.</li>
+<li>He always snores like a pig.</li>
+<li><span class="math inline">\(2 + 2 = 4\)</span></li>
+<li>We might see another stock market crash soon.</li>
+<li>A language is regular iff it is recognized by a finite-state automaton.</li>
+</ul>
+</div>
+<div class="example">
+<p>The following are not propositions.</p>
+<ul>
+<li>Are you mad?</li>
+<li>Please open a window.</li>
+<li>Hell, yeah!</li>
+<li>A cute kitten</li>
+<li>John and Mary</li>
+</ul>
+</div>
+<div class="example">
+<p>Some cases are borderline and require some more detailed analysis. Take <em>Either John leaves or I will</em>. As a literal description of how the world is, this can be either true or false, so it’s a proposition. But we can also interpret it as a command that the addressee must choose between John and the speaker. Commands have no truth value and thus aren’t propositions.</p>
+</div>
+<div class="exercise">
+<p>For each one of the following, say whether it is a proposition. If you say no, justify your answer.</p>
+<ul>
+<li>John and Peter met yesterday.</li>
+<li>The DeLorean DMC-12 is a sports car originally manufactured by John DeLorean’s DeLorean Motor Company.</li>
+<li>Who would say no to that.</li>
+<li>That son of a gun has fooled us all.</li>
+<li>Colorless green ideas sleep furiously.</li>
+<li>John and Mary have only one child, who has three siblings.</li>
+</ul>
+</div>
+<h2 id="entailment">Entailment</h2>
+<p>Some propositions are atomic in the sense that one cannot break them down into smaller propositions, whereas others are clearly built up from smaller propositions.</p>
+<div class="example">
+<p>The sentence <em>John rode a bike and Mary her dragon</em> might be true or false, so it’s a proposition. But it is not an atomic proposition because it’s built up from two smaller propositions. One is <em>John rode a bike</em>, the other one <em>Mary rode her dragon</em> (that English allows for the verb to be omitted in the second conjunct is irrelevant for this point).</p>
+</div>
+<p>As a result, propositions can be related to each other so that the truth value of one follows immediately from the other. This is called <strong>entailment</strong>.</p>
+<div class="example">
+<p>If <em>John rode a bike and Mary her dragon</em> is true, then it must also be true that John rode a bike, and it must be true that Mary rode her dragon. In the other direction, if <em>John rode a bike</em> is false, then so is <em>John rode a bike and Mary her dragon</em>.</p>
+</div>
+<p>Entailment can also hold between propositions that do not stand in an obvious part-whole relation to each other.</p>
+<div class="example">
+<p>Consider the sentences <em>If pigs can fly, then Sokrates is a chain-smoking dragon</em> and <em>No human is a dragon</em>. Assuming that both are true, the sentence <em>Sokrates is human</em> entails that pigs cannot fly.</p>
+</div>
+<p>The entailments in these two examples are slightly different. For the first, it suffices to recognize how one proposition was built up from smaller ones. The second one presents a more complex reasoning pattern that hinges on the meaning of the quantifier <em>no</em>. Logic was devised as a means to study these different kinds of entailments, but over the centuries it has evolved to a highly flexible system that can be used for all kinds of purposes.</p>
+<div class="exercise">
+<p>For each one of the following pairs of sentences, say whether entailment holds, and if so, in which direction. If entailment does not hold, explain why.</p>
+<ul>
+<li><p>John likes his son’s sisters. | John likes his daughters.</p></li>
+<li><p>I am 30 years old. | My age is a multiple of 15.</p></li>
+<li><p>1 is not a prime number. | No prime numbers is less than 2.</p></li>
+<li><p>John and Bill both left the party early. | Bill left the party around 9.</p></li>
+<li><p>The 45th US president isn’t universally beloved. | Donald Trump isn’t universally beloved.</p></li>
+<li><p>If <span class="math inline">\(2 + 2 = 4\)</span>, then <span class="math inline">\(2 + 2 = 4\)</span>. | <span class="math inline">\(2 + 2 = 4\)</span></p></li>
+</ul>
+</div>
+</body>
+</html>

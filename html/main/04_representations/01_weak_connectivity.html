@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="failed-attempts-at-restricting-the-class-of-hierarchies">Failed attempts at restricting the class of hierarchies</h1>
+<p>We have encountered a variety of hierarchies in the previous unit. They’re shown below to jog your memory.</p>
+<p><img src="123.svg" alt="123.svg" /></p>
+<p><img src="adjectival_gradation.svg" alt="adjectival_gradation.svg" /></p>
+<p><img src="blake_partialorder.svg" alt="blake_partialorder.svg" /></p>
+<p><img src="pcc_hierarchy_right_reduced.svg" alt="pcc_hierarchy_right_reduced.svg" /></p>
+<p>They are all weak partial orders, and some of them are linear orders. But weak partial orders can take a lot more general shapes than what we see above.</p>
+<div class="example">
+<p>Consider the <strong>identity function</strong> <span class="math inline">\(\mathrm{id}\)</span>, which connects every node to itself and nothing else. We can view this function as a relation that connects each node to itself and nothing else. This is a weak partial order. It clearly satisfies reflexivity. Transitivity holds because <span class="math inline">\(a \mathrel{R} b\)</span> and <span class="math inline">\(b \mathrel{R} c\)</span> hold only if <span class="math inline">\(a = b = c\)</span>, wherefore <span class="math inline">\(a \mathrel{R} c\)</span> is the same as <span class="math inline">\(a \mathrel{R} a\)</span>, which is guaranteed by reflexivity. Antisymmetry holds for the same rason: <span class="math inline">\(a \mathrel{R} b\)</span> holds only if <span class="math inline">\(a = b\)</span>, so it is trivially true that <span class="math inline">\(a \mathrel{R} b\)</span> and <span class="math inline">\(b \mathrel{R} a\)</span> implies <span class="math inline">\(a = b\)</span>.</p>
+</div>
+<p>The four hierarchies above hence are all weak partial orders, but the opposite does not hold. Not every weak partial order is a possible linguistic hierarchy. Our task, then, is to identify a proper subclass of weak partial orders that more narrowly circumscribes the class of possible hierarchies.</p>
+<h2 id="a-first-attempt-lattices">A first attempt: Lattices</h2>
+<p>The top three structures above are lattices, but the fourth structure for the PCC is not. Remember, a partially ordered set <span class="math inline">\(S\)</span> is a lattice iff it is both a meet semilattice and a join semilattice. In other words, for all <span class="math inline">\(x, y \in S\)</span> it holds that there is a greatest lower bound <span class="math inline">\(x \wedge y\)</span> and a least upper bound <span class="math inline">\(x \vee y\)</span>.</p>
+<div class="exercise">
+<p>Compute each one of the following for the corresponding hierarchy above (assume for each figure that if a node <span class="math inline">\(x\)</span> has a connection to some higher node <span class="math inline">\(y\)</span>, this represents <span class="math inline">\(x \leq y\)</span>, not <span class="math inline">\(y \leq x\)</span>).</p>
+<ul>
+<li><span class="math inline">\(1 \wedge 2\)</span></li>
+<li><span class="math inline">\(2 \vee (1 \wedge 3)\)</span></li>
+<li><span class="math inline">\(\text{positive} \wedge \text{comparative} \wedge \text{superlative}\)</span></li>
+<li><span class="math inline">\(\text{Nom} \wedge (\text{Gen} \vee \text{Acc})\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p>The PCC structure is neither a join semilattice nor a meet semilattice. Explain why.</p>
+<p><em>Hint</em>: Find two elements that have no unique supremum or no unique infimum.</p>
+</div>
+<div class="exercise">
+<p>Remember that we removed all elements from the PCC lattice where the first and second component are the same person. If we put these nodes back into the structure, would the result be a lattice?</p>
+</div>
+<p>With the exception of the PCC, the class of lattices seems to be a good fit. It even provides a good characterization for phenomena we haven’t considered at all yet.</p>
+<p>For example, there is a phenomenon that is very similar to the PCC that is known as the <strong>Gender Case Constraint</strong> (GCC). Like the PCC, the GCC forbids certain combinations of pronouns in the same clause. Unlike the PCC, the relevant pronouns are subject and objects rather than direct and indirect object. More importantly, the GCC limits these combinations based on gender instead of person. So far the GCC is only attested for Zapotec, a Mesoamerican language spoken in Mexico that has four distinct genders. The following combinations are allowed:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(\downarrow\)</span>S/O<span class="math inline">\(\rightarrow\)</span></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">Y</td>
+<td style="text-align: center;">Y</td>
+<td style="text-align: center;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">N</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">Y</td>
+<td style="text-align: center;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">N</td>
+<td style="text-align: center;">N</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">N</td>
+<td style="text-align: center;">N</td>
+<td style="text-align: center;">N</td>
+<td style="text-align: center;">-</td>
+</tr>
+</tbody>
+</table>
+<p>This looks very similar to the U-PCC, generalized from 3 values to 4. So it isn’t too surprising that the GCC is a monotonic map given a gender hierarchy that, once again, forms a lattice.</p>
+<p><img src="gcc_hierarchy.svg" alt="gcc_hierarchy.svg" /></p>
+<div class="exercise">
+<p>Show that the Zapotec GCC is monotonic over this hierarchy.</p>
+</div>
+<p>So it looks like we might be able narrow down the class of potential hierarchies from any weak partial order to lattices — if we can deal with the PCC hierarchy somehow. That would be a significant reduction. Unfortunately, the PCC isn’t the only exception. The class of lattices simply is too restrictive.</p>
+<h2 id="lattices-are-too-specific-evidence-from-tense">Lattices are too specific: Evidence from tense</h2>
+<p>Some hierarchies do not form lattices. One case where one can see this is with verbal tense. Consider the English tense paradigm --. This looks like an ABA pattern. But suppose that we use the order <span class="math inline">\(\text{past} &lt; \text{participle} &lt; \text{present}\)</span>. This is intuitively plausible since past events occur before present events, whereas the participle is usually used for the simple perfect, which describes events that aren’t quite as distant as those described by simple past. With this ordering, -- is actually --. The <span class="math inline">\(^*\)</span>ABA-violation has disappeared. And given this ordering of verbal forms, no ABA violations are attested at all.</p>
+<p>If this were the end of it, then we would have a linear order for tense, and since linear orders are lattices, we could still stick with lattices as a reasonable model of linguistic hierarchies. But as you all know, verbs can have more temporal forms than just those three, and one of them is the future tense. Once one considers future, things become more complicated.</p>
+<ol type="1">
+<li><p>Future can be syncretic with past and participle to the exclusion of present. An example is Serbo-Croatian <em>hteo sam</em> (past), <em>hteo</em> (participle), <em>hoću</em> (present), <em>hteću</em> (future). This pattern is AABA.</p></li>
+<li><p>Present and future can be syncretic to the exclusion of past and participle. An example is the ABCC pattern <em>xward</em>, <em>xoria</em>, <em>xweid</em>, <em>xweid</em> in Kurdish.</p></li>
+<li><p>Present, participle, and past can be syncretic to the exclusion of future. This is the case for French, where the present, past and participle of <em>aller</em> ‘go’ all use them stem <em>all-</em>, whereas the future is built with the stem <em>ir-</em>.</p></li>
+</ol>
+<p>The Serbo-Croatian data suggests an ordering <span class="math inline">\(\text{past} &lt; \text{participle} &lt; \text{future} &lt; \text{present}\)</span>, whereas the French pattern requires <span class="math inline">\(\text{past} &lt; \text{participle} &lt; \text{present} &lt; \text{future}\)</span>. The Kurdish data is compatible with both. Each one of the two hierarchies is a lattice, but we need a hierarchy that can accommodate all those tense patterns at once. No linear order can do this. Instead, we need a partial order.</p>
+<p><img src="tense_hierarchy.svg" alt="tense_hierarchy.svg" /></p>
+<div class="exercise">
+<p>For each one of the three data paradigms above, show that it is monotonic over this tense hierarchy.</p>
+</div>
+<p>This is not a lattice as neither of the following meets exists:</p>
+<ul>
+<li><span class="math inline">\(\text{future} \wedge \text{participle}\)</span>,</li>
+<li><span class="math inline">\(\text{future} \wedge \text{past}\)</span> exist.</li>
+</ul>
+<p>Instead, it is a (join) semilattice. Remember that semilattices also played a major role for the Adjunct Island Constraint. So perhaps all linguistic hierarchies that aren’t lattices are at least semilattices. That would be nifty. But the PCC hierarchy isn’t a semilattice, either, and once again this isn’t the only problematic case.</p>
+<div class="exercise">
+<p>Why can’t we generalize the tense semilattice to a lattice by also setting <span class="math inline">\(\text{past} &lt; \text{future}\)</span>?</p>
+</div>
+<h2 id="semilattices-and-weak-partial-orders-are-too-specific">Semilattices (and weak partial orders) are too specific</h2>
+<p>The counterexample to semilattices comes from case. However, this time it isn’t about case syncretism but noun stem allomorphy. Noun stem allomorphy refers to the fact that case may not only be reflected in the choice of suffix, but also in the form of the stem. This is shown below for Latin <em>rex</em>, which means <em>king</em>.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Case</th>
+<th style="text-align: left;">Singular</th>
+<th style="text-align: left;">Plural</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Nom</td>
+<td style="text-align: left;">rex</td>
+<td style="text-align: left;">reg-es</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Gen</td>
+<td style="text-align: left;">reg-is</td>
+<td style="text-align: left;">reg-um</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Dat</td>
+<td style="text-align: left;">reg-i</td>
+<td style="text-align: left;">reg-ibus</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Acc</td>
+<td style="text-align: left;">reg-em</td>
+<td style="text-align: left;">reg-es</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Abl</td>
+<td style="text-align: left;">reg-e</td>
+<td style="text-align: left;">reg-ibus</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, nominative singular uses the special form <em>rex</em> without a dedicated case suffix, whereas all other cases are built with the stem <em>reg</em> instead. Curiously, there seems to be only two options for noun stem allomorphy across languages. Either all cases use the same stem, or only nominative gets to use a different stem. So in a system with nominative, accusative, genitive, and dative, the only possible stem patterns are AAAA and ABBB. This is monotonic over the case hierarchy, repeated here for your convenience.</p>
+<p><img src="blake_partialorder.svg" alt="blake_partialorder.svg" /></p>
+<p>But the case hierarchy allows for many other monotonic maps, none of which seem to occur with noun stem allomorphy. Rather than stipulating them away, one would prefer a mechanism that modifies the hierarchy for case and thereby yields a suitable hierarchy for noun stem allomorphy. The only possible solution that limits the set of monotonic maps is the following:</p>
+<p><img src="stem_allomorphy.svg" alt="stem_allomorphy.svg" /></p>
+<p>This figure looks quite a bit different from what we have encountered so far. An arrow from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> represents <span class="math inline">\(x \leq y\)</span>. Arrows that can be inferred via transitivity are omitted. So <span class="math inline">\(\text{Acc} &lt; \text{Dat}\)</span> even though there is no arrow that directly connects the two. Note how this hierarchy essentially creates a cycle from accusative to genitive, dative, other cases, and back to accusative.</p>
+<div class="exercise">
+<p>A monotonic mapping must map all cases in the Acc-Gen-Dat-Others-Acc cycle to the same value. Explain why.</p>
+</div>
+<p>The hierarchy above allows for the two attested noun stem allmorphy patterns, and nothing else. So it provides a very tight characterization of this phenomeon. But the hierarchy is not a semilattice, let alone a lattice. In fact, it isn’t even a weak partial order, so it can’t be a semilattice, either, as this is a special kind of partially ordered set.</p>
+<p>In order to be a weak partial order, <span class="math inline">\(\leq\)</span> as defined by the figure must be reflexive, transitive, and antisymmetric. We usually take reflexivity for granted. But note that in this case, it is also implied by transitivity for most cases. For instance, <span class="math inline">\(\text{Acc} \leq \text{Gen} \leq \text{Dat} \leq \text{Others} \leq \text{Acc}\)</span>, so <span class="math inline">\(\text{Acc} \leq \text{Acc}\)</span> by transitivity. But this example also shows that antisymmetry does not hold: both <span class="math inline">\(\text{Acc} \leq \text{Gen}\)</span> and <span class="math inline">\(\text{Gen} \leq \text{Acc}\)</span> hold, yet accusative and genitive are distinct elements of the hierarchy. This shows that <span class="math inline">\(\leq\)</span> is reflexive and transitive, but not antisymmetric. Consequently, <span class="math inline">\(\leq\)</span> isn’t a weak partial order. Instead, it is a <strong>preorder</strong> (also called a <strong>quasi-order</strong>).</p>
+<p>Our quest to find a more restrictive characterization for linguistic hierarchies has turned pretty dire all of a sudden. If some hierarchies aren’t even weak partial orders, then they cannot be semilattices or lattices either. Remember, semilattices and lattices are special cases of partially ordered sets, i.e. sets with a weak partial order defined over them. The class of preorders is even bigger than the class of weak partial orders. Despite our best intentions, things have become less restrictive. Do not despair, though. The next unit shows a way of out of this malaise. It requires a shift in perspective, though, as it relies on graphs instead of orders.</p>
+</body>
+</html>

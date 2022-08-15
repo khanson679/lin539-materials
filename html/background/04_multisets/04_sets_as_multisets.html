@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="sets-as-instances-of-multisets">Sets as instances of multisets</h1>
+<div class="prereqs">
+<ul>
+<li>sets</li>
+<li>functions (notation)</li>
+<li>general (numbers)</li>
+</ul>
+</div>
+<p>Multisets are a natural generalization of sets. But if this is true, then sets should fall out as just a special case of multisets. Let us see if this is true.</p>
+<p>First, every set <span class="math inline">\(S\)</span> can be regarded as a multiset with co-domain <span class="math inline">\(\mathbb{N}\)</span> but range <span class="math inline">\(\left \{ 0,1 \right \}\)</span>. All the members of <span class="math inline">\(S\)</span> are mapped to <span class="math inline">\(1\)</span>, everything else to <span class="math inline">\(0\)</span>. So far so good. Now consider the set operations union, intersection, and relative complement. For multisets <span class="math inline">\(A_M\)</span> and <span class="math inline">\(B_M\)</span>, <span class="math inline">\(A_M \cup B_M\)</span> maps every <span class="math inline">\(a\)</span> to <span class="math inline">\(\max(A_M(a), B_M(a))\)</span>. For sets, the only two possible values for <span class="math inline">\(A_M(a)\)</span> and <span class="math inline">\(B_M(a)\)</span> are <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. Let’s consider each scenario in turn with union:</p>
+<ul>
+<li><span class="math inline">\(a \in A\)</span>, <span class="math inline">\(a \in B\)</span>, so <span class="math inline">\(a \in A \cup B\)</span>; then <span class="math inline">\(A_M(a) = B_M(a) = 1\)</span>, and <span class="math inline">\(\max(1,1) = 1\)</span>, whence <span class="math inline">\(a \in A_M \cup B_M\)</span>.</li>
+<li><span class="math inline">\(a \in A\)</span>, <span class="math inline">\(a \notin B\)</span>, so <span class="math inline">\(a \in A \cup B\)</span>; then <span class="math inline">\(A_M(a) = 1\)</span>, <span class="math inline">\(B_M(a) = 0\)</span>, and <span class="math inline">\(\max(1,0) = 1\)</span>, whence <span class="math inline">\(a \in A_M \cup B_M\)</span>.</li>
+<li><span class="math inline">\(a \notin A\)</span>, <span class="math inline">\(a \in B\)</span>, so <span class="math inline">\(a \in A \cup B\)</span>; then <span class="math inline">\(A_M(a) = 0\)</span>, <span class="math inline">\(B_M(a) = 1\)</span>, and <span class="math inline">\(\max(1,0) = 1\)</span>, whence <span class="math inline">\(a \in A_M \cup B_M\)</span>.</li>
+<li><span class="math inline">\(a \notin A\)</span>, <span class="math inline">\(a \notin b\)</span>, so <span class="math inline">\(a \notin A \cup B\)</span>; then <span class="math inline">\(A_M(a) = 0\)</span>, <span class="math inline">\(B_M(a) = 0\)</span>, and <span class="math inline">\(\max(0,0) = 0\)</span>, whence <span class="math inline">\(a \notin A_M \cup B_M\)</span>.</li>
+</ul>
+<p>Intersection and relative complement work in exactly the same fashion.</p>
+<p>Even the formula for cardinality works as expected: given a set <span class="math inline">\(A\)</span>, <span class="math inline">\(\left | A \right |\)</span> is the number of elements it contains, whereas <span class="math inline">\(\left | A_M \right |\)</span> is the sum of the counts of each element. But since every <span class="math inline">\(a \in A_M\)</span> has a count of <span class="math inline">\(1\)</span>, this sum is the same as <span class="math inline">\(\left | A \right |\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+    \left | A_M \right |  &amp; = \sum_{a \in A_M} A_M(a)\\
+                &amp; = A_M(a_1) + \cdots + A_M(a_n)\\
+                &amp; = 1 + \cdots + 1\\
+                &amp; = \left | A \right |
+\end{align*}\]</span></p>
+<p>We can even confirm why the cardinality of the powerset of some set <span class="math inline">\(S\)</span> must be <span class="math inline">\(2^{\left | S \right |}\)</span>. The formula for calculating the cardinality of the powerset of a multiset <span class="math inline">\(S_M\)</span> is <span class="math inline">\(\prod_{s \in S_M} (S_M(s) + 1)\)</span>. Every member of a set has a count of <span class="math inline">\(1\)</span>, for a set <span class="math inline">\(S\)</span> this formula expands to <span class="math inline">\(\prod_{s \in S} (1 + 1) = \prod_s{ \in S}\)</span>. So if <span class="math inline">\(S\)</span> has <span class="math inline">\(n\)</span> members, the cardinality of <span class="math inline">\(\wp(S)\)</span> is <span class="math display">\[
+\underbrace{2 \times \cdots \times 2}_{n \text{ times}}.
+\]</span> But that is the same as <span class="math inline">\(2^n\)</span>, which is the same as <span class="math inline">\(2^{\left | S \right |}\)</span>. It all fits together exactly as it should.</p>
+<p>This shows that multisets are indeed a faithful generalization of sets. And it also gives us a good example of how one and the same object can be viewed in multiple ways.</p>
+</body>
+</html>

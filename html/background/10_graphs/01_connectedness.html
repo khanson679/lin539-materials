@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="connectedness-of-graphs">Connectedness of graphs</h1>
+<p>Graphs can have varying degrees of connectivity. Connectedness measures the degree to which every node in the graph is reachable from some other graph.</p>
+<p>A <strong>disconnected</strong> graph is one where there are nodes <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> such that even if one ignores the direction of the edge relation, one cannot get from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>. So if we were to construct the graph in the real world as a kind of mobile, we would not be able to hang the graph on the wall with a single hook because not all parts hang together — at least one part would fall to the ground.</p>
+<p>A <strong>weakly connected</strong> graph is such that it forms one cohesive whole via the edge relation, but there might be nodes <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> such that neither one can be reached from the other unless one ignores the direction of edges. A <strong>connected graph</strong> satisfies the strong property that for all nodes <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>, <span class="math inline">\(u\)</span> is reachable from <span class="math inline">\(v\)</span> or the other way round. A <strong>strongly connected</strong> graph, finally, is such that every node is reachable from every node.</p>
+<div class="definition">
+<p>A directed graph is</p>
+<ul>
+<li><em>weakly connected</em> iff the reflexive, symmetric, transitive closure of its edge relation is total,</li>
+<li><em>connected</em> iff the reflexive, transitive closure of its edge relation is total,</li>
+<li><em>strongly connected</em> iff the reflexive, transitive closure of its edge relation is identical to <span class="math inline">\(V \times V\)</span>,</li>
+<li><em>disconnected</em> iff it is not weakly connected.</li>
+</ul>
+</div>
+<div class="example">
+<p>The undirected graph we saw at the beginning of the previous unit is disconnected, and the same goes for any directed version of it. For example, there is no edge between <span class="math inline">\(1\)</span> and <span class="math inline">\(3\)</span>, one simply cannot be reached from the other.</p>
+<p><img src="modulo3_undirected_notransitive.svg" alt="modulo3_undirected_notransitive.svg" /></p>
+<p>However, we can identify parts of the graph that are connected.</p>
+<p><img src="modulo3_undirected_component.svg" alt="modulo3_undirected_component.svg" /></p>
+<p>Even though there is no edge between <span class="math inline">\(0\)</span> and <span class="math inline">\(6\)</span>, the transitive closure of the edge relation does connect the two.</p>
+<p>Now let us look at a directed graph, where multiple degrees of connectedness need to be distinguished.</p>
+<p><img src="modulo3_directed_strong.svg" alt="modulo3_directed_strong.svg" /></p>
+<p>The directed graph above is strongly connected. When we take the reflexive, transitive closure of the edge relation, every node is reachable from every node. This is exactly what it means to be strongly connected.</p>
+<p>But a slight change in the edge relation suffices to reduce strong connectedness to connectedness.</p>
+<p><img src="modulo3_directed_connected.svg" alt="modulo3_directed_connected.svg" /></p>
+<p>Even if we look at the reflexive, transitive closure of the edge relation, there is no path from <span class="math inline">\(3\)</span> to <span class="math inline">\(0\)</span>, from <span class="math inline">\(6\)</span> to <span class="math inline">\(0\)</span>, or from <span class="math inline">\(9\)</span> to <span class="math inline">\(0\)</span>. So we can no longer reach every node from every node. But for any two nodes <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, it still holds that <span class="math inline">\(a\)</span> can be reached from <span class="math inline">\(b\)</span> or <span class="math inline">\(b\)</span> can be reached from <span class="math inline">\(a\)</span>. Hence the reflexive, transitive closure of the edge relation is still total, and we have a connected graph.</p>
+<p>Finally, consider what happens if we remove one edge from the graph above.</p>
+<p><img src="modulo3_directed_weak.svg" alt="modulo3_directed_weak.svg" /></p>
+<p>Now even the reflexive, transitive closure of the edge relation does not connect <span class="math inline">\(6\)</span> and <span class="math inline">\(9\)</span>, so the graph cannot be connected. However, <span class="math inline">\(6\)</span> and <span class="math inline">\(9\)</span> are still reachable from each other if we consider the reflexive, symmetric, transitive closure of the edge relation. Therefore, the graph is weakly connected.</p>
+</div>
+<p>Intuitively, the three degrees of connectivity can be described in terms of how we have to move along the arrows in a graph to read one node from another one:</p>
+<ul>
+<li>If we can reach every node from every node by following a sequence of arrows, the graph is strongly connected.</li>
+<li>If we can reach <span class="math inline">\(a\)</span> from <span class="math inline">\(b\)</span> by following a sequence of arrows, but not necessarily <span class="math inline">\(b\)</span> from <span class="math inline">\(a\)</span>, the graph is connected.</li>
+<li>If we have to sometimes go against the direction of the arrow to get from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>, the graph is weakly connected.</li>
+</ul>
+<div class="exercise">
+<p>Is every strongly connected graph weakly connected? Justify your answer.</p>
+</div>
+<div class="exercise">
+<p>Suppose that a graph <span class="math inline">\(G\)</span> is weakly connected. Is it guaranteed to be connected if we take the reflexive, symmetric, transitive closure of the edge relation?</p>
+</div>
+</body>
+</html>

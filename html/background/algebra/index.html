@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Thomas Graf" />
+  <title>background/algebra</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">background/algebra</h1>
+<p class="subtitle">Course Notes for LIN 539</p>
+<p class="author">Thomas Graf</p>
+<p class="date">Fall 2022</p>
+</header>
+<h2 id="algebras">Algebras</h2>
+<h3 id="definition">Definition</h3>
+<p>You’re all familiar with the subfield of <strong>algebra</strong>, which is covered extensively in middle school and high school. But <strong>algebra</strong> isn’t just the name of a field, it is also the name of a specific kind of mathematical object.</p>
+<div class="definition">
+<p>An <strong>algebra</strong> (or <strong>algebraic structure</strong>) <span class="math inline">\(\mathcal{A} \mathrel{\mathop:}=\left \langle C, \oplus \right \rangle\)</span> consists of a set <span class="math inline">\(C\)</span> (the <strong>carrier</strong>) and a finitary operation <span class="math inline">\(\oplus\)</span>.</p>
+</div>
+<p>An operation is finitary iff it only takes a fixed number of arguments.</p>
+<div class="example">
+<p>Addition is finitary, as it takes two arguments. This makes it a binary operation.</p>
+</div>
+<div class="example">
+<p>The infinite sum operation takes infinitely many values and returns their sum. For example, one might feed this function the values <span class="math inline">\(1\)</span>, <span class="math inline">\(0.1\)</span>, <span class="math inline">\(0.01\)</span>, <span class="math inline">\(0.001\)</span>, <span class="math inline">\(\ldots\)</span>, and obtain the sum <span class="math inline">\(1.111\cdots\)</span>. This operation is not finitary.</p>
+</div>
+<p>All operations we will consider are finitary. In fact, we will focus exclusively on binary operations, as little else is every needed for linguistics.</p>
+<p>Even with this simplification, though, algebras are very abstract objects. It’s not surprising that the subfield of mathematics that studies algebras is called <strong>abstract algebra</strong>. The abstractness of algebras, while initially disorienting, is incredibly useful because it reveals similarities between mathematical objects that look very different. For example, <span class="math inline">\(\mathbb{N}\)</span> with addition and <span class="math inline">\(\Sigma^*\)</span> with string concatenation are very similar algebraically. Do not worry too much about abstractness, we will quickly home in on specific subtypes of algebras that are of interest for linguistics.</p>
+<h3 id="total-and-partial-algebras">Total and partial algebras</h3>
+<p>The definition above does not tell us much about <span class="math inline">\(\oplus\)</span>. One of the most basic requirements is that <span class="math inline">\(\oplus\)</span> should be defined for all elements of the carrier. That is to say, there are no inputs for which <span class="math inline">\(\oplus\)</span> does not have a defined output. In this case, the algebra is <strong>total</strong>, otherwise it is <strong>partial</strong>.</p>
+<div class="definition">
+<p>An algebra <span class="math inline">\(\mathcal{A} \mathrel{\mathop:}=\left \langle C, \oplus \right \rangle\)</span> is <strong>total</strong> iff <span class="math inline">\(a \oplus b\)</span> is defined for all <span class="math inline">\(a, b \in C\)</span>. Otherwise <span class="math inline">\(\mathcal{A}\)</span> is <strong>partial</strong>.</p>
+</div>
+<div class="example">
+<p>Consider <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span>, the algebra of natural numbers with addition. There are no two natural numbers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> such that <span class="math inline">\(a + b\)</span> is undefined. Hence <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span> is a total algebra.</p>
+</div>
+<div class="example">
+<p>Consider <span class="math inline">\(\left \langle \mathbb{N}, / \right \rangle\)</span>, the natural numbers with division. This algebra is partial because <span class="math inline">\(\frac{a}{b}\)</span> is undefined if <span class="math inline">\(b = 0\)</span>.</p>
+</div>
+<p>Careful: the term <strong>total</strong> for algebras is intuitively similar to a relation being total as both convey that the operation or relation does not miss any elements. But do not put too much stock into this, the two are still distinct properties and should not be confused. A total algebra and a total relation are not the same thing.</p>
+<p>We will only consider total algebras, which are much better behaved than partial algebras.</p>
+<h3 id="magma-closure-under-oplus">Magma: Closure under <span class="math inline">\(\oplus\)</span></h3>
+<p>Another standard assumption for algebras is that they are closed under their operation. Such an algebra is called a <strong>magma</strong>.</p>
+<div class="definition">
+<p>An algebra <span class="math inline">\(\left \langle C, \oplus \right \rangle\)</span> is a <strong>magma</strong> iff <span class="math inline">\(a \oplus b \in C\)</span> for all <span class="math inline">\(a, b \in C\)</span>.</p>
+</div>
+<div class="example">
+<p>Consider once more the algebra <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span>. Clearly, <span class="math inline">\(x + y\)</span> is a natural number as long as <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are natural numbers. So the set of natural numbers is closed under addition, making <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span> a magma.</p>
+</div>
+<div class="example">
+<p>The partial algebra <span class="math inline">\(\left \langle \mathbb{N}, / \right \rangle\)</span> is not a magma. This is witnessed by <span class="math inline">\(\frac{3}{2} = 1.5\)</span>. Even though <span class="math inline">\(3\)</span> and <span class="math inline">\(2\)</span> are natural numbers, division maps them to a value that is not a natural number.</p>
+</div>
+<div class="exercise">
+<p>Whether <span class="math inline">\(\left \langle \mathbb{N}, - \right \rangle\)</span> is a magma depends on one’s definition of subtraction. Explain why!</p>
+</div>
+<div class="exercise">
+<p>Which of the following is a magma? Give counterexamples where necessary.</p>
+<ul>
+<li>the integers with subtraction</li>
+<li>the rationals with multiplication</li>
+<li>the odd natural numbers with addition</li>
+<li><span class="math inline">\(\Sigma^*\)</span> with string concatenation</li>
+<li>the set of all English sentences with sentence-level conjunction via <em>and</em></li>
+<li>the set of all creatures that ever lived, under the ancestor operation <span class="math inline">\(\oplus\)</span> (where <span class="math inline">\(a \oplus b\)</span> returns the closest shared ancestor of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, <span class="math inline">\(a \oplus a = a\)</span>).</li>
+</ul>
+</div>
+<p>Almost every algebra you will ever come across is total and a magma. Without those two properties, algebras get a lot harder to study. The more properties are heaped on, the better behaved algebras are. Three types of algebras are of particular importance: semigroups, monoids, and groups. They are covered in the next notebook.</p>
+<h2 id="semigroups-monoids-and-groups">Semigroups, monoids, and groups</h2>
+<p>Remember that a magma is a (total) algebra whose carrier set is closed under the algebra’s operation <span class="math inline">\(\oplus\)</span>. By adding on additional properties that <span class="math inline">\(\oplus\)</span> must satisfy, one gets a hierarchy of increasingly specialized types of algebras:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Property</strong></th>
+<th style="text-align: left;"><strong>Algebra type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\oplus\)</span> total</td>
+<td style="text-align: left;">total algebra</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">previous &amp; closure under <span class="math inline">\(\oplus\)</span></td>
+<td style="text-align: left;">magma</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">previous &amp; associativity of <span class="math inline">\(\oplus\)</span></td>
+<td style="text-align: left;">semigroup</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">previous &amp; identity element for <span class="math inline">\(\oplus\)</span></td>
+<td style="text-align: left;">monoid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">previous &amp; inverse for <span class="math inline">\(\oplus\)</span></td>
+<td style="text-align: left;">group</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">previous &amp; commutativity of <span class="math inline">\(\oplus\)</span></td>
+<td style="text-align: left;">Abelian group</td>
+</tr>
+</tbody>
+</table>
+<h3 id="semigroups">Semigroups</h3>
+<p>The next step up from a magma is a semigroup, which requires <span class="math inline">\(\oplus\)</span> to be associative.</p>
+<div class="definition">
+<p>A (total) magma <span class="math inline">\(\left \langle C, \oplus \right \rangle\)</span> is a <strong>semigroup</strong> iff <span class="math inline">\(\oplus\)</span> is associative.</p>
+</div>
+<p>Remember that associativity means <span class="math inline">\(a \oplus (b \oplus c) = (a \oplus b) \oplus c\)</span>. So order of evaluation does not matter. This is a tremendous advantage. Associativity can greatly simplify proofs, and it also allows for faster computational implementations (see, for instance, the unit on matrix multiplication).</p>
+<div class="example">
+<p>The magma <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span> is a semigroup because addition is associative.</p>
+</div>
+<div class="example">
+<p>The total algebra <span class="math inline">\(\left \langle \mathbb{Z}, - \right \rangle\)</span> is the set of integers with subtraction. This is a magma but not a semigroup because <span class="math inline">\(5 - (3 - 2) = 4 \neq 0 = (5 - 3) - 2\)</span>.</p>
+</div>
+<div class="exercise">
+<p>For each one of the following, say whether it is a semigroup. Justify your answer.</p>
+<ul>
+<li>the interval <span class="math inline">\([0,1]\)</span> of real numbers between and including <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>, with multiplication</li>
+<li>for any given set <span class="math inline">\(S\)</span>, <span class="math inline">\(\wp(S)\)</span> with set union (where <span class="math inline">\(\wp(S)\)</span> is the powerset of <span class="math inline">\(S\)</span>)</li>
+<li>for any given set <span class="math inline">\(s\)</span>, <span class="math inline">\(\wp(S)\)</span> with relative complement</li>
+<li><span class="math inline">\(\Sigma^*\)</span> with an operation <em>splice</em> that maps two strings <span class="math inline">\(u_1 u_2 \cdots u_m\)</span> and <span class="math inline">\(v_1 v_2 \cdots v_n\)</span> (<span class="math inline">\(m, n \geq 0\)</span>) to <span class="math inline">\(u_1 v_1 u_2 v_2 \cdots u_x v_x\)</span>, where <span class="math inline">\(x \mathrel{\mathop:}=\min(m,n)\)</span> (for instance, <span class="math inline">\(abc\)</span> spliced with <span class="math inline">\(defghij\)</span> is <span class="math inline">\(adbecf\)</span>, and <span class="math inline">\(abcdefg\)</span> spliced with <span class="math inline">\(i\)</span> is <span class="math inline">\(ai\)</span>).</li>
+</ul>
+</div>
+<h3 id="monoid">Monoid</h3>
+<p>For computational linguistics, the most important kind of algebraic structure is the monoid. A monoid is a semigroup with a unique <strong>identity element</strong> for <span class="math inline">\(\oplus\)</span>. An identity element is something that causes <span class="math inline">\(\oplus\)</span> not to change the value of the other argument.</p>
+<div class="example">
+<p>Addition has <span class="math inline">\(0\)</span> as its identity element. For instance, <span class="math inline">\(5 + 0 = 5\)</span>, and similarly <span class="math inline">\(0 + 5 = 5\)</span>. So adding the identity element to some natural number <span class="math inline">\(n\)</span> just gives us <span class="math inline">\(n\)</span> again.</p>
+<p>For multiplication, the identity element is <span class="math inline">\(1\)</span> as <span class="math inline">\(5 \times 1 = 1 \times 5 = 5\)</span>.</p>
+</div>
+<div class="exercise">
+<p>What is the identity element for set union? Justify your answer.</p>
+</div>
+<div class="definition">
+<p>A semigroup <span class="math inline">\(\left \langle C, \oplus \right \rangle\)</span> is a <strong>monoid</strong> <span class="math inline">\(\left \langle C, \oplus, e \right \rangle\)</span> iff there is a unique element <span class="math inline">\(e \in C\)</span> such that for all <span class="math inline">\(a \in C\)</span>, <span class="math inline">\(a \oplus e = e \oplus a = a\)</span>. We say that <span class="math inline">\(e\)</span> is the <strong>identity element</strong> for <span class="math inline">\(\oplus\)</span>, and that <span class="math inline">\(\oplus\)</span> <strong>has an identity (element)</strong>.</p>
+</div>
+<div class="example">
+<p>We already know that addition has the identity element <span class="math inline">\(0\)</span>, so it’s not surprising that the semigroup <span class="math inline">\(\left \langle \mathbb{N}, + \right \rangle\)</span> is also a monoid. We can simply write <span class="math inline">\(\left \langle \mathbb{N}, +, 0 \right \rangle\)</span> to express this fact.</p>
+</div>
+<div class="example">
+<p>The minimally different algebra <span class="math inline">\(\left \langle \mathbb{N}^+, + \right \rangle\)</span> is a semigroup, but not a monoid. That’s because <span class="math inline">\(\mathbb{N}^+ \mathrel{\mathop:}=\left \{ 1,2,3,\ldots \right \}\)</span> is the set of positive natural numbers, which excludes <span class="math inline">\(0\)</span>. Therefore, the algebra lacks the required identity element.</p>
+</div>
+<div class="exercise">
+<p>For each one of the following semigroups, say whether it is a monoid. Justify your answer.</p>
+<ul>
+<li><span class="math inline">\(\left \langle \wp(S), \cap \right \rangle\)</span> (where <span class="math inline">\(S\)</span> is some arbitrary set)</li>
+<li><span class="math inline">\(\Sigma^+\)</span> with string concatenation</li>
+<li>the set of all strings of even length with string concatenation</li>
+<li>a semilattice</li>
+</ul>
+</div>
+<p>A special case of the monoid is the <strong>commutative monoid</strong>, where <span class="math inline">\(\oplus\)</span> is also commutative. This means that <span class="math inline">\(a \oplus b = b \oplus a\)</span>.</p>
+<div class="example">
+<p>The natural numbers with addition are a commutative monoid. While <span class="math inline">\(\Sigma^*\)</span> with concatenation is a monoid (with identity element <span class="math inline">\(\varepsilon\)</span>), it is not a commutative monoid as <span class="math inline">\(a \cdot b = ab \neq ba = b \cdot a\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Actually, there are special cases where <span class="math inline">\(\left \langle \Sigma^*, \cdot \right \rangle\)</span> is a commutative monoid. Describe one of these special cases.</p>
+</div>
+<h3 id="group">Group</h3>
+<p>Perhaps the most studied and best understood kind of algebraic object is the group. A group is a monoid where every element also has an inverse. An element and its inverse are like polar opposites that cancel each other out to yield the identity element.</p>
+<div class="definition">
+<p>A monoid <span class="math inline">\(\left \langle C, \oplus \right \rangle\)</span> is a <strong>group</strong> iff there for every <span class="math inline">\(a \in C\)</span> there is an element <span class="math inline">\(a^{-1} \in C\)</span> such that <span class="math inline">\(a \oplus a^{-1} = e\)</span>. We say that <span class="math inline">\(a^{-1}\)</span> is the <strong>inverse</strong> of <span class="math inline">\(a\)</span>, and that <span class="math inline">\(\oplus\)</span> has an inverse for every element of the carrier <span class="math inline">\(C\)</span>. As <span class="math inline">\(e\)</span> is unique, we can add it directly to the specification: <span class="math inline">\(\left \langle C, \oplus, e \right \rangle\)</span>.</p>
+</div>
+<div class="example">
+<p>The monoid <span class="math inline">\(\left \langle \mathbb{N}, +, 0 \right \rangle\)</span> is not a group. Consider any arbitrary <span class="math inline">\(n \in \mathbb{N}\)</span>. There is no natural number <span class="math inline">\(x\)</span> such that <span class="math inline">\(n + x = 0\)</span>.</p>
+</div>
+<div class="example">
+<p>The monoid <span class="math inline">\(\left \langle \mathbb{Z}, +, 0 \right \rangle\)</span> is a group. For every integer <span class="math inline">\(n\)</span>, its inverse with respect to addition is <span class="math inline">\(-n\)</span>. For instance, <span class="math inline">\(5 + (-5) = 5 - 5 = 0\)</span>, and <span class="math inline">\(-3 + (- (- 3)) = -3 + 3 = 0\)</span>.</p>
+</div>
+<p>While groups are mathematicians’ darling, they show up much less in linguistics and are mostly listed here for the sake of completeness. That said, there are some promising attempts to find group-like mechanisms in language, so a few years from now groups might be just as important as monoids.</p>
+<div class="exercise">
+<p>For each one of the following monoids, say whether it is a group. Justify your answer.</p>
+<ul>
+<li><span class="math inline">\(\left \langle \mathbb{N}, \times, 1 \right \rangle\)</span></li>
+<li><span class="math inline">\(\left \langle \mathbb{Q}, \times, 1 \right \rangle\)</span> (where <span class="math inline">\(\mathbb{Q}\)</span> is the set of rationals; e.g. <span class="math inline">\(\frac{3}{2} \times \frac{-2}{2}\)</span>)</li>
+<li><span class="math inline">\(\Sigma^{\geq 3} \cup \left \{ \varepsilon \right \}\)</span> with concatenation and identity element <span class="math inline">\(\varepsilon\)</span> (<span class="math inline">\(\Sigma^{\geq 3}\)</span> contains all <span class="math inline">\(\Sigma\)</span>-strings whose length is at least <span class="math inline">\(3\)</span>)</li>
+<li><span class="math inline">\(\wp(\Sigma^*)\)</span> with union</li>
+</ul>
+</div>
+<div class="example">
+<p>The monoid <span class="math inline">\(\left \langle \Sigma^*, \cdot, \varepsilon \right \rangle\)</span> is not a group because there are no inverses. No matter what one concatenates a string <span class="math inline">\(u\)</span> with, it won’t reduce <span class="math inline">\(u\)</span> to <span class="math inline">\(\varepsilon\)</span>. But if one really wants the monoid to be a group, one can stipulate the existence of such inverses.</p>
+<p>For any string <span class="math inline">\(u\)</span> let <span class="math inline">\(\overline{u}\)</span> be such that <span class="math inline">\(u \cdot\overline{u} = \overline{u} \cdot u = \varepsilon\)</span>. In cases where the two don’t match, nothing happens: <span class="math inline">\(u \cdot\overline{v} = \overline{v} \cdot u = u\)</span> if <span class="math inline">\(u \neq v\)</span>. So <span class="math inline">\(\mathit{abc} \cdot\overline{\mathit{abc}} = \varepsilon\)</span>, but <span class="math inline">\(\mathit{abc} \cdot\overline{\mathit{aac}} = abc\)</span>. Intuitively, <span class="math inline">\(\overline{\mathit{abc}}\)</span> is an instruction to delete a string iff it is <span class="math inline">\(\mathit{abc}\)</span>; basically the string equivalent of antimatter in physics.</p>
+<p>Thanks to these “antistrings”, <span class="math inline">\(\left \langle \left \{ u, \overline{u} \mid u \in \Sigma^* \right \}, \cdot, \varepsilon \right \rangle\)</span> is a group.</p>
+</div>
+<p>For some groups, <span class="math inline">\(\oplus\)</span> may also be commutative, so that <span class="math inline">\(a \oplus b = b \oplus a\)</span> for all <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. An example of that is <span class="math inline">\(\left \langle \mathbb{Z}, + \right \rangle\)</span>. Such a group is called <strong>Abelian</strong>, after the mathematician <a href="https://en.wikipedia.org/wiki/Niels_Henrik_Abel">Niels Henrik Abel</a>.</p>
+<h2 id="algebras-with-two-operations">Algebras with two operations</h2>
+<p>The notions of magma, semigroup, monoid, and group only apply to algebras with a single operation. But of course one can easily imagine algebraic structures with multiple operations. The natural numbers with addition and multiplication are one of the most natural examples that you have all known since grade school, although you probably didn’t call it an algebraic structure back then.</p>
+<p>Mathematicians have also studied such algebraic structures in great depth, and you can spend an entire lifetime learning about them. Perhaps the three most important types, however, are semirings, rings, and fields. This notebook focuses almost exclusively on semirings as rings and fields are again not that common in linguistics. But since rings and fields are just special cases of semirings, the latter still provide a good foundation for understanding the former.</p>
+<h3 id="semirings">Semirings</h3>
+<h4 id="definition-1">Definition</h4>
+<p>Intuitively, a semiring is a combination of two monoids over the same carrier set. But not any arbitrary monoids will do, instead the two monoids have to be tightly integrated.</p>
+<div class="definition">
+<p>An algebra <span class="math inline">\(\left \langle C, \oplus, \otimes, 0, 1 \right \rangle\)</span> is a <strong>semiring</strong> iff all of the following hold:</p>
+<ul>
+<li><span class="math inline">\(\left \langle C, \oplus, 0 \right \rangle\)</span> is a commutative monoid</li>
+<li><span class="math inline">\(\left \langle C, \otimes, 1 \right \rangle\)</span> is a monoid</li>
+<li><span class="math inline">\(\otimes\)</span> distributes over <span class="math inline">\(\oplus\)</span>: <span class="math inline">\(a \otimes (b \oplus c) = (a \otimes b) \oplus (a \otimes c)\)</span> and <span class="math inline">\((b \oplus c) \otimes a = (b \otimes a) \oplus (c \otimes a)\)</span></li>
+<li><span class="math inline">\(0\)</span> is an annihilator for <span class="math inline">\(\otimes\)</span>: <span class="math inline">\(a \otimes 0 = 0 \otimes a = 0\)</span></li>
+</ul>
+</div>
+<div class="example">
+<p>The prototypical semiring is the natural numbers with addition and multiplication: <span class="math inline">\(\left \langle \mathbb{N}, +, \times, 0, 1 \right \rangle\)</span>.</p>
+<p>First of all, it holds that <span class="math inline">\(\left \langle \mathbb{N}, +, 0 \right \rangle\)</span> is a commutative monoid and <span class="math inline">\(\left \langle \mathbb{N}, \times, 1 \right \rangle\)</span> is a monoid (also a commutative one, in fact, but that’s not required by the definition of semiring). Second, addition distributes over multiplication in the intended fashion:</p>
+<p><span class="math display">\[
+5 \times (7 + 3) = (7 \times 5) + (3 \times 5) = 50 = 5 \times 10
+\]</span></p>
+<p>Since multiplication is commutative, this also shows that <span class="math inline">\(5 \times (7 + 3) = (5 \times 7) + (3 \times 7)\)</span>. As desired, then, distributivity holds irrespective of the order of arguments. Finally, the identity element for addition is <span class="math inline">\(0\)</span>, and <span class="math inline">\(n \times 0 = 0 \times n = 0\)</span> for every natural number <span class="math inline">\(n\)</span>. So the additive identity is indeed an annihilator for multiplication. This takes care of the last property, showing that we do indeed have a semiring.</p>
+</div>
+<h4 id="detailed-discussion">Detailed discussion</h4>
+<p>The example might have clarified things a bit, but it’s still a good idea to go through the definition step by step. The first thing to keep in mind here is that <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> do not refer to the actual numbers <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. They are just arbitrary names for the identities, we could have just as well called them <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. The names <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> are inspired by the fact that if one interprets <span class="math inline">\(\oplus\)</span> as addition and <span class="math inline">\(\otimes\)</span> as multiplication (as we did in the previous example), then their respective identity elements are indeed the numbers <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. But since <span class="math inline">\(\oplus\)</span> and <span class="math inline">\(\otimes\)</span> stand for arbitrary operations, the identity elements might not even be numbers at all in the general case.</p>
+<div class="example">
+<p>Suppose we generalize the string concatenation operation <span class="math inline">\(\cdot\)</span> from strings to sets of strings such that <span class="math inline">\(U \cdot V = \left \{  u \cdot v \mid u \in U, v \in V \right \}\)</span>. For example, <span class="math inline">\(\left \{  \mathit{ab}, \mathit{c}  \right \} \cdot\left \{  \mathit{dab}, \mathit{c}  \right \} = \left \{  \mathit{abdab}, \mathit{abc}, \mathit{cdab}, \mathit{cc} \right \}\)</span>. Then <span class="math inline">\(\left \langle  \wp(\Sigma^*), \cup, \cdot, \emptyset, \left \{ \varepsilon \right \} \right \rangle\)</span> is a semiring. Notice that the identity elements are now <span class="math inline">\(\emptyset\)</span> for <span class="math inline">\(\cup\)</span> and <span class="math inline">\(\left \{ \varepsilon \right \}\)</span> for the generalized string concatenation operation <span class="math inline">\(\cdot\)</span>.</p>
+</div>
+<div class="exercise">
+<p>Show that both of the following hold:</p>
+<ul>
+<li><span class="math inline">\(\left \langle  \wp(\Sigma^*), \cup, \emptyset  \right \rangle\)</span> is a commutative monoid</li>
+<li><span class="math inline">\(\left \langle  \wp(\Sigma^*), \cdot, \left \{ \varepsilon \right \} \right \rangle\)</span> is a monoid</li>
+</ul>
+</div>
+<p>Next, the distributive property has to hold in both directions. If <span class="math inline">\(\otimes\)</span> is commutative, it suffices to check distributivity in one direction, but for non-commutative <span class="math inline">\(\otimes\)</span> both directions have to be checked.</p>
+<div class="exercise">
+<p>Show with a concrete example that our generalized version of <span class="math inline">\(\cdot\)</span> is not commutative. Then give two concrete examples for each one of the following distributivity equations:</p>
+<ul>
+<li><span class="math inline">\(A \cdot(B \cup C) = (A \cdot B) \cup (A \cdot C)\)</span></li>
+<li><span class="math inline">\((B \cup C) \cdot A = (B \cdot A) \cup (C \cdot A)\)</span></li>
+</ul>
+</div>
+<p>The last condition requires that the additive identity also plays a special role for the multiplicative operation: it must be an annihilator. Whereas an identity element for operation <span class="math inline">\(O\)</span> makes <span class="math inline">\(O\)</span> map everything to itself, an annihilator instead makes <span class="math inline">\(O\)</span> map everything to said annihilator. In formal terms: an identity <span class="math inline">\(e\)</span> has the property <span class="math inline">\(x \otimes e = e \otimes x = x\)</span>, whereas an annihilator <span class="math inline">\(a\)</span> gives <span class="math inline">\(x \otimes a = a \otimes x = a\)</span> (note that both directions must hold even if <span class="math inline">\(\otimes\)</span> is not commutative). Just like distributivity, the requirement that the additive identity must also be a multiplicative annihilator establishes a close link between the two monoids. This is the very essence of a semiring: two monoids that are tightly integrated.</p>
+<div class="exercise">
+<p>The identity element for <span class="math inline">\(\cup\)</span> is <span class="math inline">\(\emptyset\)</span>. Explain why <span class="math inline">\(\emptyset\)</span> is an annihilator for our set-version of <span class="math inline">\(\cdot\)</span>.</p>
+</div>
+<p>One more thing! While it is common usage to call <span class="math inline">\(\oplus\)</span> the additive operation and <span class="math inline">\(\otimes\)</span> the multiplicative operation, this does not entail that the operations are exactly like addition and multiplication. Any two operations will do as long as they meet all the required axioms. However, what axioms must be met differs between the two operations. Only <span class="math inline">\(\oplus\)</span> absolutely has to be commutative. It has to be the case that <span class="math inline">\(\otimes\)</span> distributes over <span class="math inline">\(\oplus\)</span>, but not the other way round. And while the identity for <span class="math inline">\(\oplus\)</span> must be an annihilator for <span class="math inline">\(\otimes\)</span>, the opposite need not hold (though it certainly can in some cases).</p>
+<div class="exercise">
+<p>Suppose that we swap the operations in our semiring so that we get <span class="math inline">\(\left \langle \wp(\Sigma^*), \cdot, \cup, \left \{ \varepsilon \right \}, \emptyset \right \rangle\)</span>. Give all the reasons why this is no longer a semiring.</p>
+</div>
+<p>Just like monoids and groups, semirings have the advantage that they establish connections between mathematical ideas that seem entirely unrelated. At first glance, addition and multiplication of natural numbers has nothing to do with constructing sets of strings via concatenation and union. But the algebraic analysis of the two systems reveals important similarities. Knowing that two systems are semirings is similar to knowing that two phonological phenomena are tier-based strictly local. It does not tell the full story, but it gives you an important baseline that you can make good use of for various purposes.</p>
+<div class="exercise">
+<p>Which one of the following are semirings? Justify your answer! If an algebraic structure is not a semiring, it is enough to list one axiom that is not satisfied (as an extra challenge, you may try to list as many reasons as possible).</p>
+<ul>
+<li><p><span class="math inline">\(\left \langle  \left \{ 0,1 \right \}, \max, \min, 0, 1  \right \rangle\)</span></p></li>
+<li><p><span class="math inline">\(\left \langle  \mathbb{N}, +, +, 0, 0  \right \rangle\)</span></p></li>
+<li><p><span class="math inline">\(\left \langle  \Sigma^*, \mathrm{lcs}, \cdot, \varepsilon, \varepsilon \right \rangle\)</span>, where <span class="math inline">\(\mathrm{lcs}(u,v)\)</span> returns the longest common substring of <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>; for instance, <span class="math inline">\(\mathrm{lcs}(baaaa, aaaab) = aaaa\)</span></p></li>
+<li><p><span class="math inline">\(\left \langle  \mathbb{N} \times \Sigma^*, \oplus, \otimes, \left \langle 0,\emptyset \right \rangle, \left \langle 1, \left \{ \varepsilon \right \} \right \rangle  \right \rangle\)</span>, where <span class="math inline">\(\left \langle m, A \right \rangle \oplus \left \langle n, B \right \rangle = \left \langle m + n, A \cup B \right \rangle\)</span> and <span class="math inline">\(\left \langle m, A \right \rangle \otimes \left \langle n, B \right \rangle = \left \langle m \times n, A \cdot B \right \rangle\)</span></p></li>
+</ul>
+</div>
+<h3 id="rings-and-fields">Rings and fields</h3>
+<p>Now that you have a better idea what semirings are, rings and fields are easy. A <strong>ring</strong> is a semiring <span class="math inline">\(\left \langle C, \oplus, \otimes, 0, 1 \right \rangle\)</span> where <span class="math inline">\(\oplus\)</span> also has an inverse. So <span class="math inline">\(\left \langle C, \oplus, 0 \right \rangle\)</span> isn’t just a commutative monoid, but a commutative (= Abelian) group.</p>
+<div class="example">
+<p>We already encountered <span class="math inline">\(\left \langle  \mathbb{N}, +, \times, 0, 1 \right \rangle\)</span> as an example of a semiring. This structure is not a ring since addition has no inverse. But we can broaden <span class="math inline">\(\mathbb{N}\)</span> to <span class="math inline">\(\mathbb{Z}\)</span>, the set of integers. Then every number has an inverse for addition, so that <span class="math inline">\(\left \langle \mathbb{Z}, +, 0 \right \rangle\)</span> forms an Abelian group. And hence <span class="math inline">\(\left \langle  \mathbb{Z}, +, \times, 0, 1  \right \rangle\)</span> is a ring.</p>
+</div>
+<p>If the multiplicative operation <span class="math inline">\(\otimes\)</span> also gives rise to an Abelian group, the ring is a <strong>field</strong>.</p>
+<div class="example">
+<p>While <span class="math inline">\(\left \langle  \mathbb{Z}, +, \times, 0, 1 \right \rangle\)</span> is a ring, it is not a field. That is because the set of integers does not provide multiplicative inverses. But we can again broaden the carrier set, this time from the set <span class="math inline">\(\mathbb{Z}\)</span> of integers to the set <span class="math inline">\(\mathbb{Q}\)</span> of rationals. The structure <span class="math inline">\(\left \langle  \mathbb{Q}, \times, 1 \right \rangle\)</span> is an Abelian group, as is <span class="math inline">\(\left \langle  \mathbb{Q}, +, 0  \right \rangle\)</span>. So <span class="math inline">\(\left \langle  \mathbb{Q}, +, \times, 0, 1  \right \rangle\)</span> is a semiring that is built from two Abelian groups, making it a field.</p>
+</div>
+<p>As mentioned at the beginning, rings and fields are better known than semirings, but the latter are more important for anything related to formal language theory. So if you can only remember one of the three, make sure it’s semirings. But anybody who understands how a semiring works will also have an easy time remembering rings and fields as special cases of semirings.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Structure</th>
+<th style="text-align: center;"><span class="math inline">\(\oplus\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\otimes\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Semiring</td>
+<td style="text-align: center;">comm. monoid</td>
+<td style="text-align: center;">monoid</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Ring</td>
+<td style="text-align: center;">comm. group</td>
+<td style="text-align: center;">monoid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Field</td>
+<td style="text-align: center;">comm. group</td>
+<td style="text-align: center;">comm. group</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

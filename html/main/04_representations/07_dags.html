@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mathcommands-preproc</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="/media/Data/kenneth/Git/lin539-materials/includes/web-custom.css" />
+  <!-- Include this in HTML headers to activate MathJax. -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="dags-directed-acyclic-graphs">DAGs: Directed Acyclic Graphs</h1>
+<p>During the discussion of prefix trees, you might have wondered why we do not merge identical subtrees to reduce storage cost even more. For example, the first prefix tree could be represented more parsimoniously as the second one.</p>
+<p><img src="prefixtree_dag_before.svg" alt="prefixtree_dag_before.svg" /></p>
+<p><img src="prefixtree_dag_after.svg" alt="prefixtree_dag_after.svg" /></p>
+<p>Relaxing prefix trees in this way is tantamount to removing the condition that every node has an indegree of at most one. Doing so generalizes prefix trees to prefix DAGs, where DAG is short for <em>directed acyclic graph</em>.</p>
+<div class="definition">
+<p>A graph <span class="math inline">\(G \mathrel{\mathop:}=\left \langle V,E \right \rangle\)</span> is a <strong>directed acyclic graph</strong> (DAG) iff</p>
+<ul>
+<li><span class="math inline">\(G\)</span> is weakly connected, and</li>
+<li><span class="math inline">\(G\)</span> is acyclic.</li>
+</ul>
+</div>
+<p>For prefix trees, DAGs are actually not the best match. Suppose we want to add the word <em>alternate</em> to the prefix DAG above. Then we would have to add <em>nate</em> below <em>alter</em>.</p>
+<p><img src="prefixtree_dag_gonewrong.svg" alt="prefixtree_dag_gonewrong.svg" /></p>
+<p>But as you can see, this would also make <em>betternate</em> a word, which it clearly is not and likely will never be. In order to avoid this, we would have to add a separate branch for <em>ternate</em> below <em>al</em>. But then the DAG becomes non-deterministic: two distinct nodes in the graph encode <em>alt</em>. Non-determinism is poison for efficient search, endangering one of the most appealing aspects of prefix trees. Prefix trees therefore are best limited to trees rather than the more general class of DAGs.</p>
+<p>But that isn’t to say that there are no applications for DAGs. Quite to the contrary! DAGs are everywhere in computer science. A spreadsheet, for example, can be regarded as a DAG such that each cell is a node, the top left is the root, adjacent cells are connected by edges, and if a cell <span class="math inline">\(x\)</span> has the same value as a cell <span class="math inline">\(y\)</span>, all edges to <span class="math inline">\(x\)</span> are instead edges to <span class="math inline">\(y\)</span>. And DAGs can be found in linguistics, too.</p>
+<h2 id="multi-dominance-trees-and-grafts">Multi-Dominance Trees and Grafts</h2>
+<p>Since the mid 90s, various syntacticians have been toying with the idea that sentence structures aren’t trees but rather multi-dominance trees. For example, the sentence <em>This boy, John loves</em> would receive the structure below (this structure is simplified quite a bit and does not do justice to the finely articulated syntactic hierarchy that multidominance proponents tend to work with).</p>
+<p><img src="multidominance.svg" alt="multidominance.svg" /></p>
+<p>An even more radical proposal are grafts. Whereas multidominance trees still must have a single root, this restriction is lifted for grafts. They thus often look like two normal trees have been joined at the hip. This is useful to account for <em>syntactic amalgams</em>, as in the sentence <em>John went to I believe it was Chicago</em>.</p>
+<p><img src="grafts.svg" alt="grafts.svg" /></p>
+<p>From a formal perspective, grafts are simply DAGs, whereas multidominance trees are DAGs with a unique root.</p>
+<h2 id="parse-forests">Parse Forests</h2>
+<p>DAGs frequently show up in the parsing literature. Parsing refers to the task of assigning a string a tree structure, and a device that performs this task is called a parser. In particular with natural languages, it is very common for a single string to be compatible with multiple tree structures. The sentence <em>I watched a movie with Arnold</em>, for example, is ambiguous: either me and my friend Arnold watched a movie, or I watched a movie featuring the well-known actor Arnold Schwarzenegger. The contrast in meaning corresponds to a structural difference in what the phrase <em>with Arnold</em> is attached to.</p>
+<p><img src="withArnold2.svg" alt="withArnold2.svg" /></p>
+<p><img src="withArnold1.svg" alt="withArnold1.svg" /></p>
+<p>(Side note: this is a nice illustration of how much world knowledge matters for language — the analogous sentence <em>I watched a movie with Peter</em> cannot mean <em>I watched a movie featuring the actor Peter Cushing</em>, because only Arnold has the privilege of being an actor that is uniquely identified by his first name.)</p>
+<p>When storing multiple parses, it is highly inefficient to store them as separate trees. Since the trees will usually look very similar, it is more efficient to represent them all as part of a single graph so that common parts can be shared between trees. The result is what is called a <em>parse forest</em>.</p>
+<p><img src="withArnold.svg" alt="withArnold.svg" /></p>
+<p>Even though parse forests look much more complicated than grafts, both are instances of DAGs.</p>
+<div class="exercise">
+<p>Represent the character-based prefix tree from the exercise in the previous unit as a DAG instead. Can you think of a word that cannot easily be added to this prefix DAG?</p>
+</div>
+<div class="exercise">
+<p>Represent the morpheme-based prefix tree from the exercise in the previous unit as a DAG instead. Can you think of a word that cannot easily be added to this prefix DAG?</p>
+</div>
+<div class="exercise">
+<p>Below are two syntactic analyses for <em>John and Bill or Mary left the party in a hurry</em>. Draw the corresponding parse forest.</p>
+</div>
+<p><img src="JohnBillMary1.svg" alt="JohnBillMary1.svg" /></p>
+<p><img src="JohnBillMary2.svg" alt="JohnBillMary2.svg" /></p>
+</body>
+</html>
