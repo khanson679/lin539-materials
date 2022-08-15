@@ -75,7 +75,7 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="/web-custom.css" />
+  <link rel="stylesheet" href="/style.css" />
   <!-- Include this in HTML headers to activate MathJax. -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
@@ -143,53 +143,57 @@
 <p>So if the most common word occurs 100 times, the second occurs 50 times, the third one 33 times, the fourth one 25 times, and so on. As in all statistical claims, there is a certain margin of error, so the second word may actually occur 57 times and the third one 26 times. It also happens quite a lot that multiple word have approximately the same rank. This means that the most common word may occur 100 times, the next three each around 50 times, and then the next two 33 times. In this case, Zipf’s law still holds across ranks, but each rank may correspond to multiple words.</p>
 <p>These minor details do not change the fact, though, that the frequency distribution of a natural language will have a very peculiar shape. A few word types make up the majority of word tokens in a text while many other word types only have one token each.</p>
 <p>If we draw a plot with the word types in a text in descending frequency along the <span class="math inline">\(x\)</span>-axis and their number of tokens as the <span class="math inline">\(y\)</span>-axis, this produces a curve that starts out high, drops off quickly, and then has a very long tail that approaches 0 but never reaches it.</p>
-<div class="jupyterpython">
-<h1 id="import-plotting-library-as-plt">import plotting library as plt</h1>
-<p>import matplotlib.pyplot as plt import numpy as np</p>
-<h1 id="define-a-function-with-zipfian-distribution">define a function with Zipfian distribution</h1>
-<p>def f(x): return 1/x</p>
-<h1 id="possible-values-for-x-1-2-3-4-250">possible values for x: 1, 2, 3, 4, …, 250</h1>
-<p>x = np.arange(1, 250)</p>
-<h1 id="compute-fx-for-every-x">compute f(x) for every x</h1>
-<p>plt.plot(x, f(x))</p>
-<h1 id="show-the-plotted-diagram">show the plotted diagram</h1>
-<p>plt.show()</p>
-</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># import plotting library as plt</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="co"># define a function with Zipfian distribution</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="kw">def</span> f(x):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">/</span>x</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="co"># possible values for x: 1, 2, 3, 4, ..., 250</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>x <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">250</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="co"># compute f(x) for every x</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>plt.plot(x, f(x))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="co"># show the plotted diagram</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>plt.show()</span></code></pre></div>
 <div class="exercise">
 <p>Suppose you have a text with 20,000 words where the most frequent word occurs 1068 times. Assuming a distribution that is exactly Zipfian, calculate the frequencies for rank 2, 3, 5, 15, 50, 100, 200, 500, and 1000. Give a rough estimate how many of the top ranks jointly make up at least 50% of the text.</p>
 </div>
 <p>Zipf’s law is more than an interesting curiosity, it has noticeable repercussions in practice. In fact, it is one of the primary reasons why language technology is still much less capable than humans despite the recent advances in machine learning. Machine learning algorithms are designed to focus on the robust, very frequent aspects of a data set while ignoring the rare outliers. But Zipf’s law tells us that this is exactly the wrong approach for language. Here is what you get if you take the first 250 words of <em>Moby Dick</em> and throw away any words that aren’t among the 250 most common in the book.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="im">import</span> urllib.request</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="im">import</span> re</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">def</span> analyze_mobydick():</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    urllib.request.urlretrieve(<span class="st">&quot;https://www.gutenberg.org/files/2701/2701-0.txt&quot;</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>                               <span class="st">&quot;mobydick.txt&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;mobydick.txt&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> text:</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>        <span class="co"># tokenize string into list of lowercase words</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>        text <span class="op">=</span> re.split(<span class="st">&quot;\W&quot;</span>, text.read().lower())</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>        <span class="co"># compute most frequent word types</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>        most_frequent <span class="op">=</span> [count[<span class="dv">0</span>] <span class="cf">for</span> count <span class="kw">in</span> Counter(text).most_common(<span class="dv">250</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>                         <span class="cf">if</span> count[<span class="dv">0</span>]]</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>        <span class="co"># find the beginning of Chapter 1 in the file</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>        <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(text)):</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>            <span class="cf">if</span> text[n] <span class="op">==</span> <span class="st">&quot;call&quot;</span> <span class="kw">and</span><span class="op">\</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>            text[n<span class="op">+</span><span class="dv">1</span>] <span class="op">==</span> <span class="st">&quot;me&quot;</span> <span class="kw">and</span><span class="op">\</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>            text[n<span class="op">+</span><span class="dv">2</span>] <span class="op">==</span> <span class="st">&quot;ishmael&quot;</span>:</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>                start <span class="op">=</span> n</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>                <span class="cf">break</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>        <span class="cf">try</span>:</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>            <span class="co"># and now take the first 250 words and remove all infrequent ones</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a>            filtered <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> text[n:n<span class="op">+</span><span class="dv">250</span>]</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a>                        <span class="cf">if</span> word <span class="kw">in</span> most_frequent]</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>            <span class="co"># and put the tokenized list back into a string</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot; &quot;</span>.join(filtered))</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a>        <span class="cf">except</span>:</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Couldn&#39;t find start&quot;</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a><span class="op">&gt;&gt;&gt;</span> analyze_mobydick()</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a>me some years never how <span class="bu">long</span> little <span class="kw">or</span> no <span class="kw">in</span> my <span class="kw">and</span> nothing to me on i thought i would sail about a little <span class="kw">and</span> see the part of the world it <span class="kw">is</span> a way i have of off the <span class="kw">and</span> the i about the it <span class="kw">is</span> a <span class="kw">in</span> my i before <span class="kw">and</span> up the of every i <span class="kw">and</span> my such an hand of me that it a to me <span class="im">from</span> into the <span class="kw">and</span> s off then i it high time to to sea <span class="im">as</span> soon <span class="im">as</span> i can this <span class="kw">is</span> my <span class="cf">for</span> <span class="kw">and</span> <span class="cf">with</span> a himself upon his i take to the ship there <span class="kw">is</span> nothing <span class="kw">in</span> this <span class="cf">if</span> they but it almost <span class="bu">all</span> men <span class="kw">in</span> their some time <span class="kw">or</span> other very the same towards the <span class="cf">with</span> me there now <span class="kw">is</span> your of the <span class="bu">round</span> by <span class="im">as</span> by it <span class="cf">with</span> her</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="im">import</span> urllib.request</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="im">import</span> re</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">def</span> analyze_mobydick():</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    urllib.request.urlretrieve(<span class="st">&quot;https://www.gutenberg.org/files/2701/2701-0.txt&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>                               <span class="st">&quot;mobydick.txt&quot;</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;mobydick.txt&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> text:</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>        <span class="co"># tokenize string into list of lowercase words</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>        text <span class="op">=</span> re.split(<span class="st">&quot;\W&quot;</span>, text.read().lower())</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>        <span class="co"># compute most frequent word types</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>        most_frequent <span class="op">=</span> [count[<span class="dv">0</span>] <span class="cf">for</span> count <span class="kw">in</span> Counter(text).most_common(<span class="dv">250</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>                         <span class="cf">if</span> count[<span class="dv">0</span>]]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>        <span class="co"># find the beginning of Chapter 1 in the file</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>        <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(text)):</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>            <span class="cf">if</span> text[n] <span class="op">==</span> <span class="st">&quot;call&quot;</span> <span class="kw">and</span><span class="op">\</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>            text[n<span class="op">+</span><span class="dv">1</span>] <span class="op">==</span> <span class="st">&quot;me&quot;</span> <span class="kw">and</span><span class="op">\</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>            text[n<span class="op">+</span><span class="dv">2</span>] <span class="op">==</span> <span class="st">&quot;ishmael&quot;</span>:</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>                start <span class="op">=</span> n</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>                <span class="cf">break</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>        <span class="cf">try</span>:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>            <span class="co"># and now take the first 250 words and remove all infrequent ones</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>            filtered <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> text[n:n<span class="op">+</span><span class="dv">250</span>]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>                        <span class="cf">if</span> word <span class="kw">in</span> most_frequent]</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>            <span class="co"># and put the tokenized list back into a string</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot; &quot;</span>.join(filtered))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a>        <span class="cf">except</span>:</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="st">&quot;Couldn&#39;t find start&quot;</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a><span class="op">&gt;&gt;&gt;</span> analyze_mobydick()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a>me some years never how <span class="bu">long</span> little <span class="kw">or</span> no <span class="kw">in</span> my <span class="kw">and</span> nothing to me on i thought i would sail about a little <span class="kw">and</span> see the part of the world it <span class="kw">is</span> a way i have of off the <span class="kw">and</span> the i about the it <span class="kw">is</span> a <span class="kw">in</span> my i before <span class="kw">and</span> up the of every i <span class="kw">and</span> my such an hand of me that it a to me <span class="im">from</span> into the <span class="kw">and</span> s off then i it high time to to sea <span class="im">as</span> soon <span class="im">as</span> i can this <span class="kw">is</span> my <span class="cf">for</span> <span class="kw">and</span> <span class="cf">with</span> a himself upon his i take to the ship there <span class="kw">is</span> nothing <span class="kw">in</span> this <span class="cf">if</span> they but it almost <span class="bu">all</span> men <span class="kw">in</span> their some time <span class="kw">or</span> other very the same towards the <span class="cf">with</span> me there now <span class="kw">is</span> your of the <span class="bu">round</span> by <span class="im">as</span> by it <span class="cf">with</span> her</span></code></pre></div>
 <p>Not too illuminating, is it? With language, it is the outliers that are interesting rather than the very frequent stuff. An algorithm that favors the excessively common over the rare is ill-suited for language.</p>
 <p>Alright, let us return to our original bag of words model and improve it by removing uninformative word types from the unigram set. First we must agree on what counts as an uninformative word type. For the sake of simplicity, we will consider a word type uninformative iff it is a <strong>stop word</strong>, i.e. a word type with a very high token frequency.</p>
 <p>Here is a list of English stop words (using a very lenient definition of word that also includes contractions):</p>
@@ -231,16 +235,16 @@
 </div>
 <h2 id="stop-word-removal-as-a-function">Stop word removal as a function</h2>
 <p>If you were to implement stop word removal in a programming language, say Python, you’d probably write it as a <strong>function</strong>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="im">import</span> re</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">def</span> remove_stopwords(text, stopwords):</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    text_list <span class="op">=</span> re.findall(<span class="vs">r&quot;\w+&quot;</span>, text)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    <span class="cf">return</span> <span class="st">&#39; &#39;</span>.join([word <span class="cf">for</span> word <span class="kw">in</span> text_list</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>                     <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stopwords])</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>stopwords <span class="op">=</span> [<span class="st">&quot;a&quot;</span>, <span class="st">&quot;the&quot;</span>, <span class="st">&quot;have&quot;</span>, <span class="st">&quot;having&quot;</span>, <span class="st">&quot;no&quot;</span>, <span class="st">&quot;not&quot;</span>, <span class="st">&quot;on&quot;</span>, <span class="st">&quot;in&quot;</span>]</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>text <span class="op">=</span> <span class="st">&quot;the sun shone, having no alternative, on the nothing new.&quot;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a><span class="bu">print</span>(remove_stopwords(text, stopwords))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="im">import</span> re</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">def</span> remove_stopwords(text, stopwords):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    text_list <span class="op">=</span> re.findall(<span class="vs">r&quot;\w+&quot;</span>, text)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    <span class="cf">return</span> <span class="st">&#39; &#39;</span>.join([word <span class="cf">for</span> word <span class="kw">in</span> text_list</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>                     <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stopwords])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>stopwords <span class="op">=</span> [<span class="st">&quot;a&quot;</span>, <span class="st">&quot;the&quot;</span>, <span class="st">&quot;have&quot;</span>, <span class="st">&quot;having&quot;</span>, <span class="st">&quot;no&quot;</span>, <span class="st">&quot;not&quot;</span>, <span class="st">&quot;on&quot;</span>, <span class="st">&quot;in&quot;</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>text <span class="op">=</span> <span class="st">&quot;the sun shone, having no alternative, on the nothing new.&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a><span class="bu">print</span>(remove_stopwords(text, stopwords))</span></code></pre></div>
 <p>A function is like an abstract machine that takes one or more <strong>arguments</strong> as input and combines and alters them in some way to produce a unique output. In the code above, the function <code>remove_stopwords</code></p>
 <ul>
 <li>takes two inputs
