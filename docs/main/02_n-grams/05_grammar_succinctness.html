@@ -36,57 +36,57 @@
 <div class="example">
 <p>Suppose our alphabet contains the symbols <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em> (and nothing else). Now consider the language <span class="math inline">\(L\)</span> that contains <em>ab</em>, <em>aab</em>, <em>aaab</em>, and so on (more succinctly, we can write <span class="math inline">\(L\)</span> as <em>a<sub>+</sub>b</em>). This is very easy to express as a positive grammar:</p>
 <ol type="1">
-<li>{{{L}}}a</li>
+<li>⋊a</li>
 <li>aa</li>
 <li>ab</li>
-<li>b{{{R}}}</li>
+<li>b⋉</li>
 </ol>
 <p>The smallest mixed negative grammar for this language isn’t much bigger:</p>
 <ol type="1">
 <li>c</li>
 <li>d</li>
-<li>{{{L}}}{{{R}}}</li>
-<li>{{{L}}}b</li>
+<li>⋊⋉</li>
+<li>⋊b</li>
 <li>ba</li>
 <li>bb</li>
-<li>a{{{R}}}</li>
+<li>a⋉</li>
 </ol>
 <p>And the fixed negative grammar is huge by comparison:</p>
 <ol type="1">
-<li>{{{L}}}{{{R}}}</li>
-<li>{{{L}}}b</li>
-<li>{{{L}}}c</li>
-<li>{{{L}}}d</li>
+<li>⋊⋉</li>
+<li>⋊b</li>
+<li>⋊c</li>
+<li>⋊d</li>
 <li>ac</li>
 <li>ad</li>
 <li>ba</li>
 <li>bb</li>
 <li>bc</li>
 <li>bd</li>
-<li>a{{{R}}}</li>
-<li>b{{{R}}}</li>
-<li>c{{{R}}}</li>
+<li>a⋉</li>
+<li>b⋉</li>
+<li>c⋉</li>
 </ol>
 </div>
 <div class="example">
 <p>Suppose that our alphabet still contains only <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em>, but <span class="math inline">\(L\)</span> now follows a more general pattern: 1 or more instances of <em>a</em>, followed by exactly one instance of <em>b</em> or <em>c</em> or <em>d</em>. Hence <span class="math inline">\(L\)</span> contains <em>ab</em>, <em>ac</em>, <em>ad</em>, <em>aab</em>, <em>aac</em>, <em>aad</em>, <em>aaab</em>, <em>aaac</em>, <em>aaad</em>, and so on.</p>
 <p>The positive grammar is still fairly small.</p>
 <ol type="1">
-<li>{{{L}}}a</li>
+<li>⋊a</li>
 <li>aa</li>
 <li>ab</li>
 <li>ac</li>
 <li>ad</li>
-<li>b{{{R}}}</li>
-<li>c{{{R}}}</li>
-<li>d{{{R}}}</li>
+<li>b⋉</li>
+<li>c⋉</li>
+<li>d⋉</li>
 </ol>
 <p>The mixed negative grammar, by comparison, grows a lot in size:</p>
 <ol type="1">
-<li>{{{L}}}{{{R}}}</li>
-<li>{{{L}}}b</li>
-<li>{{{L}}}c</li>
-<li>{{{L}}}d</li>
+<li>⋊⋉</li>
+<li>⋊b</li>
+<li>⋊c</li>
+<li>⋊d</li>
 <li>ba</li>
 <li>bb</li>
 <li>bc</li>
@@ -99,28 +99,28 @@
 <li>db</li>
 <li>dc</li>
 <li>dd</li>
-<li>a{{{R}}}</li>
+<li>a⋉</li>
 </ol>
 <p>In fact, this also happens to be the fixed negative grammar. For <span class="math inline">\(L\)</span>, allowing n-grams of variable length does not help at all.</p>
 </div>
 <div class="example">
 <p>Now suppose our alphabet is <span class="math inline">\(\left \{ a \right \}\)</span> and consider the language <span class="math inline">\(L\)</span> that contains all strings over <em>a</em> whose length is at least 2 (i.e. <em>aa</em>, <em>aaa</em>, and so on). The mixed negative grammar is incredibly small:</p>
 <ol type="1">
-<li>{{{L}}}{{{R}}}</li>
-<li>{{{L}}}a{{{R}}}</li>
+<li>⋊⋉</li>
+<li>⋊a⋉</li>
 </ol>
 <p>The fixed negative grammar looks slightly different, but has the same size.</p>
 <ol type="1">
-<li>{{{L}}}{{{L}}}{{{R}}}</li>
-<li>{{{L}}}a{{{R}}}</li>
+<li>⋊⋊⋉</li>
+<li>⋊a⋉</li>
 </ol>
 <p>This time the positive grammar is the largest:</p>
 <ol type="1">
-<li>{{{L}}}{{{L}}}a</li>
-<li>{{{L}}}aa</li>
+<li>⋊⋊a</li>
+<li>⋊aa</li>
 <li>aaa</li>
-<li>aa{{{R}}}</li>
-<li>a{{{R}}}{{{R}}}</li>
+<li>aa⋉</li>
+<li>a⋉⋉</li>
 </ol>
 </div>
 <div class="example">
@@ -136,22 +136,22 @@
 <div class="example">
 <p>Suppose <span class="math inline">\(\Sigma \mathrel{\mathop:}=\left \{ a,b \right \}\)</span>. Then <span class="math inline">\(\Sigma_E^2\)</span> has <span class="math inline">\((2+2)^2 = 4^2 = 16\)</span> members. We can list them all:</p>
 <ol type="1">
-<li>{{{L}}}{{{L}}}</li>
-<li>{{{L}}}{{{R}}}</li>
-<li>{{{L}}}a</li>
-<li>{{{L}}}b</li>
-<li>a{{{L}}}</li>
-<li>a{{{R}}}</li>
+<li>⋊⋊</li>
+<li>⋊⋉</li>
+<li>⋊a</li>
+<li>⋊b</li>
+<li>a⋊</li>
+<li>a⋉</li>
 <li>aa</li>
 <li>ab</li>
-<li>b{{{L}}}</li>
-<li>b{{{R}}}</li>
+<li>b⋊</li>
+<li>b⋉</li>
 <li>ba</li>
 <li>bb</li>
-<li>{{{R}}}{{{L}}}</li>
-<li>{{{R}}}{{{R}}}</li>
-<li>{{{R}}}a</li>
-<li>{{{R}}}b</li>
+<li>⋉⋊</li>
+<li>⋉⋉</li>
+<li>⋉a</li>
+<li>⋉b</li>
 </ol>
 </div>
 <div class="exercise">
